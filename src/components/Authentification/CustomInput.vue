@@ -23,22 +23,3 @@ export default {
   }
 }
 </script>
-  
-<style scoped>
-.input-field {
-  position: relative;
-  width: 100%;
-}
-
-.input-field input {
-  padding-right: 30px; 
-}
-
-.input-icon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  font-size: 18px;
-}
-</style>
