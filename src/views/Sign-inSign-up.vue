@@ -110,6 +110,7 @@ export default {
   outline: none;
 }
 
+
 .toggle-buttons button.active {
   color: #C2948A;
 }
