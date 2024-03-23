@@ -10,7 +10,7 @@
           @input="clearErrorMessage"
         />
       </div>
-      <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
+      <div class="error-message" v-if="error">{{ errorMessage }}</div>
       <div class="submit-btn">
         <button type="submit">{{ submitButtonText }}</button>
       </div>
@@ -20,7 +20,7 @@
 
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
-
+import axios from 'axios';
 export default {
   props: {
     isSignup: {
@@ -33,7 +33,8 @@ export default {
       inputs: [],
       formTitle: '',
       submitButtonText: '',
-      errorMessage: ''
+      errorMessage: '',
+      error: true
     };
   },
   methods: {
@@ -76,24 +77,46 @@ export default {
         this.errorMessage = 'Please fill in all fields';
         return;
       }
-      const birthDateInput = this.inputs.find(input => input.label === 'Birth Date');
-      const age = this.calculateAge(birthDateInput.value);
-      if (age < 13) {
-        this.errorMessage = 'You must be at least 13 years old to sign up';
-        return;
+      let data = new FormData();
+      let action
+      if(this.isSignup) {
+        action = 'signup'
+          const birthDateInput = this.inputs.find(input => input.label === 'Birth Date');
+        const age = this.calculateAge(birthDateInput.value);
+        if (age < 13) {
+          this.errorMessage = 'You must be at least 13 years old to sign up';
+          return;
+        }
+        const passwordInput = this.inputs.find(input => input.label === 'Password').value;
+        if (!this.validatePassword(passwordInput)) {
+          this.errorMessage = 'Password must be at least 8 characters long and contain both letters and numbers';
+          return;
+        }
+
+        if (!this.checkPasswordMatch()) {
+          this.errorMessage = 'Passwords do not match';
+          return;
+        }
+
+          for (let i = 0; i < this.inputs.length - 1; i++) {
+            data.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
+          }
+      } else {
+        action = 'login'
+        for (let i = 0; i < this.inputs.length; i++) {
+          data.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
+        }
       }
-      const passwordInput = this.inputs.find(input => input.label === 'Password').value;
-      if (!this.validatePassword(passwordInput)) {
-        this.errorMessage = 'Password must be at least 8 characters long and contain both letters and numbers';
-        return;
-      }
-      
-      if (!this.checkPasswordMatch()) {
-        this.errorMessage = 'Passwords do not match';
-        return;
-      }
-      console.log(this.inputs);
-    }
+      axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, data)
+          .then(response => {
+            // Handle successful login response
+             this.errorMessage= response.data.message;
+          })
+          .catch(error => {
+            // Handle login error
+            console.error('Error signing in:', error);
+          })
+    },
   },
   components: {
     CustomInput
@@ -112,7 +135,7 @@ export default {
       this.submitButtonText = 'Sign Up';
     } else {
       this.inputs = [
-        { label: 'Username or Email', value: '', type: 'text' },
+        { label: 'Username', value: '', type: 'text' },
         { label: 'Password', value: '', type: 'password' }
       ];
       this.formTitle = 'Sign In';
