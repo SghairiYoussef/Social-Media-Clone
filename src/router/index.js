@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import SigninSignup from '../views/Sign-inSign-up.vue';
-import HomePage from '../views/HomePage.vue';
+import SigninSignup from '@/views/Sign-inSign-up.vue';
+import HomePage from '@/views/HomePage.vue';
+import VerifyEmail from '@/views/VerifyEmail.vue';
 
 const routes = [
   {
@@ -12,6 +13,15 @@ const routes = [
     path: '/Home',
     name: 'Home',
     component: HomePage
+  },
+  {
+    path: '/',
+    redirect: '/login'
+  },
+  {
+    path: '/login/verifyEmail',
+    name: 'VerifyEmail',
+    component: VerifyEmail
   }
 ];
 

@@ -43,7 +43,7 @@
   
   .login-popup {
     padding: 30px;
-    height: 770px;
+    height: 760px;
     overflow: auto;
   }
   
@@ -223,6 +223,7 @@
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   .submit-btn button:hover {
