@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>{{ formTitle }}</h3>
+    <h3 class="formTitle">{{ formTitle }}</h3>
     <form @submit.prevent="handleSubmit">
       <div class="input-row" v-for="(input, i) in inputs" :key="i">
         <custom-input
@@ -144,46 +144,3 @@ export default {
   }
 };
 </script>
-
-
-
-
-
-
-
-
-<style scoped>
-.error-message {
-  color: #dc8976;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.input-row {
-  margin-bottom: 20px;
-}
-
-.submit-btn {
-  text-align: center;
-}
-
-.submit-btn button {
-  padding: 10px 20px;
-  background-color: #7EA8BE;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.submit-btn button:hover {
-  background-color: #28536B;
-}
-
-h3 {
-  text-align: center;
-}
-
-</style>
