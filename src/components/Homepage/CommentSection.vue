@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import PostSection from './PostSection.vue';
+    /*import PostSection from './PostSection.vue';
     export default {
         props: {
             post: {
@@ -31,4 +31,5 @@
             }
         }
     }
+     */
 </script>

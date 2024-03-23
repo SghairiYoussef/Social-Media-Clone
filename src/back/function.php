@@ -5,10 +5,14 @@ function signUp($table, $fullname, $email, $username, $password, $birthDate)
     // Get database connection instance
     $connexion = ConnexionBD::getInstance();
 
+    // Hash the password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
     // Quote the variables to prevent SQL injection
     $fullname = $connexion->quote($fullname);
     $email = $connexion->quote($email);
     $username = $connexion->quote($username);
+
     $password = $connexion->quote($password);
     $birthDate = $connexion->quote($birthDate);
 
@@ -42,7 +46,7 @@ function logIn($table, $username, $password)
         $dbusername = $row['userName'];
         $dbpassword = $row['password'];
 
-        if ($dbusername == $username && $dbpassword == $password) {
+        if ($dbusername == $username && password_verify($password, $dbpassword)) {
             return true;
         }
     }
