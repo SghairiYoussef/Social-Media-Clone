@@ -1,8 +1,6 @@
 <template>
-    <navbar></navbar>
-    <PostSection>
-        <CommentSection></CommentSection>
-    </PostSection>
+    <navbar/>
+    <PostSection/>
 </template>
 
 <style scoped>
