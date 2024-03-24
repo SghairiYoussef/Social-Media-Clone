@@ -4,7 +4,7 @@
                 <img class="user_img" src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User Image">
                 <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
                 <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
-                <button class="post_button" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
+                <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
             </div>
             <div class="post" v-for="post in reversedPosts" :key="post.title">
                 <div class="post_header">
@@ -14,9 +14,9 @@
                 <img :src="post.img" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
-                    <button class="react-button">React</button>
-                    <button class="comment-button" @click="comment(post)">Comment</button>
-                    <button class="share-button">Share</button>
+                    <button type="button" class="btn btn-outline-primary">React</button>
+                    <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
+                    <button type="button" class="btn btn-outline-warning">Share</button>
                 </div>
                 <comments :post="post" v-if="post.commentsShown"/>
             </div>
@@ -45,7 +45,8 @@ export default {
                             {content: 'Comment 3'}
                         ],
                         commentsShown: false,
-                        newCommentContent: ''
+                        newCommentContent: '',
+                        isLiked : false
                     },
                     {
                         user: {
