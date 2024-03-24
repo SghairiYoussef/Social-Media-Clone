@@ -1,26 +1,28 @@
 <template>
-    <div class="passwordReset-page">
-      <div class="passwordReset-container">
-        <form @submit.prevent="handleSubmit">
-          <div class="passwordReset-content">
-            <p class="passwordReset-notification">Please enter your new password</p>
-            <div class="input-row" v-for="(input, i) in inputs" :key="i">
-              <custom-input
-                v-model="input.value"
-                :label="input.label"
-                :type="input.type"
-                @input="clearErrorMessage"
-              />
-            </div>
+  <div class="passwordReset-page">
+    <div class="passwordReset-container">
+      <form @submit.prevent="handleSubmit">
+        <div class="passwordReset-content">
+          <p class="passwordReset-notification">Please enter your new password</p>
+          <div class="input-row" v-for="(input, i) in inputs" :key="i">
+            <custom-input
+              v-model="input.value"
+              :label="input.label"
+              :type="input.type"
+              @input="clearErrorMessage"
+            />
           </div>
-          <div class="error-message" v-if="error">{{ errorMessage }}</div>
-          <div class="submit-btn">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="resetError-width">
+          <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
+        </div>
+        <div class="submit-btn">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import CustomInput from '@/components/Authentification/CustomInput.vue';
@@ -49,7 +51,7 @@
         
         const passwordInput = this.inputs.find(input => input.label === 'Password').value;
         if (!this.validatePassword(passwordInput)) {
-          this.errorMessage = 'Password must be at least 8 characters long and contain both letters and numbers';
+          this.errorMessage = 'Password must be 8+ characters with letters and numbers';
           this.error = true;
           return;
         }

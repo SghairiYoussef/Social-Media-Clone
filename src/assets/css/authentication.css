@@ -42,8 +42,8 @@
   
   
   .login-popup {
-    padding: 30px;
-    height: 760px;
+    padding: 10px;
+    height: 710px;
     overflow: auto;
   }
   
@@ -200,14 +200,7 @@
 
 /* CustomForm */
 
-.error-message {
-    color: #dc8976;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-  }
+
   
   .input-row {
     margin-bottom: 20px;
