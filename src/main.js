@@ -5,6 +5,7 @@ import './assets/css/bootstrap.min.css';
 import './assets/css/responsive.css';
 import './assets/css/authentication.css';
 import './assets/css/verifyEmail.css';
+import './assets/css/forgotPassword.css';
 
 
 

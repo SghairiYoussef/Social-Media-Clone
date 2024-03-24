@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import SigninSignup from '@/views/Sign-inSign-up.vue';
 import HomePage from '@/views/HomePage.vue';
 import VerifyEmail from '@/views/VerifyEmail.vue';
+import ForgotPassword from '@/views/ForgotPassword.vue';
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/login/verifyEmail',
     name: 'VerifyEmail',
     component: VerifyEmail
+  },
+  {
+    path: '/login/forgotPassword',
+    name: 'ForgotPassword',
+    component: ForgotPassword
   }
 ];
 

@@ -26,7 +26,7 @@
                 </label>
                 <small>Remember me</small>
               </div>
-              <a href="#" class="forgot-password-link" title="">Forgot Password?</a>
+              <router-link to="/login/forgotPassword" class="forgot-password-link" title="">Forgot Password?</router-link>
             </div>
         </div>
               </div>
