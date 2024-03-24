@@ -17,7 +17,8 @@
   
   <script>
   import CustomInput from '@/components/Authentification/CustomInput.vue';
-  
+  import axios from 'axios';
+
   export default {
     components: {
       CustomInput
@@ -44,6 +45,20 @@
             clearInterval(timerInterval);
           }
         }, 1000);
+      },
+      handleVerification() {
+        let data =new FormData();
+        data.append('code', this.verificationCode);
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/function.php?action=verifyEmail', data)
+            .then(response => {
+              // Handle successful login response
+              this.errorMessage= response.data.message;
+            })
+            .catch(error => {
+              // Handle login error
+              console.error('Error signing in:', error);
+            })
+
       }
     }
   };
