@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import CommentSection from './CommentSection.vue';
 export default {
         data() {
             return {
@@ -96,5 +97,8 @@ export default {
                 this.newContent = '';
             },
         },
+        components: {
+            comments: CommentSection
+        }
     };
 </script>

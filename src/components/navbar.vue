@@ -7,7 +7,7 @@
             <span></span>
         </label>
 
-        <a href="#" class="menu-logo">
+        <a href="/" class="menu-logo">
             <img src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="Buzz"/>
         </a>
 
@@ -32,9 +32,17 @@
                     <a href="/contact" rel="noopener noreferrer">Contact Us</a>
                 </li>
             </ul>
-            <ul>
+            <ul v-if="SignedIn">
                 <li>
-                    <a href="/" target="_blank" rel="noopener noreferrer">Sign Out</a>
+                    <a href="/" rel="noopener noreferrer">Sign Out</a>
+                </li>
+            </ul>
+            <ul v-else>
+                <li>
+                    <a href="/login" rel="noopener noreferrer">Login</a>
+                </li>
+                <li>
+                    <a href="/signup" rel="noopener noreferrer">Sign Up</a>
                 </li>
             </ul>
         </div>
@@ -43,6 +51,7 @@
 
 <script>
     export default {
-        name: 'Navbar'
+        name: 'NavBar',
+        SignedIn: false
     }
 </script>

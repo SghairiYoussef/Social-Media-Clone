@@ -1,4 +1,5 @@
 <template>
+    <navBar/>
     <header class="main-header">
         <img :src="user.background" alt="User Background" class="background">
         <div class="header-content">
@@ -24,6 +25,7 @@
 
 <script>
 import PostSection from '@/components/HomePage/PostSection.vue';
+import navBar from '@/components/navbar.vue';
 
 export default {
     data() {
@@ -62,6 +64,7 @@ export default {
     },
     components: {
         PostSection,
+        navBar
     },
     computed: {
         visiblePosts() {

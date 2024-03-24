@@ -22,7 +22,6 @@
 </template>
 
 <script>
-    import PostSection from './PostSection.vue';
     export default {
         props: {
             post: {

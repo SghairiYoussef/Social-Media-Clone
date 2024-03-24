@@ -1,12 +1,15 @@
 <template>
-    <PostSection/>
+  <navBar/>
+  <PostSection/>
 </template>
 
 <script>
   import PostSection from '@/components/HomePage/PostSection.vue';
+  import navBar from '@/components/navbar.vue';
   export default {
     components: {
-      PostSection
+      PostSection,
+      navBar
     }
   }
 </script>
