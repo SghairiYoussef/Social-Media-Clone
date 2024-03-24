@@ -111,6 +111,9 @@ export default {
           .then(response => {
             // Handle successful login response
              this.errorMessage= response.data.message;
+             if (this.isSignup && response.data.success) {
+              this.$router.push('/login/verifyEmail');
+            }
           })
           .catch(error => {
             // Handle login error
