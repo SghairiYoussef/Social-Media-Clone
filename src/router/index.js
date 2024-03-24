@@ -3,6 +3,7 @@ import SigninSignup from '@/views/Sign-inSign-up.vue';
 import HomePage from '@/views/HomePage.vue';
 import VerifyEmail from '@/views/VerifyEmail.vue';
 import ForgotPassword from '@/views/ForgotPassword.vue';
+import MyAccountPage from '@/views/MyAccountPage.vue';
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: '/login/forgotPassword',
     name: 'ForgotPassword',
     component: ForgotPassword
+  },
+  {
+    path: '/myAccount',
+    name: 'MyAccountPage',
+    component: MyAccountPage
   }
 ];
 

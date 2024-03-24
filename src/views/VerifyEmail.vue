@@ -58,7 +58,6 @@
               // Handle login error
               console.error('Error signing in:', error);
             })
-
       }
     }
   };

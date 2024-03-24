@@ -20,21 +20,21 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#home" target="_blank" rel="noopener noreferrer">Home</a>
+                    <a href="/home" rel="noopener noreferrer">Home</a>
                 </li>
                 <li>
-                    <a href="#messages" target="_blank" rel="noopener noreferrer">Messages</a>
+                    <a href="/messages" rel="noopener noreferrer">Messages</a>
                 </li>
                 <li>
-                    <a href="#myaccount" target="_blank" rel="noopener noreferrer">My Account</a>
+                    <a href="/myaccount" rel="noopener noreferrer">My Account</a>
                 </li>
                 <li>
-                    <a href="#contact" target="_blank" rel="noopener noreferrer">Contact Us</a>
+                    <a href="/contact" rel="noopener noreferrer">Contact Us</a>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <a href="#login" target="_blank" rel="noopener noreferrer">Sign Out</a>
+                    <a href="/" target="_blank" rel="noopener noreferrer">Sign Out</a>
                 </li>
             </ul>
         </div>
