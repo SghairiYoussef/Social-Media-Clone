@@ -1,14 +1,22 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-  },
-  getters: {
+    SignupFormData: null
   },
   mutations: {
+    setSignupFormData(state, data) {
+      state.SignupFormData = data;
+    }
   },
   actions: {
+    setSignupFormData(context, data) {
+      context.commit('setSignupFormData', data);
+    }
   },
-  modules: {
+  getters: {
+    getSignupFormData(state) {
+      return state.SignupFormData;
+    }
   }
-})
+});
