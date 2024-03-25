@@ -6,6 +6,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 include "function.php";
 include "getPosts.php";
 
+
 $action='';
 if (isset($_GET['action'])) {
 
