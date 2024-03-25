@@ -120,6 +120,9 @@ export default {
           .then(response => {
             this.errorMessage = response.data.message;
             console.log(response.data.message);
+            if (action === 'login' && response.data.success) {
+              this.$router.push('/Home');
+            }
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');
             }

@@ -3,8 +3,11 @@
     <div class="verifyEmail-container">
       <div class="verifyEmail-content">
         <p class="verifyEmail-notification">A verification email has been sent to your email address. Please check it.</p>
-        <custom-input label="Verification Code" type="text" v-model="verificationCode" />
+        <custom-input label="Verification Code" type="text" v-model="verificationCode" @input="clearErrorMessage" />
       </div>
+      <div class="verifyError-width">
+          <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
+        </div>
       <div class="verifySubmit-btn">
         <button type="submit" @click="handleVerification">Submit</button>
         <button :disabled="cooldown > 0" @click="resendVerification" :class="{ 'disabled': cooldown > 0 }">
@@ -37,8 +40,9 @@ export default {
     let Signup = this.getSignupFormData();
     axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify', Signup)
       .then(response => {
+        // Handle successful login response
         console.log(response.data.message);
-        this.errorMessage = response.data.message;
+        this.code = response.data.code;
       })
       .catch(error => {
         console.error('Error signing in:', error);
@@ -47,6 +51,9 @@ export default {
   methods: {
     ...mapGetters(['getSignupFormData']),
     ...mapActions(['setEmailVerified']),
+    clearErrorMessage() {
+      this.errorMessage = '';
+    },
     resendVerification() {
       this.cooldown = 60;
       this.startCooldownTimer();
@@ -62,11 +69,17 @@ export default {
     },
     handleVerification() {
       let Signup = this.getSignupFormData();
+      Signup.append('code', this.code);
+      Signup.append('verificationCode', this.verificationCode);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verificationProcess', Signup)
         .then(response => {
+          // Handle successful login response
           this.$store.dispatch('setEmailVerified', true);
           console.log(response.data.message);
-          this.$router.push('/login');
+          this.errorMessage= response.data.message;
+          if (response.data.message == 'Signed up successfully') {
+            this.$router.push('/login');
+          }
         })
         .catch(error => {
           console.error('Error verifying email:', error);
