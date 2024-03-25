@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
+import store from './store';
 import './assets/css/bootstrap.min.css';
 import './assets/css/responsive.css';
 import './assets/css/authentication.css';
@@ -10,4 +11,7 @@ import './assets/css/homepage.css';
 import './assets/css/myaccount.css';
 import './assets/css/passwordReset.css';
 
-createApp(App).use(router).mount('#app');
+const app = createApp(App);
+app.use(router);
+app.use(store);
+app.mount('#app');

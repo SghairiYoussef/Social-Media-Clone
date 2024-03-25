@@ -21,6 +21,7 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
+
 export default {
   props: {
     isSignup: {
@@ -77,7 +78,7 @@ export default {
         this.error = true;
         return;
       }
-      let data = new FormData();
+      let Signup = new FormData();
       let action;
       if (this.isSignup) {
         action = 'signup';
@@ -100,15 +101,17 @@ export default {
           return;
         }
         for (let i = 0; i < this.inputs.length - 1; i++) {
-          data.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
+          Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
+        // Dispatch action to set Signup data in Vuex store
+        this.$store.dispatch('setSignupFormData', Signup);
       } else {
         action = 'login';
         for (let i = 0; i < this.inputs.length; i++) {
-          data.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
+          Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
       }
-      axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, data)
+      axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
         .then(response => {
           // Handle successful login response
           this.errorMessage = response.data.message;
