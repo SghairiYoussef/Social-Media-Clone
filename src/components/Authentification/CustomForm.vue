@@ -78,6 +78,7 @@ export default {
         this.error = true;
         return;
       }
+
       let Signup = new FormData();
       let action;
       if (this.isSignup) {
@@ -101,16 +102,19 @@ export default {
           return;
         }
         for (let i = 0; i < this.inputs.length - 1; i++) {
+
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
         // Dispatch action to set Signup data in Vuex store
         this.$store.dispatch('setSignupFormData', Signup);
+        
       } else {
         action = 'login';
         for (let i = 0; i < this.inputs.length; i++) {
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
       }
+
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             // Handle successful login response
