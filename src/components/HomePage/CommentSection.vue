@@ -9,8 +9,8 @@
                     <img src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User"/>
                 </div>
                 <div class="comment__content">
-                    <p class="comment__content__text">{{comment.content}}</p>
-                    <p class="comment__content__date">{{comment.date}}</p>
+                    <p class="comment__content__text">{{comment.Content}}</p>
+                    <p class="comment__content__date">{{comment.Date_Posted}}</p>
                 </div>
             </div>
         </div>

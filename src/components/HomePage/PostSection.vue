@@ -48,7 +48,7 @@ export default {
                         content: post.Caption,
                         img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
                         alt: 'Post Image',
-                        comments: post.comments ? post.comments.map(comment => ({ content: comment })) : [],
+                        comments: post.comments /*? post.comments.map(comment => ({ content: comment })) : []*/,
                         commentsShown: false,
                         newCommentContent: '',
                         isLiked: false
@@ -59,6 +59,7 @@ export default {
             .then(response => {
                 
                 let result = response.data;
+                console.log(result);
                 result = result.map(post=>transformPost(post))
                 this.Posts = result;
                 console.log(this.Posts);

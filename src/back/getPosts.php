@@ -1,5 +1,6 @@
 <?php
     require_once "DataBase.php";
+    include "getComments.php";
     function getPostsForFeed($user_id){
           
           $connexion = ConnexionBD::getInstance();
@@ -11,6 +12,8 @@
         $result = $connexion->query($query);
         $posts = array();
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $post_id = $row['Post_ID']; 
+            $row['comments'] = getComments($post_id); 
             $posts[] = $row;
         }
         return json_encode($posts,true);
