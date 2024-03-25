@@ -19,6 +19,7 @@
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -27,26 +28,25 @@ export default {
   data() {
     return {
       verificationCode: '',
-      cooldown: 60
+      cooldown: 60,
+      errorMessage: ''
     };
   },
   created() {
     this.startCooldownTimer();
     let Signup = this.getSignupFormData();
-    axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify',Signup)
-        .then(response => {
-      // Handle successful login response
-      console.log(response.data.message);
-      this.code= response.data.code;
-    })
-        .catch(error => {
-          // Handle login error
-          console.error('Error signing in:', error);
-        })
-
+    axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify', Signup)
+      .then(response => {
+        console.log(response.data.message);
+        this.errorMessage = response.data.message;
+      })
+      .catch(error => {
+        console.error('Error signing in:', error);
+      });
   },
   methods: {
     ...mapGetters(['getSignupFormData']),
+    ...mapActions(['setEmailVerified']),
     resendVerification() {
       this.cooldown = 60;
       this.startCooldownTimer();
@@ -62,18 +62,15 @@ export default {
     },
     handleVerification() {
       let Signup = this.getSignupFormData();
-      Signup.append('code', this.code);
-      Signup.append('verificationCode', this.verificationCode);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verificationProcess', Signup)
-          .then(response => {
-            // Handle successful login response
-            this.errorMessage= response.data.message;
-            console.log(response.data.message);
-          })
-          .catch(error => {
-            // Handle login error
-            console.error('Error signing in:', error);
-          })
+        .then(response => {
+          this.$store.dispatch('setEmailVerified', true);
+          console.log(response.data.message);
+          this.$router.push('/login');
+        })
+        .catch(error => {
+          console.error('Error verifying email:', error);
+        });
     }
   }
 };

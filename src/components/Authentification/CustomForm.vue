@@ -10,6 +10,7 @@
             @input="clearErrorMessage"
         />
       </div>
+      <div class="alert alert-success" role="alert" v-if="isEmailVerified && !error">Signed up successfully</div>
       <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="submit-btn">
         <button type="submit">{{ submitButtonText }}</button>
@@ -21,6 +22,7 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -102,12 +104,9 @@ export default {
           return;
         }
         for (let i = 0; i < this.inputs.length - 1; i++) {
-
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
-        // Dispatch action to set Signup data in Vuex store
         this.$store.dispatch('setSignupFormData', Signup);
-        
       } else {
         action = 'login';
         for (let i = 0; i < this.inputs.length; i++) {
@@ -117,7 +116,6 @@ export default {
 
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
-            // Handle successful login response
             this.errorMessage = response.data.message;
             console.log(response.data.message);
             if (this.isSignup && response.data.success) {
@@ -125,7 +123,6 @@ export default {
             }
           })
           .catch(error => {
-            // Handle login error
             console.error('Error signing in:', error);
           });
     },
@@ -133,7 +130,16 @@ export default {
   components: {
     CustomInput
   },
+  computed: {
+    ...mapGetters(['isEmailVerified'])
+  },
+  watch: {
+    isEmailVerified(newValue) {
+      this.isEmailVerified = newValue;
+    }
+  },
   created() {
+    console.log(this.isEmailVerified);
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },
