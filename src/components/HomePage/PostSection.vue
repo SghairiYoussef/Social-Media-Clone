@@ -25,10 +25,11 @@
 
 <script>
 import CommentSection from './CommentSection.vue';
+import axios from 'axios';
 export default {
         data() {
             return {
-                Posts: [
+                Posts: [/*
                     {
                         user: {
                             name: 'John Doe',
@@ -75,13 +76,45 @@ export default {
                         comments: [],
                         commentsShown: false,
                         newCommentContent: ''
-                    }
+                    }*/
                 ],
                 newPost: {
                     newContent: '',
                     newTitle: ''
                 },
             }
+        },
+        mounted() {
+                function transformPost(post) {
+                    return {
+                        user: {
+                            name: post.Username,
+                            img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                            alt: 'User Image'
+                        },
+                        title: post.title,
+                        content: post.Caption,
+                        img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
+                        alt: 'Post Image',
+                        comments: post.comments ? post.comments.map(comment => ({ content: comment })) : [],
+                        commentsShown: false,
+                        newCommentContent: '',
+                        isLiked: false
+                    };
+                }
+
+            axios.get(`http://localhost8081/Social-Media-Clone/src/back/api.php?action=getAllPosts`)
+            .then(response => {
+                
+                 console.log(response);
+                let result = response.data;
+                result = result.map(post=>transformPost(post))
+                this.posts = result;
+                console.log(this.posts);
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+      });
         },
         computed: {
             reversedPosts() {

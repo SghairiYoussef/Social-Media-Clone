@@ -1,5 +1,6 @@
 <?php
 include "function.php";
+include "getPosts.php";
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -35,4 +36,12 @@ elseif ($action == 'login') {
         echo json_encode(['success' => false, 'message' => 'Failed to log in user']);
     }
 
+}elseif($action == 'getAllPosts'){
+    $user_id = 2;
+    $result = getPostsForFeed(2);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Data retrieved successfully', 'data' => $result]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
 }
