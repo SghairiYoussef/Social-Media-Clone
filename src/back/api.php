@@ -3,14 +3,12 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-include "function.php";
-include "getPosts.php";
-
 
 include 'login.php';
 include 'verifyExistence.php';
 include 'verification.php';
 include 'signup.php';
+include "getPosts.php";
 
 
 $action='';
@@ -76,7 +74,8 @@ if ($action == 'login') {
         echo json_encode(['success' => false, 'message' => 'Failed to log in user']);
     }
 
-}elseif($action == 'getAllPosts'){
+}
+if($action == 'getAllPosts'){
     $user_id = 2;
     $result = getPostsForFeed(2);
     if ($result) {
