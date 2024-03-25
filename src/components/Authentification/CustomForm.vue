@@ -10,7 +10,7 @@
             @input="clearErrorMessage"
         />
       </div>
-      <div class="alert alert-success" role="alert" v-if="isEmailVerified && !error">Signed up successfully</div>
+      <div class="alert alert-success" role="alert" v-if="isEmailVerified && !input && !errorMessage && formTitle === 'Sign In'">Signed up successfully</div>
       <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="submit-btn">
         <button type="submit">{{ submitButtonText }}</button>
@@ -37,7 +37,8 @@ export default {
       formTitle: '',
       submitButtonText: '',
       errorMessage: '',
-      error: false
+      error: false,
+      input: false
     };
   },
   methods: {
@@ -59,6 +60,7 @@ export default {
     },
     clearErrorMessage() {
       this.errorMessage = '';
+      this.input = true;
     },
     validatePassword(password) {
       const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
