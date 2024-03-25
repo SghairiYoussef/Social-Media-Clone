@@ -6,7 +6,7 @@
                 <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
                 <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
             </div>
-            <div class="post" v-for="post in reversedPosts" :key="post.title">
+            <div class="post" v-for="post in this.Posts" :key="post.title">
                 <div class="post_header">
                     <img class = user_img :src="post.user.img" :alt="post.user.alt">
                     <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
@@ -29,55 +29,7 @@ import axios from 'axios';
 export default {
         data() {
             return {
-                Posts: [/*
-                    {
-                        user: {
-                            name: 'John Doe',
-                            img: 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
-                            alt: 'User Image'
-                        },
-                        title: 'Post 1',
-                        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae efficitur ante.',
-                        img: 'https://via.placeholder.com/800x400',
-                        alt: 'Post Image',
-                        comments: [
-                            {content: 'Comment 1'},
-                            {content: 'Comment 2'},
-                            {content: 'Comment 3'}
-                        ],
-                        commentsShown: false,
-                        newCommentContent: '',
-                        isLiked : false
-                    },
-                    {
-                        user: {
-                            name: 'John Doe',
-                            img: 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
-                            alt: 'User Image'
-                        },
-                        title: 'Post 2',
-                        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae efficitur ante.',
-                        img: 'https://via.placeholder.com/800x400',
-                        alt: 'Post Image',
-                        comments: [],
-                        commentsShown: false,
-                        newCommentContent: ''
-                    },
-                    {
-                        user: {
-                            name: 'John Doe',
-                            img: 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
-                            alt: 'User Image'
-                        },
-                        title: 'Post 3',
-                        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae efficitur ante.',
-                        img: 'https://via.placeholder.com/800x400',
-                        alt: 'Post Image',
-                        comments: [],
-                        commentsShown: false,
-                        newCommentContent: ''
-                    }*/
-                ],
+                Posts: [],
                 newPost: {
                     newContent: '',
                     newTitle: ''
@@ -103,24 +55,19 @@ export default {
                     };
                 }
 
-            axios.get(`http://localhost8081/Social-Media-Clone/src/back/api.php?action=getAllPosts`)
+            axios.get(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=getAllPosts`)
             .then(response => {
                 
-                 console.log(response);
                 let result = response.data;
                 result = result.map(post=>transformPost(post))
-                this.posts = result;
-                console.log(this.posts);
+                this.Posts = result;
+                console.log(this.Posts);
             })
             .catch(error => {
                 console.error('Error fetching posts:', error);
       });
         },
-        computed: {
-            reversedPosts() {
-                return this.Posts.slice().reverse();
-            }
-        },
+        
         methods: {
             comment(post) {
                 post.commentsShown = !post.commentsShown;
