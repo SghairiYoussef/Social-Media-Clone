@@ -14,6 +14,7 @@ include "generateToken.php";
 include "addToken.php";
 include "checkToken.php";
 include "resetPassword.php";
+include "passwordResetEmail.php";
 
 $action='';
 if (isset($_GET['action'])) {
@@ -97,7 +98,7 @@ if ($action == 'resetPasswordRequest') {
         $result = addToken('UserData', $email, $token);
         if ($result) {
             $URL = "http://localhost:8080/login/passwordReset/" . $token;
-            $result = sendEmail($email, 'Password Reset', $URL);
+            $result = passwordResetEmail($email, $URL);
             if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Password reset link sent to your email']);
             } else {

@@ -72,13 +72,12 @@
           .then(response => {
             // Handle successful login response
             console.log(response.data.message);
-            /*if (response.data.success)
+            if (response.data.success)
               this.$router.push('/login');
             else {
               this.errorMessage = response.data.message;
               this.error = true;
             }
-            */
           })
           .catch(error => {
             console.error('Error signing in:', error);
