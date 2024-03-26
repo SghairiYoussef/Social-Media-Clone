@@ -13,8 +13,8 @@ function verifyEmail($table, $email)
     $stmt = $connexion->query($checkSql);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($result['count'] > 0) {
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }

@@ -9,7 +9,10 @@ include 'verifyExistence.php';
 include 'verification.php';
 include 'signup.php';
 include "getPosts.php";
-
+include "verifyEmail.php";
+include "generateToken.php";
+include "addToken.php";
+include "checkToken.php";
 
 $action='';
 if (isset($_GET['action'])) {
@@ -82,5 +85,44 @@ if($action == 'getAllPosts'){
         echo $result;
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+
+if ($action == 'resetPasswordRequest') {
+    $email = $_POST['email'];
+    $result = verifyEmail('UserData', $email);
+    if ($result) {
+        $token = generateToken();
+        $result = addToken('UserData', $email, $token);
+        if ($result) {
+            $URL = "http://localhost:8080/login/passwordReset/" . $token;
+            $result = sendEmail($email, 'Password Reset', $URL);
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Password reset link sent to your email']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to send password reset link']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to add token']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Email does not exist']);
+    }
+}
+
+if ($action == 'resetPassword') {
+    $token = $_POST['token'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $result = checkToken('UserData', $email, $token);
+    if ($result) {
+        $result = resetPassword('UserData', $email, $password);
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Password reset successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to reset password']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid token']);
     }
 }

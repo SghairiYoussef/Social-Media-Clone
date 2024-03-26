@@ -27,7 +27,8 @@
   <script>
   import CustomInput from '@/components/Authentification/CustomInput.vue';
   import { mapGetters } from 'vuex';
-  
+
+  import axios  from "axios";
   export default {
     components: {
       CustomInput
@@ -36,7 +37,8 @@
       return {
         inputs: [],
         errorMessage: '',
-        error: false
+        error: false,
+        token : this.$route.params.token
       };
     },
     methods: {
@@ -50,8 +52,6 @@
           this.error = true;
           return;
         }
-        let email = this.getEmail();
-        console.log('Email:', email);
         
         const passwordInput = this.inputs.find(input => input.label === 'Password').value;
         if (!this.validatePassword(passwordInput)) {
@@ -65,6 +65,27 @@
           this.error = true;
           return;
         }
+        let data= new FormData();
+        let email = this.getEmail();
+        data.append('password', this.inputs[0].value);
+        data.append('token', this.token);
+        console.log(email);
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
+          .then(response => {
+            // Handle successful login response
+            console.log(response.data.message);
+            if (response.data.success)
+              this.$router.push('/login');
+            else {
+              this.errorMessage = response.data.message;
+              this.error = true;
+            }
+          })
+          .catch(error => {
+            console.error('Error signing in:', error);
+          });
+
+
       },
       checkInputs() {
         for (let i = 0; i < this.inputs.length; i++) {
@@ -83,6 +104,8 @@
         const repeatPassword = this.inputs.find(input => input.label === 'Repeat Password').value;
         return password === repeatPassword;
       }
+
+
     },
     created() {
       this.inputs = [
