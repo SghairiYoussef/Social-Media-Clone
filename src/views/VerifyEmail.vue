@@ -37,16 +37,7 @@ export default {
   },
   created() {
     this.startCooldownTimer();
-    let Signup = this.getSignupFormData();
-    axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify', Signup)
-      .then(response => {
-        // Handle successful login response
-        console.log(response.data.message);
-        this.code = response.data.code;
-      })
-      .catch(error => {
-        console.error('Error signing in:', error);
-      });
+    this.sendVerificationEmail();
   },
   methods: {
     ...mapGetters(['getSignupFormData']),
@@ -57,6 +48,7 @@ export default {
     resendVerification() {
       this.cooldown = 60;
       this.startCooldownTimer();
+      this.sendVerificationEmail();
     },
     startCooldownTimer() {
       const timerInterval = setInterval(() => {
@@ -66,6 +58,18 @@ export default {
           clearInterval(timerInterval);
         }
       }, 1000);
+    },
+    sendVerificationEmail() {
+      let Signup = this.getSignupFormData();
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify', Signup)
+          .then(response => {
+            // Handle successful login response
+            console.log(response.data.message);
+            this.code = response.data.code;
+          })
+          .catch(error => {
+            console.error('Error signing in:', error);
+          });
     },
     handleVerification() {
       let Signup = this.getSignupFormData();
