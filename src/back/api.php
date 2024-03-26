@@ -13,6 +13,7 @@ include "verifyEmail.php";
 include "generateToken.php";
 include "addToken.php";
 include "checkToken.php";
+include "resetPassword.php";
 
 $action='';
 if (isset($_GET['action'])) {
@@ -113,10 +114,10 @@ if ($action == 'resetPasswordRequest') {
 if ($action == 'resetPassword') {
     $token = $_POST['token'];
     $password = $_POST['password'];
-    $email = $_POST['email'];
-    $result = checkToken('UserData', $email, $token);
+    $result = checkToken('UserData', $token);
     if ($result) {
-        $result = resetPassword('UserData', $email, $password);
+
+        $result = resetPassword('UserData', $token, $password);
         if ($result) {
             echo json_encode(['success' => true, 'message' => 'Password reset successfully']);
         } else {

@@ -66,20 +66,19 @@
           return;
         }
         let data= new FormData();
-        let email = this.getEmail();
         data.append('password', this.inputs[0].value);
         data.append('token', this.token);
-        console.log(email);
         axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
           .then(response => {
             // Handle successful login response
             console.log(response.data.message);
-            if (response.data.success)
+            /*if (response.data.success)
               this.$router.push('/login');
             else {
               this.errorMessage = response.data.message;
               this.error = true;
             }
+            */
           })
           .catch(error => {
             console.error('Error signing in:', error);
