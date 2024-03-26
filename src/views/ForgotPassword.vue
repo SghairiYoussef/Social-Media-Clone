@@ -1,7 +1,7 @@
 <template>
   <div class="forgotPassword-page">
     <div class="forgotPassword-container">
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="handleSubmit">
         <div class="forgotPassword-content">
           <p class="forgotPassword-notification">Please enter your email</p>
           <CustomInput label="Email" 
@@ -35,12 +35,14 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    handleSubmit() {
       if (!this.email) {
         this.errorMessage = 'Enter your email please';
         this.error = true;
         return;
       }
+      this.$store.dispatch('setEmail', this.email);
+      this.$router.push('/login/passwordReset');
     },
     clearErrorMessage() {
       this.errorMessage = '';

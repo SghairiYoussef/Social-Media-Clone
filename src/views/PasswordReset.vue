@@ -26,6 +26,7 @@
   
   <script>
   import CustomInput from '@/components/Authentification/CustomInput.vue';
+  import { mapGetters } from 'vuex';
   
   export default {
     components: {
@@ -39,6 +40,7 @@
       };
     },
     methods: {
+      ...mapGetters(['getEmail']),
       clearErrorMessage() {
         this.errorMessage = '';
       },
@@ -48,6 +50,8 @@
           this.error = true;
           return;
         }
+        let email = this.getEmail();
+        console.log('Email:', email);
         
         const passwordInput = this.inputs.find(input => input.label === 'Password').value;
         if (!this.validatePassword(passwordInput)) {
