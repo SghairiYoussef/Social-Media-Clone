@@ -41,14 +41,17 @@ function passwordResetEmail($email, $URL)
                 a {
                     display: inline-block;
                     background-color: #28536B;
-                    color: #fff;
+                    color: #fff !important;
+                    font-size: 18px;
                     text-decoration: none;
                     padding: 10px 20px;
                     border-radius: 5px;
                     transition: background-color 0.3s ease;
+                    text-decoration: none;
                 }
                 a:hover {
                     background-color: #1d3c4f;
+                    color: #fff !important;
                 }
                 .footer {
                     text-align: center;

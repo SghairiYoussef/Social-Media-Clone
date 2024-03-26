@@ -158,7 +158,7 @@ export default {
       this.submitButtonText = 'Sign Up';
     } else {
       this.inputs = [
-        { label: 'Username', value: '', type: 'text' },
+        { label: 'Username or Email', value: '', type: 'text' },
         { label: 'Password', value: '', type: 'password' }
       ];
       this.formTitle = 'Sign In';

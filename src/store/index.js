@@ -12,9 +12,6 @@ export default createStore({
     },
     setEmailVerified(state, value) {
       state.isEmailVerified = value;
-    },
-    setEmail(state, value) {
-      state.email = value;
     }
   },
   actions: {
@@ -23,9 +20,6 @@ export default createStore({
     },
     setEmailVerified(context, value){
       context.commit('setEmailVerified', value);
-    },
-    setEmail(context, value){
-      context.commit('setEmail', value);
     }
   },
   getters: {
@@ -34,9 +28,6 @@ export default createStore({
     },
     isEmailVerified(state) {
       return state.isEmailVerified;
-    },
-    getEmail(state) {
-      return state.email;
     }
   }
 });

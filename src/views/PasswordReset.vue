@@ -9,12 +9,14 @@
               v-model="input.value"
               :label="input.label"
               :type="input.type"
+              :disabled="isReset"
               @input="clearErrorMessage"
             />
           </div>
         </div>
         <div class="resetError-width">
           <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
+          <div class="alert alert-success" role="alert" v-if="isReset && !input && !errorMessage">Password reset completed successfully. You will be redirected to login page in {{ countdown }} seconds </div>
         </div>
         <div class="submit-btn">
           <button type="submit">Submit</button>
@@ -26,7 +28,6 @@
   
   <script>
   import CustomInput from '@/components/Authentification/CustomInput.vue';
-  import { mapGetters } from 'vuex';
 
   import axios  from "axios";
   export default {
@@ -38,11 +39,12 @@
         inputs: [],
         errorMessage: '',
         error: false,
-        token : this.$route.params.token
+        token : this.$route.params.token,
+        isReset: false,
+        countdown: 5
       };
     },
     methods: {
-      ...mapGetters(['getEmail']),
       clearErrorMessage() {
         this.errorMessage = '';
       },
@@ -71,9 +73,18 @@
         axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
           .then(response => {
             // Handle successful login response
-            console.log(response.data.message);
-            if (response.data.success)
-              this.$router.push('/login');
+            if (response.data.message === 'Password reset successfully') {
+              this.isReset = true;
+              this.inputs.forEach(input => input.value = '');
+              const interval = setInterval(() => {
+              if (this.countdown > 0) {
+                this.countdown--;
+              } else {
+                clearInterval(interval);
+                this.$router.push('/login');
+              }
+            }, 1000);
+            }
             else {
               this.errorMessage = response.data.message;
               this.error = true;
