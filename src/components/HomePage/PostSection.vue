@@ -25,7 +25,7 @@
 
 <script>
 import CommentSection from './CommentSection.vue';
-//import axios from 'axios';
+import axios from 'axios';
 export default {
         data() {
             return {
@@ -40,11 +40,28 @@ export default {
             comment(post) {
                 post.commentsShown = !post.commentsShown;
             },
-            /*addPost(content, title) {
-                const newPostc = { title: title, content: content, img: 'https://via.placeholder.com/800x400', alt: 'Post Image', comments: [], commentsShown: false, newCommentContent: '', user: {name: '', img:'https://wweb.dev/resources/navigation-generator/logo-placeholder.png', alt: 'User img' } };
-                this.Posts.push(newPostc);
-                this.newContent = '';
-            },*/
+            addPost(content, title, Media ="") {
+                this.newPost = {
+                    newContent: '',
+                    newTitle: ''
+                };
+                let data = new FormData();
+                data.append('Content',content);
+                data.append('Title',title);
+                data.append('Media',Media);
+                console.log('posting data');
+                console.log(data);
+                axios.post(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=addPost`, data)
+                    .then(response => {
+                        console.log("Post Added");
+                        console.log(response);
+                    
+                    })
+                    .catch(error => {
+                
+                    console.error('Error Adding Post:', error);
+                    });
+            },
             
         },
         components: {

@@ -31,15 +31,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            user: {
-                id: 1,
-                name: 'John Doe',
-                username: 'johndoe',
-                email: 'john@example.com',
-                avatar: 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
-                background: 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
-                bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            },
+            user: {},
             Posts: [],
             visiblePostCount: 8,
         };

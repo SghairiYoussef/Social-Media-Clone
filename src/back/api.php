@@ -1,13 +1,36 @@
 <?php
 
-header('Content-Type: application/json');
+/*header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');*/
+
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one you want to allow
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}
+
+// Access-Control headers are received during OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    }
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}, Content-Type"); // Add Content-Type to allowed headers
+    }
+    exit(0);
+}
+
+// Set Content-Type header to allow POST requests
+header("Content-Type: application/json");
+
 include "function.php";
 include "getPosts.php";
 include "getUserPosts.php";
 include "getUser.php";
 include "getUserID.php";
+include "addPost.php";
 session_start();
 $action='';
 if (isset($_GET['action'])) {
@@ -62,11 +85,23 @@ elseif($action == 'getCurrentUserPosts'){
     }
 }
 elseif($action == 'getCurrentUserProfile'){
-    $user_id = $_SESSION['CurrentUserID'];;
+    $user_id = $_SESSION['CurrentUserID'];
     $result = getUser($user_id);
     if ($result) {
         echo $result;
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}elseif($action = 'addPost'){
+    $user_id = $_SESSION['CurrentUserID'];
+    $Caption = $_POST['Content'];
+    $Title = $_POST['Title'];
+    $Media = $_POST['Media'];
+    $result = addPost($user_id, $Caption, $Title,$Media);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Signed up successfully']);
+    } else {
+
+        echo json_encode(['success' => false, 'message' => 'Username or Email already exists']);
     }
 }
