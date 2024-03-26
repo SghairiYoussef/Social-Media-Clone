@@ -13,8 +13,8 @@
         </div>
         </div>
     </header>
-    <div v-if="posts.length > 0">
-        <PostSection v-for="post in visiblePosts" :key="post.id" :post="post"/>
+    <div v-if="Posts.length > 0">
+        <PostSection  v-bind:Posts="Posts"/>  <!--v-for="post in visiblePosts" :key="post.id"  -->
         <button class="load-more" v-if="hasMorePosts" @click="loadMorePosts">Load More</button>
         <div v-else>
             <p class="Note">No more posts to load</p>
@@ -26,6 +26,7 @@
 <script>
 import PostSection from '@/components/HomePage/PostSection.vue';
 import navBar from '@/components/navbar.vue';
+import axios from 'axios';
 
 export default {
     data() {
@@ -39,26 +40,7 @@ export default {
                 background: 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
                 bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             },
-            posts: [
-                {
-                    user: {
-                            name: 'John Doe',
-                            img: 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
-                            alt: 'User Image'
-                        },
-                        title: 'Post 1',
-                        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae efficitur ante.',
-                        img: 'https://via.placeholder.com/800x400',
-                        alt: 'Post Image',
-                        comments: [
-                            {content: 'Comment 1'},
-                            {content: 'Comment 2'},
-                            {content: 'Comment 3'}
-                        ],
-                        commentsShown: false,
-                        newCommentContent: ''
-                }
-            ],
+            Posts: [],
             visiblePostCount: 8,
         };
     },
@@ -68,10 +50,10 @@ export default {
     },
     computed: {
         visiblePosts() {
-            return this.posts.slice(0, this.visiblePostCount);
+            return this.Posts.slice(0, this.visiblePostCount);
         },
         hasMorePosts() {
-            return this.visiblePostCount < this.posts.length;
+            return this.visiblePostCount < this.Posts.length;
         },
     },
     methods: {
@@ -82,21 +64,70 @@ export default {
         },
         // Method to fetch posts from an API or other data source
         fetchPosts() {
-            // Example: Fetch posts from an API
-            // Replace this with an API call
-            fetch('https://api.example.com/posts')
-            .then(response => response.json())
-            .then(data => {
-                this.posts = data; // Update posts array with fetched data
+            function transformPost(post) {
+                    return {
+                        user: {
+                            name: post.Username,
+                            img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                            alt: 'User Image'
+                        },
+                        title: post.title,
+                        content: post.Caption,
+                        img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
+                        alt: 'Post Image',
+                        comments: post.comments,
+                        commentsShown: false,
+                        newCommentContent: '',
+                        isLiked: false
+                    };
+                }
+
+            axios.get(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=getCurrentUserPosts`)
+            .then(response => {
+                
+                let result = response.data;
+                console.log(result);
+                result = result.map(post=>transformPost(post))
+                this.Posts = result;
+                console.log(this.Posts);
             })
             .catch(error => {
                 console.error('Error fetching posts:', error);
-            });
+      });
         },
+        fetchUserInfo(){
+            function transformUserData(user) {
+                    return {
+                    
+                        id: user.User_ID,
+                        name : user.fullname,
+                        username: user.Username,
+                        email: user.mail,
+                        avatar: user.image? user.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                        background: user.background? user.background : 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
+                        bio: user.bio,
+                    
+                    };
+                }
+                axios.get(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=getCurrentUserProfile`)
+                .then(response => {
+                    
+                    let result = response.data;
+                    console.log(result);
+                    result = transformUserData(result);
+                    this.user = result;
+                    console.log(this.user);
+                })
+                .catch(error => {
+                    console.error('Error fetching User info:', error);
+        });
+        }
     },
-    created() {
+    mounted() {
         // Fetch initial set of posts when the component is created
         this.fetchPosts();
+        this.fetchUserInfo();
+        console.log("mounted")
     },
 };
 </script>

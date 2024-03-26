@@ -5,7 +5,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 include "function.php";
 include "getPosts.php";
-
+include "getUserPosts.php";
+include "getUser.php";
 
 $action='';
 if (isset($_GET['action'])) {
@@ -41,6 +42,23 @@ elseif ($action == 'login') {
 }elseif($action == 'getAllPosts'){
     $user_id = 2;
     $result = getPostsForFeed(2);
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+elseif($action == 'getCurrentUserPosts'){
+    $user_id = 2;
+    $result = getUserPosts(1);
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+elseif($action == 'getCurrentUserProfile'){
+    $result = getUser(1);
     if ($result) {
         echo $result;
     } else {
