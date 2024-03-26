@@ -7,7 +7,8 @@ include "function.php";
 include "getPosts.php";
 include "getUserPosts.php";
 include "getUser.php";
-
+include "getUserID.php";
+session_start();
 $action='';
 if (isset($_GET['action'])) {
 
@@ -34,14 +35,17 @@ elseif ($action == 'login') {
     // Call logIn function
     $result = logIn('UserData', $username, $password);
     if ($result) {
+        //saving the current user id in session storage
+        $user_id = getUserID($username);
+        $_SESSION['CurrentUserID'] = $user_id;
         echo json_encode(['success' => true, 'message' => 'User logged in successfully']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to log in user']);
     }
 
 }elseif($action == 'getAllPosts'){
-    $user_id = 2;
-    $result = getPostsForFeed(2);
+    $user_id = $_SESSION['CurrentUserID'];;
+    $result = getPostsForFeed($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -49,8 +53,8 @@ elseif ($action == 'login') {
     }
 }
 elseif($action == 'getCurrentUserPosts'){
-    $user_id = 2;
-    $result = getUserPosts(1);
+    $user_id = $_SESSION['CurrentUserID'];;
+    $result = getUserPosts($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -58,7 +62,8 @@ elseif($action == 'getCurrentUserPosts'){
     }
 }
 elseif($action == 'getCurrentUserProfile'){
-    $result = getUser(1);
+    $user_id = $_SESSION['CurrentUserID'];;
+    $result = getUser($user_id);
     if ($result) {
         echo $result;
     } else {
