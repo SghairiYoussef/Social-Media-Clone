@@ -53,3 +53,9 @@
     opacity: 0.5;
     cursor: not-allowed;
   }  
+  .verifyError-width {
+    width: 100%;
+    position: relative;
+    max-width: 460px;
+    margin: 0 auto;
+  }

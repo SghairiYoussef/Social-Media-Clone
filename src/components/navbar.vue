@@ -1,51 +1,34 @@
 <template>
-    <nav class="menu-container">
-        <input type="checkbox" id="toggle-menu" aria-label="Toggle menu" />
-        <label for="toggle-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-
-        <a href="/" class="menu-logo">
-            <img src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="Buzz"/>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="logo.png" alt="Logo" style="width:40px;" class="rounded-pill"> 
         </a>
 
-        <div class="menu">
-            <ul>
-                <li>
-                    <div class="custom_input">
-                        <input class="search" type="text" placeholder="Search">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="svg_icon bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg>
-                    </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home">Home</a>
                 </li>
-                <li>
-                    <a href="/home" rel="noopener noreferrer">Home</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Messages">Messages</a>
                 </li>
-                <li>
-                    <a href="/messages" rel="noopener noreferrer">Messages</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/MyAccount">My Account</a>
                 </li>
-                <li>
-                    <a href="/myaccount" rel="noopener noreferrer">My Account</a>
-                </li>
-                <li>
-                    <a href="/contact" rel="noopener noreferrer">Contact Us</a>
-                </li>
-            </ul>
-            <ul v-if="SignedIn">
-                <li>
-                    <a href="/" rel="noopener noreferrer">Sign Out</a>
-                </li>
-            </ul>
-            <ul v-else>
-                <li>
-                    <a href="/login" rel="noopener noreferrer">Login</a>
-                </li>
-                <li>
-                    <a href="/signup" rel="noopener noreferrer">Sign Up</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact Us</a>
                 </li>
             </ul>
         </div>
+        <form class="d-flex">
+            <input class="form-control me-2" type="text" placeholder="Search">
+            <button class="btn btn-secondary" type="button">Search</button>
+        </form>
+    </div>
     </nav>
 </template>
 

@@ -1,14 +1,33 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-  },
-  getters: {
+    SignupFormData: null,
+    isEmailVerified: false,
+    email: null
   },
   mutations: {
+    setSignupFormData(state, data) {
+      state.SignupFormData = data;
+    },
+    setEmailVerified(state, value) {
+      state.isEmailVerified = value;
+    }
   },
   actions: {
+    setSignupFormData(context, data) {
+      context.commit('setSignupFormData', data);
+    },
+    setEmailVerified(context, value){
+      context.commit('setEmailVerified', value);
+    }
   },
-  modules: {
+  getters: {
+    getSignupFormData(state) {
+      return state.SignupFormData;
+    },
+    isEmailVerified(state) {
+      return state.isEmailVerified;
+    }
   }
-})
+});

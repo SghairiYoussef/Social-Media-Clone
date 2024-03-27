@@ -25,34 +25,79 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Set Content-Type header to allow POST requests
 header("Content-Type: application/json");
 
-include "function.php";
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+include 'Authentication/login.php';
+include 'Authentication/verifyExistence.php';
+include 'Authentication/verification.php';
+include 'Authentication/signup.php';
+include "Authentication/verifyEmail.php";
+include "Authentication/generateToken.php";
+include "Authentication/addToken.php";
+include "Authentication/checkToken.php";
+include "Authentication/resetPassword.php";
+include "Authentication/passwordResetEmail.php";
+
 include "getPosts.php";
 include "getUserPosts.php";
 include "getUser.php";
 include "getUserID.php";
 include "addPost.php";
-session_start();
+
+
 $action='';
 if (isset($_GET['action'])) {
 
     $action=$_GET['action'];
 }
 if ($action == 'signup') {
-    $fullname = $_POST['FullName'];
     $username = $_POST['Username'];
-    $birthDate = $_POST['BirthDate'];
     $email = $_POST['Email'];
-    $password = $_POST['Password'];
-    // Call signUp function
-    $result = signUp('UserData', $fullname, $email, $username, $password, $birthDate);
-    if ($result) {
-        echo json_encode(['success' => true, 'message' => 'Signed up successfully']);
-    } else {
 
+    // Call signupProcess function
+    $result= verifyExistence('UserData', $email, $username);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Username and Email are available']);
+    } else {
         echo json_encode(['success' => false, 'message' => 'Username or Email already exists']);
     }
 }
-elseif ($action == 'login') {
+
+if ($action == 'verify') {
+    $email = $_POST['Email'];
+    // Generate a verification code
+    $verification = generateVerificationCode();
+    $result=sendVerificationEmail($email, $verification);
+    if($result){
+        echo json_encode(['success' => true, 'message' => 'Verification code sent to your email','code' => $verification]);
+    }else{
+        echo json_encode(['success' => false, 'message' => 'Failed to send verification code']);
+    }
+
+}
+if ($action == 'verificationProcess'){
+    $code=$_POST['code'];
+    $verification=$_POST['verificationCode'];
+    $fullname=$_POST['FullName'];
+    $email=$_POST['Email'];
+    $username=$_POST['Username'];
+    $password=$_POST['Password'];
+    $birthDate=$_POST['BirthDate'];
+    $result=$code=== $verification;
+    if ($result){
+        $result = signup('UserData', $fullname, $email, $username, $password, $birthDate);
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Signed up successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to sign up']);
+        }
+    }else{
+        echo json_encode(['success' => false, 'message' => 'Verification code is incorrect']);
+    }
+}
+
+
+if ($action == 'login') {
     $username = $_POST['Username'];
     $password = $_POST['Password'];
     // Call logIn function
@@ -87,6 +132,10 @@ elseif($action == 'getCurrentUserPosts'){
 elseif($action == 'getCurrentUserProfile'){
     $user_id = $_SESSION['CurrentUserID'];
     $result = getUser($user_id);
+}
+if($action == 'getAllPosts'){
+    $user_id = 2;
+    $result = getPostsForFeed(2);
     if ($result) {
         echo $result;
     } else {
@@ -103,5 +152,46 @@ elseif($action == 'getCurrentUserProfile'){
     } else {
 
         echo json_encode(['success' => false, 'message' => 'Username or Email already exists']);
+    }
+}
+
+}
+
+if ($action == 'resetPasswordRequest') {
+    $email = $_POST['email'];
+    $result = verifyEmail('UserData', $email);
+    if ($result) {
+        $token = generateToken();
+        $result = addToken('UserData', $email, $token);
+        if ($result) {
+            $URL = "http://localhost:8080/login/passwordReset/" . $token;
+            $result = passwordResetEmail($email, $URL);
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Password reset link sent to your email']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to send password reset link']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to add token']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Email does not exist']);
+    }
+}
+
+if ($action == 'resetPassword') {
+    $token = $_POST['token'];
+    $password = $_POST['password'];
+    $result = checkToken('UserData', $token);
+    if ($result) {
+
+        $result = resetPassword('UserData', $token, $password);
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Password reset successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to reset password']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid token']);
     }
 }

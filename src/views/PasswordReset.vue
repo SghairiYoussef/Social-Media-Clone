@@ -9,12 +9,14 @@
               v-model="input.value"
               :label="input.label"
               :type="input.type"
+              :disabled="isReset"
               @input="clearErrorMessage"
             />
           </div>
         </div>
         <div class="resetError-width">
           <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
+          <div class="alert alert-success" role="alert" v-if="isReset && !input && !errorMessage">Password reset completed successfully. You will be redirected to login page in {{ countdown }} seconds </div>
         </div>
         <div class="submit-btn">
           <button type="submit">Submit</button>
@@ -26,7 +28,8 @@
   
   <script>
   import CustomInput from '@/components/Authentification/CustomInput.vue';
-  
+
+  import axios  from "axios";
   export default {
     components: {
       CustomInput
@@ -35,7 +38,10 @@
       return {
         inputs: [],
         errorMessage: '',
-        error: false
+        error: false,
+        token : this.$route.params.token,
+        isReset: false,
+        countdown: 5
       };
     },
     methods: {
@@ -61,6 +67,34 @@
           this.error = true;
           return;
         }
+        let data= new FormData();
+        data.append('password', this.inputs[0].value);
+        data.append('token', this.token);
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
+          .then(response => {
+            // Handle successful login response
+            if (response.data.message === 'Password reset successfully') {
+              this.isReset = true;
+              this.inputs.forEach(input => input.value = '');
+              const interval = setInterval(() => {
+              if (this.countdown > 0) {
+                this.countdown--;
+              } else {
+                clearInterval(interval);
+                this.$router.push('/login');
+              }
+            }, 1000);
+            }
+            else {
+              this.errorMessage = response.data.message;
+              this.error = true;
+            }
+          })
+          .catch(error => {
+            console.error('Error signing in:', error);
+          });
+
+
       },
       checkInputs() {
         for (let i = 0; i < this.inputs.length; i++) {
@@ -79,6 +113,8 @@
         const repeatPassword = this.inputs.find(input => input.label === 'Repeat Password').value;
         return password === repeatPassword;
       }
+
+
     },
     created() {
       this.inputs = [

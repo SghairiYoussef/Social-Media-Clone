@@ -5,7 +5,7 @@ import VerifyEmail from '@/views/VerifyEmail.vue';
 import ForgotPassword from '@/views/ForgotPassword.vue';
 import MyAccountPage from '@/views/MyAccountPage.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
-
+import Contact from '@/views/Contact.vue';
 
 
 const routes = [
@@ -39,9 +39,14 @@ const routes = [
     component: MyAccountPage
   },
   {
-    path: '/login/passwordReset',
+    path: '/login/passwordReset/:token',
     name: 'PasswordReset',
     component: PasswordReset
+  },
+  {
+    path: '/Contact',
+    name: 'Contact',
+    component: Contact
   }
 ];
 

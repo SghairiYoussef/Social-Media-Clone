@@ -4,12 +4,13 @@
     <form @submit.prevent="handleSubmit">
       <div class="input-row" v-for="(input, i) in inputs" :key="i">
         <custom-input
-          v-model="input.value"
-          :label="input.label"
-          :type="input.type"
-          @input="clearErrorMessage"
+            v-model="input.value"
+            :label="input.label"
+            :type="input.type"
+            @input="clearErrorMessage"
         />
       </div>
+      <div class="alert alert-success" role="alert" v-if="isEmailVerified && !input && !errorMessage && formTitle === 'Sign In'">Signed up successfully</div>
       <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="submit-btn">
         <button type="submit">{{ submitButtonText }}</button>
@@ -21,6 +22,8 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     isSignup: {
@@ -34,7 +37,8 @@ export default {
       formTitle: '',
       submitButtonText: '',
       errorMessage: '',
-      error: false
+      error: false,
+      input: false
     };
   },
   methods: {
@@ -56,6 +60,7 @@ export default {
     },
     clearErrorMessage() {
       this.errorMessage = '';
+      this.input = true;
     },
     validatePassword(password) {
       const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -77,7 +82,8 @@ export default {
         this.error = true;
         return;
       }
-      let data = new FormData();
+
+      let Signup = new FormData();
       let action;
       if (this.isSignup) {
         action = 'signup';
@@ -100,32 +106,45 @@ export default {
           return;
         }
         for (let i = 0; i < this.inputs.length - 1; i++) {
-          data.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
+          Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
+        this.$store.dispatch('setSignupFormData', Signup);
       } else {
         action = 'login';
         for (let i = 0; i < this.inputs.length; i++) {
-          data.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
+          Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
       }
-      axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, data)
-        .then(response => {
-          // Handle successful login response
-          this.errorMessage = response.data.message;
-          if (this.isSignup && response.data.success) {
-            this.$router.push('/login/verifyEmail');
-          }
-        })
-        .catch(error => {
-          // Handle login error
-          console.error('Error signing in:', error);
-        });
+
+      axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
+          .then(response => {
+            this.errorMessage = response.data.message;
+            console.log(response.data.message);
+            if (action === 'login' && response.data.success) {
+              this.$router.push('/Home');
+            }
+            if (this.isSignup && response.data.success) {
+              this.$router.push('/login/verifyEmail');
+            }
+          })
+          .catch(error => {
+            console.error('Error signing in:', error);
+          });
     },
   },
   components: {
     CustomInput
   },
+  computed: {
+    ...mapGetters(['isEmailVerified'])
+  },
+  watch: {
+    isEmailVerified(newValue) {
+      this.isEmailVerified = newValue;
+    }
+  },
   created() {
+    console.log(this.isEmailVerified);
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },
