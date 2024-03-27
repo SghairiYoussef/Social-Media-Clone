@@ -4,17 +4,17 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
-include 'login.php';
-include 'verifyExistence.php';
-include 'verification.php';
-include 'signup.php';
+include 'Authentication/login.php';
+include 'Authentication/verifyExistence.php';
+include 'Authentication/verification.php';
+include 'Authentication/signup.php';
 include "getPosts.php";
-include "verifyEmail.php";
-include "generateToken.php";
-include "addToken.php";
-include "checkToken.php";
-include "resetPassword.php";
-include "passwordResetEmail.php";
+include "Authentication/verifyEmail.php";
+include "Authentication/generateToken.php";
+include "Authentication/addToken.php";
+include "Authentication/checkToken.php";
+include "Authentication/resetPassword.php";
+include "Authentication/passwordResetEmail.php";
 
 $action='';
 if (isset($_GET['action'])) {
