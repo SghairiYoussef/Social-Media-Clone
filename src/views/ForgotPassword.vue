@@ -2,18 +2,20 @@
   <div class="forgotPassword-page">
     <div class="forgotPassword-container">
       <form @submit.prevent="submitForm">
-        <div class="forgotPassword-content">
+        <div class="forgotPassword-content" v-if="!isSent">
           <p class="forgotPassword-notification">Please enter your email</p>
-          <CustomInput label="Email" 
-          type="email" 
-          v-model="email" 
-          @input="clearErrorMessage" />
+          <CustomInput label="Email"
+                       type="email"
+                       v-model="email"
+                       @input="clearErrorMessage" />
         </div>
         <div class="forgotError-width">
           <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
-          <div class="alert alert-success" role="alert" v-if="isSent && !input && !errorMessage">Password reset link sent to your email</div>
         </div>
-        <div class="submit-btn">
+        <div class="urlSent" v-if="isSent">
+          <div class="alert alert-success" role="alert">Password reset link sent to your email</div>
+        </div>
+        <div class="submit-btn" v-if="!isSent">
           <button type="submit">Submit</button>
         </div>
       </form>
