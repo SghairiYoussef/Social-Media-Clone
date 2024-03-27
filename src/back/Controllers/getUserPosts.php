@@ -1,6 +1,6 @@
 <?php
-    require_once "DataBase.php";
-    require_once "getComments.php";
+    require_once "./DataBase.php";
+    require_once "Controllers/getComments.php";
     function getUserPosts($user_id){
           
         $connexion = ConnexionBD::getInstance();
