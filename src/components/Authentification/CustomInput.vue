@@ -1,12 +1,12 @@
 <template>
   <div class="input-field">
-    <input :type="type" v-model="inputValue" :placeholder="label">
+    <input :type="type" :disabled="disabled" v-model="inputValue" :placeholder="label">
   </div>
 </template>
 
 <script>
 export default {
-  props: ['label', 'type', 'modelValue'],
+  props: ['label', 'type', 'modelValue', 'disabled'],
   computed: {
     inputValue: {
       get() {

@@ -3,7 +3,8 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     SignupFormData: null,
-    isEmailVerified: false
+    isEmailVerified: false,
+    email: null
   },
   mutations: {
     setSignupFormData(state, data) {

@@ -7,6 +7,7 @@
       </div>
       <div class="verifyError-width">
           <div class="alert alert-warning" role="alert" v-if="errorMessage">{{ errorMessage }}</div>
+          <div class="alert alert-success" role="alert" v-if="isResend && !input && !errorMessage">Verification code has been resent</div>
         </div>
       <div class="verifySubmit-btn">
         <button type="submit" @click="handleVerification">Submit</button>
@@ -32,31 +33,26 @@ export default {
     return {
       verificationCode: '',
       cooldown: 60,
-      errorMessage: ''
+      errorMessage: '',
+      isResend: false
     };
   },
   created() {
     this.startCooldownTimer();
-    let Signup = this.getSignupFormData();
-    axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify', Signup)
-      .then(response => {
-        // Handle successful login response
-        console.log(response.data.message);
-        this.code = response.data.code;
-      })
-      .catch(error => {
-        console.error('Error signing in:', error);
-      });
+    this.sendVerificationEmail();
   },
   methods: {
     ...mapGetters(['getSignupFormData']),
     ...mapActions(['setEmailVerified']),
     clearErrorMessage() {
       this.errorMessage = '';
+      this.isResend = false;
     },
     resendVerification() {
       this.cooldown = 60;
+      this.isResend = true;
       this.startCooldownTimer();
+      this.sendVerificationEmail();
     },
     startCooldownTimer() {
       const timerInterval = setInterval(() => {
@@ -67,6 +63,17 @@ export default {
         }
       }, 1000);
     },
+    sendVerificationEmail() {
+      let Signup = this.getSignupFormData();
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verify', Signup)
+          .then(response => {
+            // Handle successful login response
+            this.code = response.data.code;
+          })
+          .catch(error => {
+            console.error('Error signing in:', error);
+          });
+    },
     handleVerification() {
       let Signup = this.getSignupFormData();
       Signup.append('code', this.code);
@@ -75,7 +82,6 @@ export default {
         .then(response => {
           // Handle successful login response
           this.$store.dispatch('setEmailVerified', true);
-          console.log(response.data.message);
           this.errorMessage= response.data.message;
           if (response.data.message == 'Signed up successfully') {
             this.$router.push('/login');
