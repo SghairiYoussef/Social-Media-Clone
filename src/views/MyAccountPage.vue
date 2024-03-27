@@ -74,7 +74,7 @@ export default {
                     };
                 }
 
-            axios.get(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=getCurrentUserPosts`)
+            axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserPosts`)
             .then(response => {
                 
                 let result = response.data;
@@ -101,7 +101,7 @@ export default {
                     
                     };
                 }
-                axios.get(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=getCurrentUserProfile`)
+                axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserProfile`)
                 .then(response => {
                     
                     let result = response.data;

@@ -36,14 +36,13 @@
                     };
                 }
 
-            axios.get(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=getAllPosts`)
+            axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllPosts`)
             .then(response => {
                 
                 let result = response.data;
-                console.log(result);
-                result = result.map(post=>transformPost(post))
+                result = result.map(post=>transformPost(post));
                 this.Posts = result;
-                console.log(this.Posts);
+                
             })
             .catch(error => {
                 console.error('Error fetching posts:', error);

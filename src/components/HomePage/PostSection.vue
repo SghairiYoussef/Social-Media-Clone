@@ -51,7 +51,7 @@ export default {
                 data.append('Media',Media);
                 console.log('posting data');
                 console.log(data);
-                axios.post(`http://localhost/test/Social-Media-Clone/src/back/api.php?action=addPost`, data)
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addPost`, data)
                     .then(response => {
                         console.log("Post Added");
                         console.log(response);
