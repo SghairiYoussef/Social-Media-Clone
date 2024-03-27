@@ -155,8 +155,6 @@ if($action == 'getAllPosts'){
     }
 }
 
-}
-
 if ($action == 'resetPasswordRequest') {
     $email = $_POST['email'];
     $result = verifyEmail('UserData', $email);
