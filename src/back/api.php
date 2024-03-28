@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -14,6 +14,7 @@ include "Authentication/addToken.php";
 include "Authentication/checkToken.php";
 include "Authentication/resetPassword.php";
 include "Authentication/passwordResetEmail.php";
+include "Authentication/isLoggedIn.php";
 
 $action='';
 if (isset($_GET['action'])) {
@@ -48,14 +49,14 @@ if ($action == 'verify') {
 if ($action == 'verificationProcess'){
     $code=$_POST['code'];
     $verification=$_POST['verificationCode'];
-    $fullname=$_POST['FullName'];
+    $fullName=$_POST['FullName'];
     $email=$_POST['Email'];
     $username=$_POST['Username'];
     $password=$_POST['Password'];
     $birthDate=$_POST['BirthDate'];
     $result=$code=== $verification;
     if ($result){
-        $result = signup('UserData', $fullname, $email, $username, $password, $birthDate);
+        $result = signup('UserData', $fullName, $email, $username, $password, $birthDate);
         if ($result) {
             echo json_encode(['success' => true, 'message' => 'Signed up successfully']);
         } else {
@@ -70,31 +71,39 @@ if ($action == 'verificationProcess'){
 if ($action == 'login') {
     $username = $_POST['Username'];
     $password = $_POST['Password'];
+    $rememberMe = $_POST['rememberMe'];
+    $rememberMe = $rememberMe === 'true';
     // Call logIn function
     $result = logIn('UserData', $username, $password);
     if ($result) {
-        echo json_encode(['success' => true, 'message' => 'User logged in successfully']);
+        $_SESSION['loggedIn'] = true;
+        if($rememberMe) {
+            $result = setRememberMe('UserData', $username);
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to log in user and set remember me']);
+            }
+        }
+        else {
+            echo json_encode(['success' => true, 'message' => 'User logged in successfully']);
+        }
+
+
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to log in user']);
     }
 
 }
-if($action == 'getAllPosts'){
-    $user_id = 2;
-    $result = getPostsForFeed(2);
-    if ($result) {
-        echo $result;
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
-    }
-}
+
 
 if ($action == 'resetPasswordRequest') {
     $email = $_POST['email'];
     $result = verifyEmail('UserData', $email);
     if ($result) {
         $token = generateToken();
-        $result = addToken('UserData', $email, $token);
+        $data=['email' => $email];
+        $result = addToken('UserData', $data, $token, 'resetPasswordToken');
         if ($result) {
             $URL = "http://localhost:8080/login/passwordReset/" . $token;
             $result = passwordResetEmail($email, $URL);
@@ -114,7 +123,7 @@ if ($action == 'resetPasswordRequest') {
 if ($action == 'resetPassword') {
     $token = $_POST['token'];
     $password = $_POST['password'];
-    $result = checkToken('UserData', $token);
+    $result = checkToken('UserData', $token, 'resetPasswordToken');
     if ($result) {
 
         $result = resetPassword('UserData', $token, $password);
@@ -125,5 +134,14 @@ if ($action == 'resetPassword') {
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid token']);
+    }
+}
+if ($action == 'isLoggedIn') {
+    $result = isLoggedIn();
+
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'User is logged in']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'User is not logged in']);
     }
 }

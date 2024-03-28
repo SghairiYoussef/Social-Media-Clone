@@ -19,7 +19,7 @@
                 <div class="col-lg-12 no-pdd">
                   <div v-if="currentForm === 'signin'" class="remember-me-section" key="signin-remember">
                     <div class="checkbox-section">
-                      <input type="checkbox" name="remember" id="remember-checkbox">
+                      <input type="checkbox" name="remember" id="remember-checkbox" v-model="rememberMe">
                       <label for="remember-checkbox">
                         <span></span>
                       </label>
@@ -61,7 +61,8 @@ export default {
   },
   data() {
     return {
-      currentForm: 'signin'
+      currentForm: 'signin',
+      rememberMe: false
     };
   },
   methods: {

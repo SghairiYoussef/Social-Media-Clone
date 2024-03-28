@@ -6,7 +6,7 @@ import ForgotPassword from '@/views/ForgotPassword.vue';
 import MyAccountPage from '@/views/MyAccountPage.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Contact from '@/views/Contact.vue';
-
+import axios from "axios";
 
 const routes = [
   {
@@ -17,7 +17,10 @@ const routes = [
   {
     path: '/Home',
     name: 'Home',
-    component: HomePage
+    component: HomePage,
+    meta: {
+        requiresAuth: true
+    }
   },
   {
     path: '/',
@@ -36,7 +39,10 @@ const routes = [
   {
     path: '/myAccount',
     name: 'MyAccountPage',
-    component: MyAccountPage
+    component: MyAccountPage,
+    meta: {
+        requiresAuth: true
+    }
   },
   {
     path: '/login/passwordReset/:token',
@@ -46,7 +52,10 @@ const routes = [
   {
     path: '/Contact',
     name: 'Contact',
-    component: Contact
+    component: Contact,
+    meta: {
+        requiresAuth: true
+    }
   }
 ];
 
@@ -54,5 +63,30 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
+router.beforeEach((to, from, next) => {
+  // Perform the check if the route requires authentication
+  if (to.meta.requiresAuth) {
+    axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn')
+        .then(response => {
+          console.log(response.data.message);
+          if (!response.data.success) {
+            // If the user is not logged in, redirect to the login page
+            next('/login');
+          } else {
+            // If the user is logged in, continue with the navigation
+            next();
+          }
+        })
+        .catch(error => {
+          console.error('Error checking authentication status:', error);
+          // If there's an error, prevent navigation
+          next(false);
+        });
+  } else {
+    // If the route does not require authentication, continue with the navigation
+    next();
+  }
+});
+
 
 export default router;

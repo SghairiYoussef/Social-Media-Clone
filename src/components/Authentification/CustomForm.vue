@@ -29,6 +29,10 @@ export default {
     isSignup: {
       type: Boolean,
       required: true
+    },
+    rememberMe: {
+      type: Boolean,
+      required: false
     }
   },
   data() {
@@ -114,6 +118,7 @@ export default {
         for (let i = 0; i < this.inputs.length; i++) {
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
+        Signup.append('rememberMe', this.rememberMe);
       }
 
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
@@ -126,7 +131,9 @@ export default {
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');
             }
+
           })
+
           .catch(error => {
             console.error('Error signing in:', error);
           });
