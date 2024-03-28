@@ -55,12 +55,13 @@ export default {
                     .then(response => {
                         console.log("Post Added");
                         console.log(response);
+                        this.$emit('postAdded', response);
                     
                     })
                     .catch(error => {
                 
                     console.error('Error Adding Post:', error);
-                    });
+                    }); 
             },
             
         },
