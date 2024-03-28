@@ -7,23 +7,7 @@
     </header>
     <div class="row">
         <div class="col-sm-4">
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Inbox
-                    <span class="badge bg-primary rounded-pill">{{ total_unread_messages() }}</span>
-                </li>
-                <li class="input-group mb-3">
-                    <input type="text" v-model="search" placeholder="Search users..." class="form-control">
-                    <button class="btn btn-success" type="submit">Go</button>
-                </li>
-                <li v-for="user in users" :key="user.id" @click="selectUser(user)">
-                    <div class="userBox">
-                        <img src="https://via.placeholder.com/150" alt="User Image" class="rounded-pill" style="width: 40px;">
-                        {{ user.name }}
-                        <span class="badge bg-danger">{{user.unread_messages}}</span>
-                    </div>
-                </li>
-            </ul>
+            <Inbox :users="users" @user-selected="selectUser"/>
         </div>
         <div v-if="activeContactIndex === null" class="Note">
             Select a contact to start chatting
@@ -37,12 +21,14 @@
 <script>
 import Chat from '@/components/MessageBox/Chat.vue';
 import navBar from '@/components/navbar.vue';
+import Inbox from '@/components/MessageBox/Inbox.vue';
 
 export default {
     name: 'MessageBox',
     components: {
         Chat,
-        navBar
+        navBar,
+        Inbox
     },
 
     data()
@@ -76,19 +62,7 @@ export default {
         {
             this.activeContactIndex = this.users.indexOf(user);
         },
-        total_unread_messages()
-        {
-            let total = 0;
-            for(let i = 0; i < this.users.length; i++)
-            {
-                total += this.users[i].unread_messages;
-            }
-            return total;
-        }
     }
-
-
-
 };
 </script>
 
@@ -103,11 +77,4 @@ export default {
         border-radius: 5px;
     }
 
-    .user_img
-    {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
 </style>

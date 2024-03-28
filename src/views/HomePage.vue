@@ -1,6 +1,10 @@
 <template>
   <navBar/>
-  <PostSection v-bind:Posts="Posts"/>
+  <PostSection :Posts="visiblePosts()"/>
+  <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
+  <div v-else>
+      <p class="Note">No more posts to load</p>
+  </div>
 </template>
 
 <script>
@@ -11,6 +15,20 @@
     components: {
       PostSection,
       navBar
+    },
+    methods: {
+      visiblePosts() {
+        return this.Posts.slice(0, this.visiblePostCount);
+      },
+      hasMorePosts() {
+        return this.visiblePostCount < this.Posts.length;
+      },
+      loadMorePosts() {
+        this.visiblePostCount += 5;
+      },
+      handlePostAdded(post) {
+        this.Posts.unshift(post);
+      }
     },
     data(){
       return {

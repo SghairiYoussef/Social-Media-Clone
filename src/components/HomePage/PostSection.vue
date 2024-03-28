@@ -1,12 +1,14 @@
 <template>
     <div class="container" v-cloak>
-            <div class="user_post">
-                <img class="user_img" src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User Image">
-                <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
-                <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
-                 <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
-            </div>
-            <div class="post" v-for="post in this.Posts" :key="post.title">
+        <div class="user_post">
+            <img class="user_img" src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User Image">
+            <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
+            <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
+                <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
+        </div>
+        
+        <div v-if="Posts.length > 0">
+            <div class="post" v-for="post in this.Posts" :key="post.title" >
                 <div class="post_header">
                     <img class = user_img :src="post.user.img" :alt="post.user.alt">
                     <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
@@ -21,6 +23,10 @@
                 <comments :post="post" v-if="post.commentsShown"/>
             </div>
         </div>
+        <div v-else>
+            <p class="Note">No Posts to show</p>
+        </div>
+    </div>
 </template>
 
 <script>

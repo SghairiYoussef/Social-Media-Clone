@@ -3,24 +3,23 @@
     <header class="main-header">
         <img :src="user.background" alt="User Background" class="background">
         <div class="header-content">
-        <div class="avatar-container">
-            <img :src="user.avatar" alt="User Avatar" class="avatar">
-        </div>
-        <div class="user-info">
-            <h1 class="profileUsername">{{ user.username }}</h1>
-            <h2 class="profileName">{{ user.name }}</h2>
-            <p class="bio">{{ user.bio }}</p>
-        </div>
+            <div class="avatar-container">
+                <img :src="user.avatar" alt="User Avatar" class="avatar">
+            </div>
+            <div class="user-info">
+                <h1 class="profileUsername">{{ user.username }}</h1>
+                <h2 class="profileName">{{ user.name }}</h2>
+                <p class="bio">{{ user.bio }}</p>
+            </div>
         </div>
     </header>
     <div v-if="Posts.length > 0">
-        <PostSection  v-bind:Posts="Posts" @postAdded="handlePostAdded" />  <!--v-for="post in visiblePosts" :key="post.id"  -->
-        <button class="load-more" v-if="hasMorePosts" @click="loadMorePosts">Load More</button>
-        <div v-else>
-            <p class="Note">No more posts to load</p>
-        </div>
+    <PostSection  :Posts="visiblePosts()" @postAdded="handlePostAdded()" /> <!-- Fixed The Visible Posts problem -->
+    <button class="btn btn-info"  @click="loadMorePosts()">Load More</button>
     </div>
-    <p class ="Note" v-else>As Empty as a deserted island...!</p>
+    <div v-else>
+        <p class="Note">No more posts to load</p>
+    </div>
 </template>
 
 <script>
