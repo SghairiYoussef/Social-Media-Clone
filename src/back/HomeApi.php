@@ -26,6 +26,7 @@ include "Controllers/getUserPosts.php";
 include "Controllers/getUser.php";
 include "Controllers/getUserID.php";
 include "Controllers/addPost.php";
+include "Controllers/addComment.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -71,3 +72,16 @@ if($action == 'addPost'){
         echo json_encode(['success' => false, 'message' => 'Error adding post']);
     }
 }
+if($action == 'addComment'){
+    //$user_id = $_SESSION['CurrentUserID'];
+    $Caption = $_POST['Content'];
+    $Post_ID = $_POST['Post_ID'];
+    $result = addComment(2, $Post_ID,$Caption);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Comment added successfully']);
+    } else {
+
+        echo json_encode(['success' => false, 'message' => 'Error adding Comment']);
+    }
+}
+

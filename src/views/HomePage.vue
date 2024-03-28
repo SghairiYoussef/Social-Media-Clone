@@ -32,7 +32,8 @@
                         comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false
+                        isLiked: false,
+                        Post_ID : post.Post_ID
                     };
                 }
 
@@ -41,6 +42,7 @@
                 
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
+                console.log(result);
                 this.Posts = result;
                 
             })

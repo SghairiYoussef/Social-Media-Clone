@@ -15,18 +15,49 @@
             </div>
         </div>
         <div class="comment-section__form">
-            <textarea class="comment-section__form__input" placeholder="Write a comment"></textarea>
-            <button class="comment-section__form__button">Post</button>
+            <textarea class="comment-section__form__input" v-model="newComment.newContent" placeholder="Write a comment"></textarea>
+            <button class="comment-section__form__button" @click="addComment(post.Post_ID,newComment.newContent)">Post</button>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
+        data() {
+            return {
+                newComment: {
+                    newContent: '',
+                },
+            }
+        },
         props: {
             post: {
                 type: Object,
                 required: true
+            }
+        },
+        methods : {
+            addComment(post_id,content) {
+                
+                this.newComment = {
+                    newContent: ''
+                };
+
+                let data = new FormData();
+                data.append('Content',content);
+                data.append('Post_ID',post_id);
+                
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addComment`, data)
+                    .then(response => {
+                        console.log("Comment Added");
+                        console.log(response);
+                    
+                    })
+                    .catch(error => {
+                
+                    console.error('Error Adding Comment:', error);
+                    });
             }
         }
     }

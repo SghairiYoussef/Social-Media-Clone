@@ -14,7 +14,7 @@
         </div>
     </header>
     <div v-if="Posts.length > 0">
-        <PostSection  v-bind:Posts="Posts"/>  <!--v-for="post in visiblePosts" :key="post.id"  -->
+        <PostSection  v-bind:Posts="Posts" @postAdded="handlePostAdded" />  <!--v-for="post in visiblePosts" :key="post.id"  -->
         <button class="load-more" v-if="hasMorePosts" @click="loadMorePosts">Load More</button>
         <div v-else>
             <p class="Note">No more posts to load</p>
@@ -113,6 +113,9 @@ export default {
                 .catch(error => {
                     console.error('Error fetching User info:', error);
         });
+        },
+        handlePostAdded() {
+            this.fetchPosts();
         }
     },
     mounted() {
