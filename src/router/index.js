@@ -6,7 +6,7 @@ import ForgotPassword from '@/views/ForgotPassword.vue';
 import MyAccountPage from '@/views/MyAccountPage.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Contact from '@/views/Contact.vue';
-
+import Messages from '@/views/Messages.vue';
 
 const routes = [
   {
@@ -47,6 +47,11 @@ const routes = [
     path: '/Contact',
     name: 'Contact',
     component: Contact
+  },
+  {
+    path: '/Messages',
+    name: 'Messages',
+    component: Messages
   }
 ];
 
