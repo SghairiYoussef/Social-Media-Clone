@@ -12,3 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     birthDay DATE NOT NULL,
     PRIMARY KEY (userName, email)
     );
+
+insert into users (userName, email, password, fullName, birthDay) values ('admin', 'admin@gl2.com', 'admin', 'admin', '1999-01-01');
+insert into users (userName, email, password, fullName, birthDay) values ('user', 'user@gl2.com', 'user', 'user', '1999-01-01');
+```
