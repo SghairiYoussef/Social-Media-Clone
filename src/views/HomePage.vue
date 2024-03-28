@@ -1,20 +1,29 @@
 <template>
   <navBar/>
-  <PostSection :Posts="visiblePosts()"/>
-  <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
-  <div v-else>
-      <p class="Note">No more posts to load</p>
+  <div class="row">
+    <div class = "col-sm-10">
+      <PostSection :Posts="visiblePosts()"/>
+      <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
+      <div v-else>
+          <p class="Note">No more posts to load</p>
+      </div>
+    </div>
+    <div class = "col-sm-2">
+      <Inbox/>
+    </div>
   </div>
 </template>
 
 <script>
   import PostSection from '@/components/HomePage/PostSection.vue';
   import navBar from '@/components/navbar.vue';
+  import Inbox from '@/components/MessageBox/Inbox.vue';
   import axios from 'axios';
   export default {
     components: {
       PostSection,
-      navBar
+      navBar,
+      Inbox
     },
     methods: {
       visiblePosts() {
