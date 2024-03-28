@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="logo.png" alt="Logo" style="width:40px;" class="rounded-pill"> 
+            <img src="../../public/img/logo.jpg" alt="Logo" style="width:80px;" class="rounded-pill">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -11,16 +11,16 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home">Home</a>
+                    <a class="nav-link" href="/Home" style="font-size: 20px" >Home </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Messages">Messages</a>
+                    <a class="nav-link" href="/Messages" style="font-size: 20px">Messages</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/MyAccount">My Account</a>
+                    <a class="nav-link" href="/MyAccount" style="font-size: 20px">My Account</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact Us</a>
+                    <a class="nav-link" href="/contact" style="font-size: 20px">Contact Us</a>
                 </li>
             </ul>
         </div>

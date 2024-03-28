@@ -37,12 +37,13 @@
             <h2>About Us</h2>
             <div class="separator"></div>
             <p>
-              Messi. Messi. Messi. Immens Messi. Encara Messi. Encara Messi. ANKARA MESSI. Encara Messi. Encara Messi.
-Gol. Gol. Gol. Gol. Gol. Gol. Gol. Gol. Gol.
+              INSAT Social Club is a platform that allows you to connect with your friends and family,
+              share your thoughts, ideas, and memories with others.
+              You can also chat with your friends in real-time and stay connected with them no matter where you are.
             </p>
             
             <div class="logo-container">
-              <img src="../../public/img/logo.png" alt="About Us" class="about-logo" />
+              <img src="../../public/img/logo.gif" alt="About Us" class="about-logo" />
             </div>
           </div>
         </div>
