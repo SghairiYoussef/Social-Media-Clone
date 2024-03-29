@@ -66,7 +66,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // Perform the check if the route requires authentication
   if (to.meta.requiresAuth) {
-    axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn')
+    // Get the session ID from the session cookie
+    const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)PHPSESSID\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    console.log(sessionId);
+    axios.get(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn&PHPSESSID=${sessionId}`)
         .then(response => {
           console.log(response.data.message);
           if (!response.data.success) {
