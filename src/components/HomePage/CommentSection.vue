@@ -43,7 +43,6 @@
                 this.newComment = {
                     newContent: ''
                 };
-
                 let data = new FormData();
                 data.append('Content',content);
                 data.append('Post_ID',post_id);
@@ -52,6 +51,7 @@
                     .then(response => {
                         console.log("Comment Added");
                         console.log(response);
+                        this.$emit('commentAdded', response);
                     
                     })
                     .catch(error => {

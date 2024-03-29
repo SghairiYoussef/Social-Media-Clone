@@ -1,6 +1,6 @@
 <template>
   <navBar/>
-  <PostSection v-bind:Posts="Posts"/>
+  <PostSection v-bind:Posts="Posts"  @commentAdded="handleCommentAdded"/>
 </template>
 
 <script>
@@ -17,8 +17,9 @@
         Posts : [],
       }
     },
-    created() {
-                function transformPost(post) {
+    methods:{
+      fetchPosts(){
+        function transformPost(post) {
                     return {
                         user: {
                             name: post.Username,
@@ -49,6 +50,13 @@
             .catch(error => {
                 console.error('Error fetching posts:', error);
       });
+      },
+      handleCommentAdded(){
+        this.fetchPosts();
+      }
+    },
+    created() {
+          this.fetchPosts();
         },
   }
   

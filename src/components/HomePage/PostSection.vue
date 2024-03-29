@@ -18,7 +18,7 @@
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
                     <button type="button" class="btn btn-outline-warning">Share</button>
                 </div>
-                <comments :post="post" v-if="post.commentsShown"/>
+                <comments v-bind:post="post" v-if="post.commentsShown" @commentAdded="handleCommentAdded" />
             </div>
         </div>
 </template>
@@ -63,6 +63,9 @@ export default {
                     console.error('Error Adding Post:', error);
                     }); 
             },
+            handleCommentAdded(){
+                this.$emit('commentAdded', 1);
+            }
             
         },
         components: {

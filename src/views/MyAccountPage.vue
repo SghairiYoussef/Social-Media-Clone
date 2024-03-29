@@ -70,7 +70,8 @@ export default {
                         comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false
+                        isLiked: false,
+                        Post_ID : post.Post_ID
                     };
                 }
 
