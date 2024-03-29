@@ -4,7 +4,7 @@
             <h2>Comments</h2>
         </div>
         <div class="comments">
-            <div class="comment" v-for="(comment, index) in post.comments" :key="index">
+            <div class="comment" v-for="(comment, index) in comments" :key="index">
                 <div class="comment__user">
                     <img src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User"/>
                 </div>
@@ -34,6 +34,10 @@
         props: {
             post: {
                 type: Object,
+                required: true
+            },
+            comments: {
+                type: Array,
                 required: true
             }
         },

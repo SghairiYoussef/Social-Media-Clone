@@ -18,7 +18,7 @@
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
                     <button type="button" class="btn btn-outline-warning">Share</button>
                 </div>
-                <comments v-bind:post="post" v-if="post.commentsShown" @commentAdded="handleCommentAdded" />
+                <comments v-bind:post="post" v-bind:comments="comments" v-if="post.commentsShown" @commentAdded="handleCommentAdded(post)" />
             </div>
         </div>
 </template>
@@ -33,12 +33,30 @@ export default {
                     newContent: '',
                     newTitle: ''
                 },
+                comments :[]
             }
         },
         props:['Posts'],
         methods: {
             comment(post) {
                 post.commentsShown = !post.commentsShown;
+                this.fetchComments(post);
+                
+
+            },
+            fetchComments(post){
+                let data = new FormData();
+                data.append('Post_ID',post.Post_ID);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getComments`, data)
+                    .then(response => {
+                        console.log(response);
+                        this.comments=response.data;
+                    
+                    })
+                    .catch(error => {
+                
+                    console.error('Error fetching comments:', error);
+                    }); 
             },
             addPost(content, title, Media ="") {
                 this.newPost = {
@@ -63,8 +81,8 @@ export default {
                     console.error('Error Adding Post:', error);
                     }); 
             },
-            handleCommentAdded(){
-                this.$emit('commentAdded', 1);
+            handleCommentAdded(post){
+                this.fetchComments(post);
             }
             
         },

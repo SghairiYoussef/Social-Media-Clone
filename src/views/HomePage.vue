@@ -1,6 +1,6 @@
 <template>
   <navBar/>
-  <PostSection v-bind:Posts="Posts"  @commentAdded="handleCommentAdded"/>
+  <PostSection v-bind:Posts="Posts"/>
 </template>
 
 <script>
@@ -30,7 +30,6 @@
                         content: post.Caption,
                         img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
                         alt: 'Post Image',
-                        comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
                         isLiked: false,
@@ -51,9 +50,7 @@
                 console.error('Error fetching posts:', error);
       });
       },
-      handleCommentAdded(){
-        this.fetchPosts();
-      }
+      
     },
     created() {
           this.fetchPosts();
