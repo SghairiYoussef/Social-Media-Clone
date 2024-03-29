@@ -20,7 +20,7 @@
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
                     <button type="button" class="btn btn-outline-warning">Share</button>
                 </div>
-                <comments :post="post" v-if="post.commentsShown"/>
+                <comments :post="post" :comments="PostComment" v-if="post.commentsShown"/>
             </div>
         </div>
         <div v-else>
