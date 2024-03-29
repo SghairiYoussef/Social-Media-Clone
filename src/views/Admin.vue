@@ -7,7 +7,9 @@
     </div>
     <div v-else class="row">
         <div  class="col-sm-3">
-            <admin-side-bar/>
+            <div class="container-1">
+                <admin-side-bar/>
+            </div>
         </div>
         <div class="col-sm-9">
             <userSection/>
@@ -45,7 +47,7 @@ export default {
         margin-top: 20px;
         margin-left: 40px;
         margin-right: 40px;
-        background-color: #4a4e69;
+        background-color: #22223b;
         color: white;
         padding: 20px;
         border-radius: 10px;
@@ -54,5 +56,15 @@ export default {
     col-sm-9 {
         margin-left: 40px;
         margin-right: 40px;
+    }
+
+    .container-1 {
+        margin-left: 40px;
+        margin-right: 40px;
+        background-color: #22223b;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        height: 100%;
     }
 </style>

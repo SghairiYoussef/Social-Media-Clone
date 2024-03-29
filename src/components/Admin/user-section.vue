@@ -25,8 +25,13 @@
             </tbody>
         </table>
     </div>
-    <div class="Chart">
-        <chartSection/>
+    <div class="row">
+        <div class="Chart col-sm-6">
+            <chartSection/>
+        </div>
+        <div class="Chart-Container col-sm-5">
+            <img src="../../../public/img/logo.gif" alt="Logo" style="width:400px;" class="rounded-pill">
+        </div>
     </div>
 </template>
 
@@ -36,14 +41,7 @@
     export default {
         data() {
             return {
-                users: [
-                    {
-                        User_ID: 1,
-                        Username: 'John Doe',
-                        Email: 'Doe@example.com',
-                        Role: 'Admin'
-                    },
-                ]
+                users:[]
             }
         },
         methods: {
@@ -68,7 +66,31 @@
 </script>
 
 <style scoped>
+    .table {
+        width: 90%;
+        margin: 20px auto;
+        margin-top:10px auto ;
+    }
     .table-container {
         margin-right: 40px;
+        background-color: #9a8c98;
+        color: white;
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .Chart {
+        margin-right: 40px;
+        margin-left: 20px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 20px;
+        margin-top: 20px;
+    }
+    .Chart-Container {
+        background-color: #f2e9e4;
+        padding: 20px;
+        border-radius: 20px;
+        margin-top: 20px;
+        align-items: center;
     }
 </style>
