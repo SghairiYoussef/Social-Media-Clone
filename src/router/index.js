@@ -7,7 +7,7 @@ import MyAccountPage from '@/views/MyAccountPage.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Contact from '@/views/Contact.vue';
 import Messages from '@/views/Messages.vue';
-
+import Admin from '@/views/Admin.vue';
 const routes = [
   {
     path: '/login',
@@ -52,6 +52,11 @@ const routes = [
     path: '/Messages',
     name: 'Messages',
     component: Messages
+  },
+  {
+    path: '/Admin',
+    name: 'Admin',
+    component: Admin
   }
 ];
 
