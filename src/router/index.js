@@ -39,7 +39,7 @@ const routes = [
     component: MyAccountPage
   },
   {
-    path: '/login/passwordReset/:token',
+    path: '/login/passwordReset/:resetPasswordToken',
     name: 'PasswordReset',
     component: PasswordReset
   },

@@ -22,7 +22,9 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   props: {
@@ -42,6 +44,27 @@ export default {
     };
   },
   methods: {
+    generateToken() {
+      const token = uuidv4();
+      return token;
+    },
+    setRememberMeToken(token) {
+      const expirationTime = new Date(Date.now() + (60 * 1000));
+      document.cookie = `rememberMeToken=${token}; expires=${expirationTime.toUTCString()}; path=/`;
+    },
+    getRememberMeToken() {
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'rememberMeToken') {
+          return value;
+        }
+      }
+      return null;
+    },
+    checkRememberMeToken() {
+      return this.getRememberMeToken() !== null;
+    },
     checkPasswordMatch() {
       if (this.isSignup) {
         const password = this.inputs.find(input => input.label === 'Password').value;
@@ -49,7 +72,7 @@ export default {
         return password === repeatPassword;
       }
       return true;
-    },
+    }, 
     checkInputs() {
       for (let i = 0; i < this.inputs.length; i++) {
         if (!this.inputs[i].value) {
@@ -82,7 +105,6 @@ export default {
         this.error = true;
         return;
       }
-
       let Signup = new FormData();
       let action;
       if (this.isSignup) {
@@ -115,12 +137,18 @@ export default {
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
       }
-
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             this.errorMessage = response.data.message;
             console.log(response.data.message);
             if (action === 'login' && response.data.success) {
+              console.log(this.rememberMe);
+              if (this.rememberMe) {
+                const token = this.generateToken();
+                console.log('Generated token:', token);
+                this.setRememberMeToken(token);
+                this.rememberMe = false;
+              }
               this.$router.push('/Home');
             }
             if (this.isSignup && response.data.success) {
@@ -136,7 +164,8 @@ export default {
     CustomInput
   },
   computed: {
-    ...mapGetters(['isEmailVerified'])
+    ...mapGetters(['isEmailVerified']),
+    ...mapState(['rememberMe'])
   },
   watch: {
     isEmailVerified(newValue) {
@@ -144,7 +173,10 @@ export default {
     }
   },
   created() {
-    console.log(this.isEmailVerified);
+    if (this.checkRememberMeToken()) {
+      this.$router.push('/Home');
+      return;
+    }
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },

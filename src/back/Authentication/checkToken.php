@@ -3,7 +3,7 @@ function checkToken($table, $token)
 {
     $connexion = ConnexionBD::getInstance();
     $token = $connexion->quote($token);
-    $sql = "SELECT COUNT(*) AS count FROM $table WHERE token=$token";
+    $sql = "SELECT COUNT(*) AS count FROM $table WHERE resetPasswordToken=$token";
     try {
         $stmt = $connexion->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

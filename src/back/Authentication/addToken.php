@@ -5,7 +5,7 @@ function addToken($table, $email,$token)
 
     $token = $connexion->quote($token);
     $email = $connexion->quote($email);
-    $sql = "UPDATE $table SET token=$token WHERE email=$email";
+    $sql = "UPDATE $table SET resetPasswordToken=$token WHERE email=$email";
     try {
         $connexion->exec($sql);
         return true;

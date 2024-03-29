@@ -39,7 +39,7 @@
         inputs: [],
         errorMessage: '',
         error: false,
-        token : this.$route.params.token,
+        resetPasswordToken : this.$route.params.resetPasswordToken,
         isReset: false,
         countdown: 5
       };
@@ -69,7 +69,7 @@
         }
         let data= new FormData();
         data.append('password', this.inputs[0].value);
-        data.append('token', this.token);
+        data.append('resetPasswordToken', this.resetPasswordToken);
         axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
           .then(response => {
             // Handle successful login response

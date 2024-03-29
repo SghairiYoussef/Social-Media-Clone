@@ -112,7 +112,7 @@ if ($action == 'resetPasswordRequest') {
 }
 
 if ($action == 'resetPassword') {
-    $token = $_POST['token'];
+    $token = $_POST['resetPasswordToken'];
     $password = $_POST['password'];
     $result = checkToken('UserData', $token);
     if ($result) {
