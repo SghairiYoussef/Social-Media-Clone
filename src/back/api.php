@@ -123,31 +123,33 @@ if ($action == 'signup') {
             echo json_encode(['success' => false, 'message' => 'Email does not exist']);
         }
     }
-}
+
 
 if ($action == 'resetPassword') {
     $token = $_POST['resetPasswordToken'];
     $password = $_POST['password'];
-    $result = checkToken('UserData', $token);
+    $result = checkToken('UserData', $token, 'resetPasswordToken');
     if ($result) {
 
-    if ($action == 'resetPassword') {
-        $token = $_POST['resetPasswordToken'];
-        $password = $_POST['password'];
-        $result = checkToken('UserData', $token, 'resetPasswordToken');
-        if ($result) {
-            $result = resetPassword('UserData', $token, $password);
+        if ($action == 'resetPassword') {
+            $token = $_POST['resetPasswordToken'];
+            $password = $_POST['password'];
+            $result = checkToken('UserData', $token, 'resetPasswordToken');
             if ($result) {
-                echo json_encode(['success' => true, 'message' => 'Password reset successfully']);
+                $result = resetPassword('UserData', $token, $password);
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Password reset successfully']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Failed to reset password']);
+                }
             } else {
-                echo json_encode(['success' => false, 'message' => 'Failed to reset password']);
+                echo json_encode(['success' => false, 'message' => 'Invalid token']);
             }
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Invalid token']);
+
+
         }
-
-
     }
+}
 if ($action == 'isLoggedIn') {
     if (isset($_POST['sessionId']))
  {
