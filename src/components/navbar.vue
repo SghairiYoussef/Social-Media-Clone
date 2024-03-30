@@ -38,11 +38,30 @@
 </template>
 
 <script>
+import axios from "axios";
+
     export default {
         name: 'NavBar',
         methods: {
             logout() {
-                console.log('logout');
+              const sessionID = sessionStorage.getItem('sessionId');
+              let data =new FormData();
+              data.append('sessionID', sessionID);
+              axios.defaults.withCredentials = true;
+              axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=logout`,data)
+              .then(response => {
+                console.log(response.data);
+                if(response.data.success) {
+                  console.log(response.data.message);
+                  sessionStorage.removeItem('sessionId');
+                  this.$router.push('/login');
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
+
             }
         }
     }

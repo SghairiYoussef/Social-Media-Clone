@@ -18,6 +18,7 @@ include "Authentication/resetPassword.php";
 include "Authentication/passwordResetEmail.php";
 include "Authentication/isLoggedIn.php";
 include "Authentication/setRememberMe.php";
+include "Authentication/logout.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -171,5 +172,18 @@ if ($action == 'isLoggedIn') {
 
 
 }
+if($action=='logout') {
+    if (isset($_POST['sessionID'])) {
+        $sessionID = $_POST['sessionID'];
+        session_id($sessionID);
+        session_start();
+    }
+    $result = logout();
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'User logged out']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to log out user']);
+    }
 
+}
 
