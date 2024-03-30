@@ -31,7 +31,7 @@ export default {
     isSignup: {
       type: Boolean,
       required: true
-    }
+    },
   },
   data() {
     return {
@@ -136,25 +136,27 @@ export default {
         for (let i = 0; i < this.inputs.length; i++) {
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
+        Signup.append('rememberMe', this.rememberMe);
       }
+      axios.defaults.withCredentials = true;
+
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             this.errorMessage = response.data.message;
             console.log(response.data.message);
+
             if (action === 'login' && response.data.success) {
-              console.log(this.rememberMe);
-              if (this.rememberMe) {
-                const token = this.generateToken();
-                console.log('Generated token:', token);
-                this.setRememberMeToken(token);
-                this.rememberMe = false;
-              }
+              sessionStorage.setItem('sessionId', response.data.sessionID);
+              console.log(response.data.sessionID);
+
               this.$router.push('/Home');
             }
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');
             }
+
           })
+
           .catch(error => {
             console.error('Error signing in:', error);
           });
@@ -173,10 +175,7 @@ export default {
     }
   },
   created() {
-    if (this.checkRememberMeToken()) {
-      this.$router.push('/Home');
-      return;
-    }
+
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },
