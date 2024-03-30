@@ -78,11 +78,12 @@ import axios from "axios";
     }
     .nav-link {
         margin-right: 20px;
+        cursor: pointer;
     }
     .form-control {
         margin-right: 20px;
     }
     .btn {
         margin-right: 20px;
-    }
+    } 
 </style>
