@@ -4,8 +4,9 @@
       <div class="account-settings">
         <div class="user-profile">
           <div class="user-avatar">
-            <img :src="avatarUrl" alt="ProfileImage" class="ProfileImage">
-            <input type="file" accept="image/*" @change="handleAvatarChange">
+            <img :src="avatarUrl" alt="ProfileImage" class="ProfileImage img-fluid rounded-circle">
+            <label for="avatarUpload" class="btn btn-outline-danger mt-2">Upload Image</label>
+            <input type="file" id="avatarUpload" accept="image/*" @change="handleAvatarChange" style="display: none;">
           </div>
           <h5 class="username">{{ username }}</h5>
           <h6 class="user-email"><a :href="'mailto:' + email">{{ email }}</a></h6>
