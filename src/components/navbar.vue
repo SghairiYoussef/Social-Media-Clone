@@ -28,14 +28,44 @@
             <input class="form-control me-2" type="text" placeholder="Search">
             <button class="btn btn-secondary" type="button">Search</button>
         </form>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: 20px" @click="logout">Logout</a>
+          </li>
+        </ul>
     </div>
     </nav>
 </template>
 
 <script>
+import axios from "axios";
+
     export default {
-        name: 'NavBar'
+        name: 'NavBar',
+        methods: {
+            logout() {
+              const sessionID = sessionStorage.getItem('sessionId');
+              let data =new FormData();
+              data.append('sessionID', sessionID);
+              axios.defaults.withCredentials = true;
+              axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=logout`,data)
+              .then(response => {
+                console.log(response.data);
+                if(response.data.success) {
+                  console.log(response.data.message);
+                  sessionStorage.removeItem('sessionId');
+                  this.$router.push('/login');
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
+
+            }
+        }
     }
+
 </script>
 
 <style scoped>
@@ -48,11 +78,12 @@
     }
     .nav-link {
         margin-right: 20px;
+        cursor: pointer;
     }
     .form-control {
         margin-right: 20px;
     }
     .btn {
         margin-right: 20px;
-    }
+    } 
 </style>
