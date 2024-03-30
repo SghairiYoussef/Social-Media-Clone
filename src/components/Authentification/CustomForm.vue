@@ -22,7 +22,6 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import { mapGetters } from 'vuex';
 import { mapState } from 'vuex';
 
@@ -44,27 +43,6 @@ export default {
     };
   },
   methods: {
-    generateToken() {
-      const token = uuidv4();
-      return token;
-    },
-    setRememberMeToken(token) {
-      const expirationTime = new Date(Date.now() + (60 * 1000));
-      document.cookie = `rememberMeToken=${token}; expires=${expirationTime.toUTCString()}; path=/`;
-    },
-    getRememberMeToken() {
-      const cookies = document.cookie.split(';');
-      for (const cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === 'rememberMeToken') {
-          return value;
-        }
-      }
-      return null;
-    },
-    checkRememberMeToken() {
-      return this.getRememberMeToken() !== null;
-    },
     checkPasswordMatch() {
       if (this.isSignup) {
         const password = this.inputs.find(input => input.label === 'Password').value;
