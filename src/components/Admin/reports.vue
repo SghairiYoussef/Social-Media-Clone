@@ -35,7 +35,7 @@
                     {
                         id: 1,
                         username: 'User 1',
-                        email: 'john@example.come',
+                        email: 'john@example.com',
                         content: 'This is a report from user 1'
                     },
                 ]

@@ -13,7 +13,8 @@
         </div>
         <div class="col-sm-9">
             <userSection v-if="active=='users'"/>
-            <reports v-if="active=='reports'"/>
+            <reports v-else-if="active=='reports'"/>
+            <posts v-else-if="active=='posts'"/>
         </div>
     </div>
 </template>
@@ -22,6 +23,8 @@
 import adminSideBar from '@/components/Admin/admin-side-bar.vue'
 import userSection from '@/components/Admin/user-section.vue'
 import reports from '@/components/Admin/reports.vue'
+import posts from '@/components/Admin/posts.vue'
+
 export default {
     data() {
         return {
@@ -32,7 +35,8 @@ export default {
     components: {
         adminSideBar,
         userSection,
-        reports
+        reports,
+        posts
     },
     /*props: {
         authenticated: {

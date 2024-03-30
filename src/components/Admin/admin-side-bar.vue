@@ -1,11 +1,13 @@
 <template>
     <div class="nav flex-column">
+        <div class="title">
             <h2>Control Panel</h2>
-            <button @click="users()" class="btn btn-outline-dark">Users</button>
-            <button @click="posts()" class="btn btn-outline-dark">Posts</button>
-            <button @click="reports()" class="btn btn-outline-dark">Reports</button>
-            <router-link to="/Home" class="btn btn-outline-dark">Home Page</router-link>
         </div>
+        <button @click="users()" class="btn btn-dark">Users</button>
+        <button @click="posts()" class="btn btn-dark">Posts</button>
+        <button @click="reports()" class="btn btn-dark">Reports</button>
+        <router-link to="/Home" class="btn btn-dark">Home Page</router-link>
+    </div>
 </template>
 
 <script>

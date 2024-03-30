@@ -10,16 +10,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-if = "users.length === 0">
+                <tr v-if="users.length === 0">
                     <td colspan="4" class="Note">No users found</td>
                 </tr>
-                <tr v-else v-for="user in users" :key="user.User_ID">
+                <tr v-for="user in displayedUsers()" :key="user.User_ID">
                     <td>{{ user.Username }}</td>
                     <td>{{ user.Email }}</td>
                     <td>{{ user.Role }}</td>
                     <td>
                         <button @click="editUser(user)" class="btn btn-primary">Edit</button>
                         <button @click="deleteUser(user)" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                <tr v-if="showMoreButton()">
+                    <td colspan="4">
+                        <button @click="loadMoreUsers()" class="btn btn-primary">Show More</button>
                     </td>
                 </tr>
             </tbody>
@@ -41,7 +46,8 @@
     export default {
         data() {
             return {
-                users:[]
+                users:[],
+                displayedUsersCount: 5,
             }
         },
         methods: {
@@ -50,6 +56,15 @@
             },
             deleteUser(user) {
                 console.log('Delete user', user);
+            },
+            loadMoreUsers() {
+                this.displayedUsersCount += 4;
+            },
+            displayedUsers() {
+                return this.users.slice(0, this.displayedUsersCount);
+            },
+            showMoreButton() {
+                return this.displayedUsersCount < this.users.length;
             }
         },
         /*mounted() {
@@ -92,5 +107,8 @@
         border-radius: 20px;
         margin-top: 20px;
         align-items: center;
+    }
+    .rounded-pill {
+        margin-left: 20px;
     }
 </style>
