@@ -28,3 +28,8 @@
   }
   </script>
   
+<style scoped>
+.row {
+  height: 750px;
+}
+</style>
