@@ -11,16 +11,16 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home" style="font-size: 20px" >Home </a>
+                    <a class="nav-link" @click="redirectHome" style="font-size: 20px" >Home </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Messages" style="font-size: 20px">Messages</a>
+                    <a class="nav-link" @click="redirectMessages" style="font-size: 20px">Messages</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/MyAccount" style="font-size: 20px">My Account</a>
+                    <a class="nav-link" @click="redirectMyAccount" style="font-size: 20px">My Account</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact" style="font-size: 20px">Contact Us</a>
+                    <a class="nav-link" @click="redirectContactUs" style="font-size: 20px">Contact Us</a>
                 </li>
             </ul>
         </div>
@@ -62,6 +62,18 @@ import axios from "axios";
               });
 
 
+            },
+            redirectHome() {
+                this.$router.push('/Home');
+            },
+            redirectMessages() {
+                this.$router.push('/Messages');
+            },
+            redirectMyAccount() {
+                this.$router.push('/myAccount');
+            },
+            redirectContactUs() {
+                this.$router.push('/Contact');
             }
         }
     }
