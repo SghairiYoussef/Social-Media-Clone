@@ -28,6 +28,11 @@
             <input class="form-control me-2" type="text" placeholder="Search">
             <button class="btn btn-secondary" type="button">Search</button>
         </form>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#" style="font-size: 20px" @click="logout">Logout</a>
+          </li>
+        </ul>
     </div>
     </nav>
 </template>
