@@ -30,7 +30,7 @@
         </form>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#" style="font-size: 20px" @click="logout">Logout</a>
+            <a class="nav-link" style="font-size: 20px" @click="logout">Logout</a>
           </li>
         </ul>
     </div>
@@ -39,8 +39,14 @@
 
 <script>
     export default {
-        name: 'NavBar'
+        name: 'NavBar',
+        methods: {
+            logout() {
+                console.log('logout');
+            }
+        }
     }
+
 </script>
 
 <style scoped>
