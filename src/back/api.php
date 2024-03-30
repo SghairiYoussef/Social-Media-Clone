@@ -1,8 +1,10 @@
 <?php
-session_start();
+header("Access-Control-Allow-Origin: http://localhost:8080");
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
 
 include 'Authentication/login.php';
 include 'Authentication/verifyExistence.php';
@@ -15,27 +17,22 @@ include "Authentication/checkToken.php";
 include "Authentication/resetPassword.php";
 include "Authentication/passwordResetEmail.php";
 include "Authentication/isLoggedIn.php";
-if (isset($_GET['PHPSESSID'])) {
-    // Set the session ID provided in the URL
-    session_id($_GET['PHPSESSID']);
+include "Authentication/setRememberMe.php";
+
+$action = '';
+if (isset($_GET['action'])) {
+
+    $action = $_GET['action'];
 }
+if ($action == 'signup') {
+    $username = $_POST['Username'];
+    $email = $_POST['Email'];
 
-if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $action = '';
-    if (isset($_GET['action'])) {
-
-        $action = $_GET['action'];
-    }
-    if ($action == 'signup') {
-        $username = $_POST['Username'];
-        $email = $_POST['Email'];
-
-        // Call signupProcess function
-        $result = verifyExistence('UserData', $email, $username);
-        if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Username and Email are available']);
-        } else {
+    // Call signupProcess function
+    $result = verifyExistence('UserData', $email, $username);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Username and Email are available']);
+    } else {
             echo json_encode(['success' => false, 'message' => 'Username or Email already exists']);
         }
     }
@@ -82,16 +79,20 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         // Call logIn function
         $result = logIn('UserData', $username, $password);
         if ($result) {
-            $_SESSION['loggedIn'] = false;
+            $id=generateToken();
+            session_id($id);
+            session_start();
+            $_SESSION['loggedIn'] = true;
+            $sessionID = session_id();
             if ($rememberMe) {
                 $result = setRememberMe('UserData', $username);
                 if ($result) {
-                    echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set']);
+                    echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set','sessionID'=>$sessionID]);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Failed to log in user and set remember me']);
                 }
             } else {
-                echo json_encode(['success' => true, 'message' => 'User logged in successfully']);
+                echo json_encode(['success' => true, 'message' => 'User logged in successfully','sessionID'=>$sessionID]);
             }
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to log in user']);
@@ -124,11 +125,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($action == 'resetPassword') {
-        $token = $_POST['token'];
+        $token = $_POST['resetPasswordToken'];
         $password = $_POST['password'];
         $result = checkToken('UserData', $token, 'resetPasswordToken');
         if ($result) {
-
             $result = resetPassword('UserData', $token, $password);
             if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Password reset successfully']);
@@ -138,15 +138,29 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid token']);
         }
+
+
     }
-}
-else if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if ($action == 'isLoggedIn') {
+    if (isset($_POST['sessionId']))
+ {
+        $sessionID = $_POST['sessionId'];
+        session_id($sessionID);
+        session_start();
+    }
+    else {
+        $id=generateToken();
+        session_id($id);
+        session_start();
+    }
     $result = isLoggedIn();
-    if ($result) {
-        echo json_encode(['success' => true, 'message' => 'User is logged in']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'User is not logged in']);
-    }
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'User is logged in','sessionID'=>session_id()]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'User is not logged in']);
+        }
+
+
 }
 
 

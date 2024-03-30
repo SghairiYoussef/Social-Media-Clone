@@ -24,7 +24,7 @@ const routes = [
   },
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/Home'
   },
   {
     path: '/login/verifyEmail',
@@ -45,7 +45,7 @@ const routes = [
     }
   },
   {
-    path: '/login/passwordReset/:token',
+    path: '/login/passwordReset/:resetPasswordToken',
     name: 'PasswordReset',
     component: PasswordReset
   },
@@ -67,9 +67,13 @@ router.beforeEach((to, from, next) => {
   // Perform the check if the route requires authentication
   if (to.meta.requiresAuth) {
     // Get the session ID from the session cookie
-    const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)PHPSESSID\s*=\s*([^;]*).*$)|^.*$/, "$1");
-    console.log(sessionId);
-    axios.get(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn&PHPSESSID=${sessionId}`)
+    const sessionId = sessionStorage.getItem('sessionId');
+    let data =new FormData();
+    if (sessionId !== null) {
+      data.append('sessionId', sessionId);
+    }
+    axios.defaults.withCredentials = true;
+    axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn`,data)
         .then(response => {
           console.log(response.data.message);
           if (!response.data.success) {
@@ -77,6 +81,7 @@ router.beforeEach((to, from, next) => {
             next('/login');
           } else {
             // If the user is logged in, continue with the navigation
+            sessionStorage.setItem('sessionId', response.data.sessionID);
             next();
           }
         })
@@ -85,6 +90,8 @@ router.beforeEach((to, from, next) => {
           // If there's an error, prevent navigation
           next(false);
         });
+
+
   } else {
     // If the route does not require authentication, continue with the navigation
     next();

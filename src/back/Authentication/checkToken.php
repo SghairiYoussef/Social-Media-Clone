@@ -16,6 +16,5 @@ function checkToken($table, $token, $tokenType)
         echo $e->getMessage();
         return false;
     }
-}
-{
+
 }

@@ -23,6 +23,8 @@
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
+
 
 export default {
   props: {
@@ -30,10 +32,6 @@ export default {
       type: Boolean,
       required: true
     },
-    rememberMe: {
-      type: Boolean,
-      required: false
-    }
   },
   data() {
     return {
@@ -120,12 +118,15 @@ export default {
         }
         Signup.append('rememberMe', this.rememberMe);
       }
-
+      axios.defaults.withCredentials = true;
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             this.errorMessage = response.data.message;
             console.log(response.data.message);
+
             if (action === 'login' && response.data.success) {
+              sessionStorage.setItem('sessionId', response.data.sessionID);
+              console.log(response.data.sessionID);
               this.$router.push('/Home');
             }
             if (this.isSignup && response.data.success) {
@@ -143,7 +144,8 @@ export default {
     CustomInput
   },
   computed: {
-    ...mapGetters(['isEmailVerified'])
+    ...mapGetters(['isEmailVerified']),
+    ...mapState(['rememberMe'])
   },
   watch: {
     isEmailVerified(newValue) {
@@ -151,7 +153,6 @@ export default {
     }
   },
   created() {
-    console.log(this.isEmailVerified);
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },
