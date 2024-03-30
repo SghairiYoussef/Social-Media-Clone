@@ -1,8 +1,8 @@
 <template>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+    <nav class="navbar navbar-expand-sm navbar-custom navbar-dark justify-content-center">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="../../public/img/logo.jpg" alt="Logo" style="width:80px;" class="rounded-pill">
+            <img src="../../public/img/logo.jpg" alt="Logo" style="width:50px;" class="rounded-pill">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -34,7 +34,25 @@
 
 <script>
     export default {
-        name: 'NavBar',
-        SignedIn: false
+        name: 'NavBar'
     }
 </script>
+
+<style scoped>
+    .navbar-custom {
+        background-color: #22223b;
+        color: white;
+    }
+    .navbar-brand {
+        margin-right: 20px;
+    }
+    .nav-link {
+        margin-right: 20px;
+    }
+    .form-control {
+        margin-right: 20px;
+    }
+    .btn {
+        margin-right: 20px;
+    }
+</style>

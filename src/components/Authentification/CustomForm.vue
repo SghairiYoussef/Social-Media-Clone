@@ -22,7 +22,6 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import { mapGetters } from 'vuex';
 import { mapState } from 'vuex';
 
@@ -31,7 +30,7 @@ export default {
     isSignup: {
       type: Boolean,
       required: true
-    }
+    },
   },
   data() {
     return {
@@ -44,27 +43,6 @@ export default {
     };
   },
   methods: {
-    generateToken() {
-      const token = uuidv4();
-      return token;
-    },
-    setRememberMeToken(token) {
-      const expirationTime = new Date(Date.now() + (60 * 1000));
-      document.cookie = `rememberMeToken=${token}; expires=${expirationTime.toUTCString()}; path=/`;
-    },
-    getRememberMeToken() {
-      const cookies = document.cookie.split(';');
-      for (const cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === 'rememberMeToken') {
-          return value;
-        }
-      }
-      return null;
-    },
-    checkRememberMeToken() {
-      return this.getRememberMeToken() !== null;
-    },
     checkPasswordMatch() {
       if (this.isSignup) {
         const password = this.inputs.find(input => input.label === 'Password').value;
@@ -136,25 +114,27 @@ export default {
         for (let i = 0; i < this.inputs.length; i++) {
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
+        Signup.append('rememberMe', this.rememberMe);
       }
+      axios.defaults.withCredentials = true;
+
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             this.errorMessage = response.data.message;
             console.log(response.data.message);
+
             if (action === 'login' && response.data.success) {
-              console.log(this.rememberMe);
-              if (this.rememberMe) {
-                const token = this.generateToken();
-                console.log('Generated token:', token);
-                this.setRememberMeToken(token);
-                this.rememberMe = false;
-              }
+              sessionStorage.setItem('sessionId', response.data.sessionID);
+              console.log(response.data.sessionID);
+
               this.$router.push('/Home');
             }
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');
             }
+
           })
+
           .catch(error => {
             console.error('Error signing in:', error);
           });
@@ -173,10 +153,7 @@ export default {
     }
   },
   created() {
-    if (this.checkRememberMeToken()) {
-      this.$router.push('/Home');
-      return;
-    }
+
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },

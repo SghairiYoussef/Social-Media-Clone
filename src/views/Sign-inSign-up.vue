@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      currentForm: 'signin'
+      currentForm: 'signin',
     };
   },
   methods: {
