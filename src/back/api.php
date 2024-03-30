@@ -123,6 +123,13 @@ if ($action == 'signup') {
             echo json_encode(['success' => false, 'message' => 'Email does not exist']);
         }
     }
+}
+
+if ($action == 'resetPassword') {
+    $token = $_POST['resetPasswordToken'];
+    $password = $_POST['password'];
+    $result = checkToken('UserData', $token);
+    if ($result) {
 
     if ($action == 'resetPassword') {
         $token = $_POST['resetPasswordToken'];

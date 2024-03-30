@@ -6,6 +6,8 @@ import ForgotPassword from '@/views/ForgotPassword.vue';
 import MyAccountPage from '@/views/MyAccountPage.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Contact from '@/views/Contact.vue';
+import Messages from '@/views/Messages.vue';
+import Admin from '@/views/Admin.vue';
 import axios from "axios";
 
 const routes = [
@@ -56,6 +58,17 @@ const routes = [
     meta: {
         requiresAuth: true
     }
+    component: Contact
+  },
+  {
+    path: '/Messages',
+    name: 'Messages',
+    component: Messages
+  },
+  {
+    path: '/Admin',
+    name: 'Admin',
+    component: Admin
   }
 ];
 

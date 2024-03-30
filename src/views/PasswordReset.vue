@@ -71,6 +71,7 @@ export default {
       data.append('password', this.inputs[0].value);
       data.append('resetPasswordToken', this.resetPasswordToken);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
+
           .then(response => {
             // Handle successful login response
             if (response.data.message === 'Password reset successfully') {

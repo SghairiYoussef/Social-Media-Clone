@@ -1,16 +1,43 @@
 <template>
   <navBar/>
-  <PostSection v-bind:Posts="Posts"/>
+  <div class="row">
+    <div class = "col-sm-10">
+      <PostSection :Posts="visiblePosts()"/>
+      <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
+      <div v-else>
+          <p class="Note">No more posts to load</p>
+      </div>
+    </div>
+    <div class = "col-sm-2">
+      <Inbox/>
+    </div>
+  </div>
 </template>
 
 <script>
   import PostSection from '@/components/HomePage/PostSection.vue';
   import navBar from '@/components/navbar.vue';
+  import Inbox from '@/components/MessageBox/Inbox.vue';
   import axios from 'axios';
   export default {
     components: {
       PostSection,
-      navBar
+      navBar,
+      Inbox
+    },
+    methods: {
+      visiblePosts() {
+        return this.Posts.slice(0, this.visiblePostCount);
+      },
+      hasMorePosts() {
+        return this.visiblePostCount < this.Posts.length;
+      },
+      loadMorePosts() {
+        this.visiblePostCount += 5;
+      },
+      handlePostAdded(post) {
+        this.Posts.unshift(post);
+      }
     },
     data(){
       return {
@@ -32,7 +59,8 @@
                         comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false
+                        isLiked: false,
+                        Post_ID : post.Post_ID
                     };
                 }
 
@@ -41,6 +69,7 @@
                 
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
+                console.log(result);
                 this.Posts = result;
                 
             })
