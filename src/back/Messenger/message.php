@@ -64,7 +64,7 @@ else
 	 
 </head>
 <body onload="setTimeout(focus, 15000);">
-	<nav>Risou Socioraszebi
+	<nav>Risou Socio
 		<span><a href="logout.php"> logout </a></span>
 	</nav>
 	

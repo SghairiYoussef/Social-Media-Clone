@@ -17,7 +17,7 @@ if(!isset($_SESSION['username']))
   <body>
   <nav>
      <div>
-    Risou Socioraszebi
+    Risou Socio
      </div>
    </nav>
      
