@@ -8,11 +8,12 @@
     <div v-else class="row">
         <div  class="col-sm-3">
             <div class="container-1">
-                <admin-side-bar/>
+                <admin-side-bar @users="users()" @posts="posts" @reports="reports"/>
             </div>
         </div>
         <div class="col-sm-9">
-            <userSection/>
+            <userSection v-if="active=='users'"/>
+            <reports v-if="active=='reports'"/>
         </div>
     </div>
 </template>
@@ -20,16 +21,18 @@
 <script>
 import adminSideBar from '@/components/Admin/admin-side-bar.vue'
 import userSection from '@/components/Admin/user-section.vue'
-
+import reports from '@/components/Admin/reports.vue'
 export default {
     data() {
         return {
-            authenticated: true
+            authenticated: true,
+            active: 'users'
         }
     },
     components: {
         adminSideBar,
-        userSection
+        userSection,
+        reports
     },
     /*props: {
         authenticated: {
@@ -38,6 +41,17 @@ export default {
         },
     },*/
     name: 'Admin-Page',
+    methods: {
+        users() {
+            this.active = 'users';
+        },
+        posts() {
+            this.active = 'posts';
+        },
+        reports() {
+            this.active = 'reports';
+        }
+    }
 }
 </script>
 
@@ -47,8 +61,8 @@ export default {
         margin-top: 20px;
         margin-left: 40px;
         margin-right: 40px;
-        background-color: #22223b;
-        color: white;
+        background-color: #7180AC;
+        color: black;
         padding: 20px;
         border-radius: 10px;
         text-align: center;
@@ -61,8 +75,8 @@ export default {
     .container-1 {
         margin-left: 40px;
         margin-right: 40px;
-        background-color: #22223b;
-        color: white;
+        background-color: #7180AC;
+        color: black;
         padding: 20px;
         border-radius: 10px;
         height: 100%;
