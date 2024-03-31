@@ -10,11 +10,3 @@ CREATE TABLE `messenger` (
 
 -- MyISAM storage engine behi lel reading w searching donc behi lel messenger application --
 -- latin1 encoding behi lel latin characters --
-
-CREATE TABLE `users` (
-                         `name` varchar(40) NOT NULL,
-                         `password` varchar(30) NOT NULL,
-                         `status` int(255) NOT NULL,
-                         `online` tinyint(10) NOT NULL,
-                         `date_time` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
