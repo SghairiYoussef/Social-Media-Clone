@@ -12,7 +12,7 @@
             <CustomInput :type="field.type" 
                          :label="field.placeholder" 
                          v-model="field.value"
-                         @input="clearErrorMessage"
+                         @input="clearMessage"
             />
           </div>
         </div>
@@ -28,7 +28,7 @@
             <CustomInput :type="field.type" 
                          v-model="field.value" 
                          :label="field.placeholder"
-                         @input="clearErrorMessage"
+                         @input="clearMessage"
             />
           </div>
         </div>
@@ -44,7 +44,7 @@
             <CustomInput :type="field.type" 
                          v-model="field.value" 
                          :label="field.placeholder"
-                         @input="clearErrorMessage"
+                         @input="clearMessage"
             />
           </div>
         </div>
@@ -56,6 +56,7 @@
             <button type="button" class="btn btn-primary" @click="updateProfile">Update</button>
           </div>
           <div v-if="errorMessage" class="mt-3 alert alert-danger" role="alert">{{ errorMessage }}</div>
+          <div v-if="notifMessage" class="mt-3 alert alert-warning" role="alert">{{ notifMessage }}</div>
         </div>
       </div>
     </div>
@@ -64,6 +65,7 @@
 
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
+//import axios from 'axios';
 
 export default {
   components: {
@@ -86,12 +88,14 @@ export default {
         { id: 'newPassword', label: 'New Password', type: 'password', placeholder: 'Enter new password', value: ''},
         { id: 'repeatNewPassword', label: 'Repeat New Password', type: 'password', placeholder: 'Repeat new password', value: ''}
       ],
-      errorMessage: ''
+      errorMessage: '',
+      notifMessage: ''
     }
   },
   methods: {
-    clearErrorMessage() {
+    clearMessage() {
       this.errorMessage = '';
+      this.notifMessage = '';
     },
     checkPasswordMatch() {
       const password = this.passwordFields.find(input => input.label === 'New Password').value;
@@ -122,14 +126,21 @@ export default {
       return count;
     },
     updateProfile() {
-      console.log('Profile Updated');
       let update = new FormData();
-      //let action; 
-      //const emailCount = this.checkInputs(this.emailFields);
-      //const passwordCount = this.checkInputs(this.passwordFields);
+      const personalDetailsCount = this.checkInputs(this.personalDetailsFields);
+      const emailCount = this.checkInputs(this.emailFields);
+      const passwordCount = this.checkInputs(this.passwordFields);
       const fullNameField = this.personalDetailsFields.find(field => field.id === 'fullName');
+      if (personalDetailsCount === 0 && emailCount === 0 && passwordCount === 0) {
+        this.notifMessage = 'Please fill in at least one field';
+        return;
+      }
       if (fullNameField.value) {
         update.append('fullName', fullNameField.value);
+      }
+      const usernameField = this.personalDetailsFields.find(field => field.id === 'username');
+      if (usernameField.value) {
+        update.append('username', usernameField.value);
       }
       const birthDateField = this.personalDetailsFields.find(field => field.id === 'birthDate');
       if (birthDateField.value) {
@@ -142,6 +153,64 @@ export default {
           update.append('birthDate', birthDateField.value);
         }
       }
+      const bioField = this.personalDetailsFields.find(field => field.id === 'bio');
+      if (bioField.value) {
+        update.append('bio', bioField.value);
+      }
+      if (emailCount === 2) {
+        const emailField = this.emailFields.find(field => field.id === 'eMail');
+        if (emailField.value) {
+          update.append('email', emailField.value);
+        }
+        const passwordField = this.emailFields.find(field => field.id === 'password');
+        if (passwordField.value) {
+          update.append('password', passwordField.value);
+        }
+      }
+      else if (emailCount === 1) {
+        this.errorMessage = 'Please fill in both email and password fields';
+        return;
+      }
+      if (passwordCount === 3) {
+        const oldPasswordField = this.passwordFields.find(field => field.id === 'oldPassword');
+        if (oldPasswordField.value) {
+          update.append('oldPassword', oldPasswordField.value);
+        }
+        const newPasswordField = this.passwordFields.find(field => field.id === 'newPassword');
+        if (newPasswordField.value) {
+          if (!this.validatePassword(newPasswordField.value)) {
+            this.errorMessage = 'Password must be 8+ characters with letters and numbers';
+            return;
+          }
+          update.append('newPassword', newPasswordField.value);
+        }
+        const repeatNewPasswordField = this.passwordFields.find(field => field.id === 'repeatNewPassword');
+        if (repeatNewPasswordField.value) {
+          if (!this.checkPasswordMatch()) {
+            this.errorMessage = 'Passwords do not match';
+            return;
+          }
+          update.append('repeatNewPassword', repeatNewPasswordField.value);
+        }
+      }
+      else if (passwordCount === 2 || passwordCount === 1) {
+        this.errorMessage = 'Please fill in all password fields';
+        return;
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
   }
 }
