@@ -120,7 +120,7 @@ export default {
             this.fetchPosts();
         },
         editProfile(){
-            this.$router.push({name: '/EditProfile'});
+            this.$router.push('/EditProfile');
         }
     },
     mounted() {
