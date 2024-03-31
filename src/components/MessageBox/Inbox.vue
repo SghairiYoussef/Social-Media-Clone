@@ -49,6 +49,7 @@
                 data.append('sessionId', sessionId);
                 axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
                 .then(response => {
+                  console.log(response.data);
                     this.users = response.data;
                 })
                 .catch(error => {
