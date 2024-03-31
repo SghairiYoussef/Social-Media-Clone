@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-include "..\DataBase.php";
 $conn = ConnexionBD::getInstance();
 
 // Function to send a message
@@ -9,7 +7,7 @@ function sendMessage() {
     global $conn;
 
     // Get data from session and POST request
-    $from_name = $_SESSION['username'];
+    $from_name = getUsername($_SESSION['userId']);
     $message = $_POST['message'];
     $to_name = $_SESSION['to_name'];
 
@@ -25,7 +23,7 @@ function sendMessage() {
         mysqli_stmt_bind_param($stmt, 'ssss', $from_name, $to_name, $message, $current_date);
 
         // Get the current date and time
-        date_default_timezone_set('Asia/Kolkata');
+        date_default_timezone_set('Africa/Tunis');
         $current_date = date('Y-m-d H:i:s');
 
         // Execute the prepared statement
