@@ -2,8 +2,8 @@
     <div class="chat-container">
       <div class="messages-container">
         <div v-for="(message, index) in messages" :key="index" class="message">
-          <div class="message-sender">{{ message.sender }}</div>
-          <div class="message-content">{{ message.content }}</div>
+          <div class="message-sender">{{ message.from_name }}</div>
+          <div class="message-content">{{ message.message }}</div>
         </div>
       </div>
       <div class="new-message-container">
@@ -24,18 +24,23 @@
     },
     data() {
       return {
-        messages: [
-          { sender: 'Yassine', content: 'Hello!' },
-          { sender: 'Yassine', content: 'Hi there!' }
-        ],
+        messages: [],
         newMessage: ''
       };
     },
-    mounted() {
-      this.fetchMessages();
+    watch: {
+      selectedUser: {
+        immediate: true,
+        handler(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            this.fetchMessages();
+          }
+        }
+      }
     },
     methods: {
       fetchMessages() {
+        console.log(this.selectedUser);
         // fetch messages from database where sender = selectedUser.username
       },
       sendMessage() {
