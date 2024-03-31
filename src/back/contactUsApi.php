@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
-include 'ContactUs/setUserEmail.php';
+include 'ContactUs/notification.php';
 $action = '';
 if (isset($_GET['action'])) {
 
@@ -15,7 +15,7 @@ if ($action == 'contactUs') {
     $email = $_POST['email'];
     $fullName = $_POST['name'];
     $message = $_POST['message'];
-    $result = setUserEmail($email,$fullName,$message);
+    $result = notification();
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
     } else {
