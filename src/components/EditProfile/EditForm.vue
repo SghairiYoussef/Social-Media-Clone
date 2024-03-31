@@ -65,7 +65,7 @@
 
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
-//import axios from 'axios';
+import axios from 'axios';
 
 export default {
   components: {
@@ -184,33 +184,22 @@ export default {
           }
           update.append('newPassword', newPasswordField.value);
         }
-        const repeatNewPasswordField = this.passwordFields.find(field => field.id === 'repeatNewPassword');
-        if (repeatNewPasswordField.value) {
-          if (!this.checkPasswordMatch()) {
-            this.errorMessage = 'Passwords do not match';
-            return;
-          }
-          update.append('repeatNewPassword', repeatNewPasswordField.value);
-        }
       }
       else if (passwordCount === 2 || passwordCount === 1) {
         this.errorMessage = 'Please fill in all password fields';
         return;
       }
 
+      let action = 'update';
+      axios.post(`http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=${action}`, update)
+          .then(response => {
+            console.log(response.data.message);
 
+          })
 
-
-
-
-
-
-
-
-
-
-
-
+          .catch(error => {
+            console.error('Error signing in:', error);
+          });
     }
   }
 }
