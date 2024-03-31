@@ -13,20 +13,27 @@
             Select a contact to start chatting
         </div>
         <div v-else class="col-sm-8">
-            <Chat :selectedUser="selectedUser"/>
+            <OnlineChat :selectedUser="selectedUser"/>
         </div>
     </div>
 </template>
 
 <script>
-import Chat from '@/components/MessageBox/Chat.vue';
+import OnlineChat from '@/components/MessageBox/OnlineChat.vue';
 import navBar from '@/components/navbar.vue';
 import Inbox from '@/components/MessageBox/Inbox.vue';
 
 export default {
+    data() {
+        return {
+            selectedUser: null,
+            users: [],
+            status: 'Online'
+        };
+    },
     name: 'MessageBox',
     components: {
-        Chat,
+        OnlineChat,
         navBar,
         Inbox
     },
@@ -34,6 +41,9 @@ export default {
         setUsers(users) {
             this.users = users;
             console.log(this.users);
+        },
+        selectUser(user) {
+            this.selectedUser = user;
         }
     }
 };
