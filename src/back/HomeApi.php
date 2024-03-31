@@ -27,6 +27,7 @@ include "Controllers/getUser.php";
 include "Controllers/getUserID.php";
 include "Controllers/addPost.php";
 include "Controllers/addComment.php";
+include "Controllers/deletePost.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -93,6 +94,15 @@ if($action == 'getComments'){
     } else {
 
         echo json_encode(['success' => false, 'message' => 'Error getting Comments']);
+    }
+}
+if($action == 'deletePost'){
+    $Post_ID = $_POST['Post_ID'];
+    $result = deletePost($Post_ID);
+    if($result){
+        echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
+    }else{
+        echo json_encode(['success' => false, 'message' => 'Error deleting post']);
     }
 }
 

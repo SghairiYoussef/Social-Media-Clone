@@ -14,7 +14,7 @@
         </div>
     </header>
     <div v-if="Posts.length > 0">
-        <PostSection  :Posts="visiblePosts()" @postAdded="handlePostAdded()" /> <!-- Fixed The Visible Posts problem -->
+        <PostSection  :Posts="visiblePosts" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()" /> <!-- Fixed The Visible Posts problem -->
         <button class="btn btn-info"  @click="loadMorePosts()">Load More</button>
     </div>
     <div v-else>
@@ -121,6 +121,9 @@ export default {
         },
         editProfile(){
             this.$router.push('/EditProfile');
+        },
+        handlePostDeleted(){
+            this.fetchPosts();
         }
     },
     mounted() {
