@@ -10,7 +10,7 @@
         </li>
       <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
         <div class="userBox">
-        <img src="https://via.placeholder.com/150" alt="User Image" class="rounded-pill" style="width: 40px;">
+            <img :src="user.avatar" alt="User Image" class="rounded-pill" style="width: 40px;">
                 {{ user.name }}
                 <span class="badge bg-danger">{{user.unread_messages}}</span>
             </div>
@@ -44,23 +44,6 @@
                 this.$emit('user-selected', user);
             },
             fetchUsers() {
-                /*this.users = [
-                    {
-                        id: 1,
-                        name: 'User 1',
-                        unread_messages: 2
-                    },
-                    {
-                        id: 2,
-                        name: 'User 2',
-                        unread_messages: 0
-                    },
-                    {
-                        id: 3,
-                        name: 'User 3',
-                        unread_messages: 1
-                    }
-                ];*/
                 const sessionId=sessionStorage.getItem('sessionId');
                 let data = new FormData();
                 data.append('sessionId', sessionId);
@@ -68,11 +51,11 @@
                 .then(response => {
                     this.users = response.data;
                 })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-            });
+                .catch(error => {
+                    console.error('Error fetching users:', error);
+                });
             }
         },
         name: 'InBox',
-    }
+}
 </script>
