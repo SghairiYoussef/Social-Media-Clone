@@ -20,7 +20,7 @@
                 <div class="post-footer">
                     <button type="button" class="btn btn-outline-primary">
                         React
-                        <span class="badge badge-light">{{post.reacts}}</span>
+                        <span class="badge badge-light">{{post.React_Count}}</span>
                     </button>
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
                     <button type="button" class="btn btn-outline-warning">Share</button>

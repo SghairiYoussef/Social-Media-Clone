@@ -64,7 +64,6 @@ if($action == 'addPost'){
     //$user_id = $_SESSION['CurrentUserID'];
     $Caption = $_POST['Content'];
     $Title = $_POST['Title'];
-    //testing
     $file = $_FILES['Media'];
     $fileName = $_FILES['Media']['name'];
     $fileTmpName = $_FILES['Media']['tmp_name'];
@@ -106,14 +105,6 @@ if($action == 'addPost'){
     }else{
         echo "You cannot upload files";
     }
-    //testing
-    /*$result = addPost(2, $Caption, $Title,$Media);
-    if ($result) {
-        echo json_encode(['success' => true, 'message' => 'Post added successfully']);
-    } else {
-
-        echo json_encode(['success' => false, 'message' => 'Error adding post']);
-    }*/
 }
 if($action == 'addComment'){
     //$user_id = $_SESSION['CurrentUserID'];
