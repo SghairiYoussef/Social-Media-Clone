@@ -1,3 +1,4 @@
+
 <template>
     <input type="text" class="form-control me-2" v-model="input" placeholder="Search..." />
     <div class="item fruit" v-for="user in filteredList" :key="user">
@@ -9,6 +10,7 @@
  </template>
  
  <script>
+ /*
  export default {
     props: {
         users: {
@@ -30,5 +32,5 @@
     },
     name: 'SearchBar'
  }
+ */
  </script>
- 

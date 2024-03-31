@@ -9,7 +9,7 @@ import Contact from '@/views/Contact.vue';
 import Messages from '@/views/Messages.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import Admin from '@/views/Admin.vue';
-import AboutUs from '@/views/AboutUs.vue';
+import WelcomePage from '@/views/WelcomePage.vue';
 import axios from "axios";
 
 const routes = [
@@ -77,9 +77,9 @@ const routes = [
     component: Admin
   },
   {
-    path: '/AboutUs',
-    name: 'AboutUs',
-    component: AboutUs
+    path: '/WelcomePage',
+    name: 'WelcomePage',
+    component: WelcomePage
   }
 ];
 
