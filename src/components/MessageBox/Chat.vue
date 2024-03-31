@@ -1,78 +1,60 @@
 <template>
-    <header>
-        <img src="https://via.placeholder.com/150" alt="Receiver Image" style="width:50px;" class="rounded-pill">
-        <h1>{{ Receiver.name }}</h1>
-    </header>
     <div>
-        <div class="chat-messages">
-            <ul class="message" v-for="(message,index) in sortedMessages()" :key="index">
-                <li v-if="message.senderId=Receiver.id" class="message_received">
+        <header v-if="selectedUser">
+            <img src="../../../public/img/noProfileImage.jpg" alt="Receiver Image" style="width:50px;" class="rounded-pill">
+            <h1>{{ selectedUser.username }}</h1>
+        </header>
+        <div v-if="selectedUser">
+            <div class="chat-messages">
+                <ul class="message">
+                    <li v-for="(message, index) in selectedUserMessages" :key="index" :class="message.senderName === currentUser.name ? 'message_sent' : 'message_received'">
                         <p>{{ message.message }}</p>
                         <span>{{ message.time }}</span>
-                </li>
-                <li v-else class="message_sent">
-                        <p>{{ message.message }}</p>
-                        <span>{{ message.time }}</span>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" v-model="new_message.message" placeholder="Type Your Message Here..." class="form-control">
+                <button class="btn btn-primary" @click="sendMessage">Send</button>
+            </div>
         </div>
-        <div class="input-group mb-3">
-            <input type="text" v-model="new_message.message" placeholder="Type Your Message Here..." class="form-control">
-            <button class="btn btn-primary" @click="sendMessage">Send</button>
+        <div v-else>
+            <p>No user selected</p>
         </div>
     </div>
 </template>
 
 <script>
+
 export default {
+    mounted() {
+        // Fetch currentUser from session
+    },
+    props: ['selectedUser'],
     data() {
         return {
             new_message: {
                 message: '',
                 time: '',
-                senderId: '',
-                receiverId: ''
+                senderName: '',
+                receiverName: ''
             },
-            Receiver: {
-                id: 2,
-                name: 'User 2',
-                messages: [
-                    {
-                        message: 'Hello',
-                        time: '12:00',
-                        senderId: 1,
-                        receiverId: 2
-                    },
-                    {
-                        message: 'Hi',
-                        time: '12:01',
-                        senderId: 2,
-                        receiverId: 1
-                    }
-                ],
-            }
+            selectedUserMessages: []
         };
     },
     methods: {
         sendMessage() {
             if (this.new_message.message.trim() !== '') {
-                this.new_message.receiver = this.Receiver.id;
-                this.new_message.sender = 1;
-                this.Receiver.messages.push(this.new_message);
-                this.new_message = {
-                    message: '',
-                    time: '',
-                    senderId: '',
-                    receiverId: ''
+                const message = {
+                    message: this.new_message.message,
+                    time: new Date().toLocaleString(),
+                    senderName: this.currentUser.name,
+                    receiverName: this.selectedUser.username
                 };
+                this.selectedUserMessages.push(message);
+                this.new_message.message = '';
             }
         },
-        sortedMessages() {
-            this.Receiver.messages.sort((a, b) => {
-                return a.time - b.time;
-            });
-            return this.Receiver.messages;
-        }
     },
     name: 'ChatBox'
 };

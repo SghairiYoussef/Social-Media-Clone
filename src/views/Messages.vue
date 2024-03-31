@@ -13,7 +13,7 @@
             Select a contact to start chatting
         </div>
         <div v-else class="col-sm-8">
-            <Chat :Receiver="selectedUser"/>
+            <Chat :selectedUser="selectedUser"/>
         </div>
     </div>
 </template>
@@ -30,23 +30,7 @@ export default {
         navBar,
         Inbox
     },
-
-    data()
-    {
-        return{
-            status: 'Online',
-            search: '',
-            users: [],
-            selectedUser: null
-        }
-    },
-
     methods: {
-        selectUser(user)
-        {
-            this.selectedUser = user;
-            console.log(this.selectedUser);
-        },
         setUsers(users) {
             this.users = users;
             console.log(this.users);
@@ -65,5 +49,4 @@ export default {
         cursor: pointer;
         border-radius: 5px;
     }
-
 </style>
