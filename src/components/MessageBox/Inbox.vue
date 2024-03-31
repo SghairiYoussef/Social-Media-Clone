@@ -21,17 +21,8 @@
 <script>
     import axios from "axios";
     export default {
-      created() {
-        const sessionId=sessionStorage.getItem('sessionId');
-        let data = new FormData();
-        data.append('sessionId', sessionId);
-        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
-            .then(response => {
-                this.users = response.data;
-            })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-            });
+      mounted() {
+            this.fetchUsers();
       },
       data() {
             return {
@@ -51,6 +42,35 @@
             },
             selectUser(user) {
                 this.$emit('user-selected', user);
+            },
+            fetchUsers() {
+                /*this.users = [
+                    {
+                        id: 1,
+                        name: 'User 1',
+                        unread_messages: 2
+                    },
+                    {
+                        id: 2,
+                        name: 'User 2',
+                        unread_messages: 0
+                    },
+                    {
+                        id: 3,
+                        name: 'User 3',
+                        unread_messages: 1
+                    }
+                ];*/
+                const sessionId=sessionStorage.getItem('sessionId');
+                let data = new FormData();
+                data.append('sessionId', sessionId);
+                axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
+                .then(response => {
+                    this.users = response.data;
+                })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
             }
         },
         name: 'InBox',
