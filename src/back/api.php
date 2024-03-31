@@ -19,6 +19,7 @@ include "Authentication/passwordResetEmail.php";
 include "Authentication/isLoggedIn.php";
 include "Authentication/setRememberMe.php";
 include "Authentication/logout.php";
+include "Authentication/getUserId.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -85,6 +86,8 @@ if ($action == 'signup') {
             session_start();
             $_SESSION['loggedIn'] = true;
             $sessionID = session_id();
+            $userId = getUserId('UserData', 'username', $username);
+            $_SESSION['userId'] = $userId;
             if ($rememberMe) {
                 $result = setRememberMe('UserData', $username);
                 if ($result) {

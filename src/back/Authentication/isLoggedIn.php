@@ -9,6 +9,8 @@ function isLoggedIn()
         $token = $_COOKIE['rememberMe'];
         $result = checkToken('userdata', $token, 'rememberMeToken');
         if ($result) {
+            $userID = getUserId('userdata', 'rememberMeToken', $token);
+            $_SESSION['userID'] = $userID;
             $_SESSION['loggedIn'] = true;
             return true;
         } else {
