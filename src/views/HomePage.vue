@@ -41,7 +41,7 @@
                         },
                         title: post.title,
                         content: post.Caption,
-                        img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
+                        img: post.Media,
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',

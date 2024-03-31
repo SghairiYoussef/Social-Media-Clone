@@ -64,14 +64,56 @@ if($action == 'addPost'){
     //$user_id = $_SESSION['CurrentUserID'];
     $Caption = $_POST['Content'];
     $Title = $_POST['Title'];
-    $Media = $_POST['Media'];
-    $result = addPost(2, $Caption, $Title,$Media);
+    //testing
+    $file = $_FILES['Media'];
+    $fileName = $_FILES['Media']['name'];
+    $fileTmpName = $_FILES['Media']['tmp_name'];
+    $fileSize = $_FILES['Media']['size'];
+    $fileError = $_FILES['Media']['error'];
+    $fileType = $_FILES['Media']['type'];
+    $fileExt = explode('.',$fileName);
+    $fileActualExt = strtolower(end($fileExt));
+
+    $allowed = array('jpg','jpeg','png');
+
+    if(in_array($fileActualExt,$allowed)){
+        if($fileError === 0){
+            if($fileSize< 1000000){
+                $fileNameNew = uniqid('',true).'.'.$fileActualExt;
+                if (!file_exists('uploads/')) {
+                    mkdir('uploads/', 0777, true);
+                    echo "Directory 'uploads/' created successfully.";
+                }else{
+                    echo "Directory 'uploads/' already exists.";
+                }
+                $fileDestination = 'uploads/'.$fileNameNew;
+                move_uploaded_file($fileTmpName,$fileDestination);
+                $fileDestination='../../src/back/'.$fileDestination;
+                $result = addPost(2, $Caption, $Title,$fileNameNew);
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Post added successfully']);
+                } else {
+
+                    echo json_encode(['success' => false, 'message' => 'Error adding post']);
+                }
+
+            }else{
+                echo "Your file is too big!";
+            }
+        }else{
+            echo 'There was an error uploading your file!';
+        }
+    }else{
+        echo "You cannot upload files";
+    }
+    //testing
+    /*$result = addPost(2, $Caption, $Title,$Media);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Post added successfully']);
     } else {
 
         echo json_encode(['success' => false, 'message' => 'Error adding post']);
-    }
+    }*/
 }
 if($action == 'addComment'){
     //$user_id = $_SESSION['CurrentUserID'];
@@ -105,4 +147,3 @@ if($action == 'deletePost'){
         echo json_encode(['success' => false, 'message' => 'Error deleting post']);
     }
 }
-
