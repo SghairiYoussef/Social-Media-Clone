@@ -7,6 +7,7 @@ import MyAccountPage from '@/views/MyAccountPage.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Contact from '@/views/Contact.vue';
 import Messages from '@/views/Messages.vue';
+import EditProfile from '@/views/EditProfile.vue';
 import Admin from '@/views/Admin.vue';
 import AboutUs from '@/views/AboutUs.vue';
 import axios from "axios";
@@ -64,6 +65,11 @@ const routes = [
     path: '/Messages',
     name: 'Messages',
     component: Messages
+  },
+  {
+    path: '/EditProfile',
+    name: 'EditProfile',
+    component: EditProfile
   },
   {
     path: '/Admin',
