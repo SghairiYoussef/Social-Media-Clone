@@ -13,7 +13,7 @@ function messengerPage() {
 
         if (isset($_SESSION['to_name'])) {
             $rname = $_SESSION['to_name'];
-            $q = "SELECT * FROM messenger WHERE 1;";
+            $q = "SELECT * FROM userData;";
             $res = mysqli_query($conn, $q);
         }
 
