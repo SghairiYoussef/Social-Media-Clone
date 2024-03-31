@@ -1,9 +1,9 @@
 <?php
-function checkToken($table, $token)
+function checkToken($table, $token, $tokenType)
 {
     $connexion = ConnexionBD::getInstance();
     $token = $connexion->quote($token);
-    $sql = "SELECT COUNT(*) AS count FROM $table WHERE token=$token";
+    $sql = "SELECT COUNT(*) AS count FROM $table WHERE $tokenType=$token";
     try {
         $stmt = $connexion->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -16,6 +16,5 @@ function checkToken($table, $token)
         echo $e->getMessage();
         return false;
     }
-}
-{
+
 }

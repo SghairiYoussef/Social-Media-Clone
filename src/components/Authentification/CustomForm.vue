@@ -23,13 +23,14 @@
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   props: {
     isSignup: {
       type: Boolean,
       required: true
-    }
+    },
   },
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
         return password === repeatPassword;
       }
       return true;
-    },
+    }, 
     checkInputs() {
       for (let i = 0; i < this.inputs.length; i++) {
         if (!this.inputs[i].value) {
@@ -82,7 +83,6 @@ export default {
         this.error = true;
         return;
       }
-
       let Signup = new FormData();
       let action;
       if (this.isSignup) {
@@ -114,19 +114,27 @@ export default {
         for (let i = 0; i < this.inputs.length; i++) {
           Signup.append(this.inputs[i].label.replace(/\s/g, ''), this.inputs[i].value);
         }
+        Signup.append('rememberMe', this.rememberMe);
       }
+      axios.defaults.withCredentials = true;
 
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             this.errorMessage = response.data.message;
             console.log(response.data.message);
+
             if (action === 'login' && response.data.success) {
+              sessionStorage.setItem('sessionId', response.data.sessionID);
+              console.log(response.data.sessionID);
+
               this.$router.push('/Home');
             }
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');
             }
+
           })
+
           .catch(error => {
             console.error('Error signing in:', error);
           });
@@ -136,7 +144,8 @@ export default {
     CustomInput
   },
   computed: {
-    ...mapGetters(['isEmailVerified'])
+    ...mapGetters(['isEmailVerified']),
+    ...mapState(['rememberMe'])
   },
   watch: {
     isEmailVerified(newValue) {
@@ -144,7 +153,7 @@ export default {
     }
   },
   created() {
-    console.log(this.isEmailVerified);
+
     if (this.isSignup) {
       this.inputs = [
         { label: 'Full Name', value: '', type: 'text' },

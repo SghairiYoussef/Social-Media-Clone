@@ -63,7 +63,7 @@ function sendVerificationEmail($email, $verificationCode)
                 <p>Please use this code to complete the registration process.</p>
                 <p>If you did not request this verification code, please ignore this email.</p>
             </div>
-            <p class='footer'>Best regards,<br>esm l website</p>
+            <p class='footer'>Best regards,<br>INSAT Social Club</p>
         </div>
     </body>
     </html>

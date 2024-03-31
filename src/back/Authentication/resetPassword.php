@@ -10,7 +10,7 @@ function resetPassword($table, $token, $password)
     $password = $connexion->quote($password);
 
     // Update the password in the database
-    $updateSql = "UPDATE $table SET password = $password WHERE token = $token";
+    $updateSql = "UPDATE $table SET password = $password WHERE resetPasswordToken = $token";
     try {
         $connexion->exec($updateSql);
         return true;

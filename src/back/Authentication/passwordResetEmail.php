@@ -67,7 +67,7 @@ function passwordResetEmail($email, $URL)
                             <p>Click the link below to reset your password</p>
                             <a href='$URL'>Reset Password</a>
                         </div>
-                        <p class='footer'>Best regards,<br>esm l website</p>
+                        <p class='footer'>Best regards,<br>INSAT Social Club</p>
                     </div>
                 </body>
             </html>
