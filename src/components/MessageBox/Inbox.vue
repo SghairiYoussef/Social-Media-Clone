@@ -11,7 +11,7 @@
       <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
         <div class="userBox">
         <img src="https://via.placeholder.com/150" alt="User Image" class="rounded-pill" style="width: 40px;">
-                {{ user.name }}
+                {{ user.username }}
                 <span class="badge bg-danger">{{user.unread_messages}}</span>
             </div>
         </li>
@@ -44,28 +44,12 @@
                 this.$emit('user-selected', user);
             },
             fetchUsers() {
-                /*this.users = [
-                    {
-                        id: 1,
-                        name: 'User 1',
-                        unread_messages: 2
-                    },
-                    {
-                        id: 2,
-                        name: 'User 2',
-                        unread_messages: 0
-                    },
-                    {
-                        id: 3,
-                        name: 'User 3',
-                        unread_messages: 1
-                    }
-                ];*/
                 const sessionId=sessionStorage.getItem('sessionId');
                 let data = new FormData();
                 data.append('sessionId', sessionId);
                 axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
                 .then(response => {
+                  console.log(response.data);
                     this.users = response.data;
                 })
             .catch(error => {
