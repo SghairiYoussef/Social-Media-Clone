@@ -15,11 +15,11 @@ import './assets/css/passwordReset.css';
 const app = createApp(App);
 
 // Listen for the beforeunload event to clear sessionStorage
-window.addEventListener('beforeunload', function() {
+/*window.addEventListener('beforeunload', function() {
     // Clear sessionStorage when the browser is closed
     sessionStorage.clear();
 });
-
+*/
 app.use(router);
 app.use(store);
 app.mount('#app');
