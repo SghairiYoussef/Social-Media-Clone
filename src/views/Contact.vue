@@ -4,18 +4,18 @@
         <h1> Contact Us! </h1>
     </header>
     <section class="formcarry-container">
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
           <div class="formcarry-block">
               <label for="fc-generated-1-name">Full Name</label>
-              <input type="text" name="name" id="fc-generated-1-name" placeholder="Your first and last name" />
+              <input v-model="name" type="text" name="name" id="fc-generated-1-name" placeholder="Your first and last name" />
           </div>
           <div class="formcarry-block">
               <label for="fc-generated-1-email">Your Email Address</label>
-              <input type="email" name="email" id="fc-generated-1-email" placeholder="name@example.com" />
+              <input v-model="email" type="email" name="email" id="fc-generated-1-email" placeholder="name@example.com" />
           </div>
           <div class="formcarry-block">
               <label for="fc-generated-1-message">Your message</label>
-              <textarea name="message" id="fc-generated-1-message" placeholder="Enter your message..."></textarea>
+              <textarea v-model="message" name="message" id="fc-generated-1-message" placeholder="Enter your message..."></textarea>
           </div>
           <div class="formcarry-block">  
             <button type="submit">Send</button>
@@ -204,14 +204,14 @@
   export default {
     name: "ContactForm",
     data: () => ({
-      submitted: false,
+      name: '',
+      email: '',
+      message: ''
     }),
   
     methods: {
       handleSubmit() {
-        setTimeout(() => {
-          this.submitted = true;
-        }, 100);
+        
       },
     },
     components: {
