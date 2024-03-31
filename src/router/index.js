@@ -8,6 +8,7 @@ import PasswordReset from '@/views/PasswordReset.vue';
 import Contact from '@/views/Contact.vue';
 import Messages from '@/views/Messages.vue';
 import Admin from '@/views/Admin.vue';
+import AboutUs from '@/views/AboutUs.vue';
 import axios from "axios";
 
 const routes = [
@@ -68,6 +69,11 @@ const routes = [
     path: '/Admin',
     name: 'Admin',
     component: Admin
+  },
+  {
+    path: '/AboutUs',
+    name: 'AboutUs',
+    component: AboutUs
   }
 ];
 
