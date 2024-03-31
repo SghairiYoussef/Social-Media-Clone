@@ -71,6 +71,7 @@ export default {
         border-radius: 10px;
         text-align: center;
     }
+    
     col-sm-9 {
         margin-left: 40px;
         margin-right: 40px;

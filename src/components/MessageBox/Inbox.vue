@@ -5,8 +5,7 @@
             <span class="badge bg-primary rounded-pill">{{ total_unread_messages() }}</span>
         </li>
         <li class="input-group mb-3">
-            <input type="text" v-model="search" placeholder="Search users..." class="form-control">
-            <button class="btn btn-success" type="submit">Go</button>
+            <searchBar :users="users"/>
         </li>
       <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
         <div class="userBox">
@@ -20,6 +19,7 @@
 
 <script>
     import axios from "axios";
+    import searchBar from '@/components/searchBar.vue';
     export default {
       created() {
         const sessionId=sessionStorage.getItem('sessionId');
@@ -54,5 +54,8 @@
             }
         },
         name: 'InBox',
+        components: {
+            searchBar
+        }
     }
 </script>
