@@ -69,10 +69,10 @@ export default {
                         content: post.Caption,
                         img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
                         alt: 'Post Image',
-                        comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false
+                        isLiked: false,
+                        Post_ID : post.Post_ID
                     };
                 }
 

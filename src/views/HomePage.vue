@@ -44,8 +44,9 @@
         Posts : [],
       }
     },
-    created() {
-                function transformPost(post) {
+    methods:{
+      fetchPosts(){
+        function transformPost(post) {
                     return {
                         user: {
                             name: post.Username,
@@ -56,7 +57,6 @@
                         content: post.Caption,
                         img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
                         alt: 'Post Image',
-                        comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
                         isLiked: false,
@@ -76,6 +76,11 @@
             .catch(error => {
                 console.error('Error fetching posts:', error);
       });
+      },
+      
+    },
+    created() {
+          this.fetchPosts();
         },
   }
   

@@ -84,4 +84,15 @@ if($action == 'addComment'){
         echo json_encode(['success' => false, 'message' => 'Error adding Comment']);
     }
 }
+if($action == 'getComments'){
+    //$user_id = $_SESSION['CurrentUserID'];
+    $Post_ID = $_POST['Post_ID'];
+    $result = getComments($Post_ID);
+    if ($result) {
+        echo $result;
+    } else {
+
+        echo json_encode(['success' => false, 'message' => 'Error getting Comments']);
+    }
+}
 
