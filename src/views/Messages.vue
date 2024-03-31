@@ -2,18 +2,18 @@
     <navBar/>
     <header>
         <h1>Messages</h1>
-        <h2>{{ selectedUser?.name }}</h2>
+        <h2>{{ selectedUser?.username }}</h2>
         <p>{{ status }}</p> <!-- Display user status (online wala le) here  -->
     </header>
     <div class="row">
         <div class="col-sm-4">
-            <Inbox :users="users" @user-selected="selectUser"/>
+            <Inbox @users-fetched="setUsers" @user-selected="selectUser"/>
         </div>
         <div v-if="!selectedUser" class="Note">
             Select a contact to start chatting
         </div>
         <div v-else class="col-sm-8">
-            <Chat :Receiver="users[activeContactIndex]"/>
+            <Chat :Receiver="selectedUser"/>
         </div>
     </div>
 </template>
@@ -46,8 +46,11 @@ export default {
         {
             this.selectedUser = user;
             console.log(this.selectedUser);
-            console.log(this.users);
         },
+        setUsers(users) {
+            this.users = users;
+            console.log(this.users);
+        }
     }
 };
 </script>

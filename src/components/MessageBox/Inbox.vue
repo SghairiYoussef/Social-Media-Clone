@@ -28,34 +28,25 @@
       data() {
             return {
                 search: '',
-                users: [],
-                activeContactIndex: null
-            }
+                users: []            }
         },
         methods: {
-            total_unread_messages() {
-                let total = 0;
-                    for(let i = 0; i < this.users.length; i++)
-                    {
-                        total += this.users[i].unread_messages;
-                    }
-                    return total;
-            },
             selectUser(user) {
                 this.$emit('user-selected', user);
             },
             fetchUsers() {
-                const sessionId=sessionStorage.getItem('sessionId');
+                const sessionId = sessionStorage.getItem('sessionId');
                 let data = new FormData();
                 data.append('sessionId', sessionId);
                 axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
                 .then(response => {
-                  console.log(response.data);
+                    console.log(response.data);
                     this.users = response.data;
+                    this.$emit('users-fetched', response.data);
                 })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-            });
+                .catch(error => {
+                    console.error('Error fetching users:', error);
+                });
             }
         },
         name: 'InBox',
