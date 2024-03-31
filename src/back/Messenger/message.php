@@ -4,11 +4,11 @@ session_start();
 
 // Main function to handle the messenger page
 function messengerPage() {
-    global $conn;
     $rname = "this-is-the-new-chat";
 
     if (isset($_SESSION['username'])) {
-        include 'connection.php';
+        include "..\DataBase.php";
+        $conn = ConnexionBD::getInstance();
         $uname = $_SESSION['username'];
 
         if (isset($_SESSION['to_name'])) {
@@ -53,8 +53,6 @@ function renderMessengerPage($arr_dis, $heading) {
     <html>
     <head>
         <title>Messenger</title>
-        <link rel="shortcut icon" href="./webimages/allo-logo.png">
-        <link rel="stylesheet" type="text/css" href="styling-msg.css">
         <meta name="viewport" content="width=device-width" />
         <meta http-equiv="refresh" content="60"/>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -67,7 +65,6 @@ function renderMessengerPage($arr_dis, $heading) {
     </head>
     <body onload="setTimeout(focus, 15000);">
     <nav>Risou Socio
-        <span><a href="logout.php"> logout </a></span>
     </nav>
 
     <div style="margin-top: 50px; width: 100%; display: inline-flex;">
@@ -105,6 +102,8 @@ function renderMessengerPage($arr_dis, $heading) {
                 <?php
                 $uname = $_SESSION['username'];
                 $q = "SELECT name FROM users WHERE online > 0;";
+                include "..\DataBase.php";
+                $conn = ConnexionBD::getInstance();
                 $res = mysqli_query($conn, $q);
 
                 while ($row = mysqli_fetch_array($res)) {

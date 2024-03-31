@@ -2,7 +2,7 @@
 function displayMessages() {
     // Include the database connection file
     include "..\DataBase.php";
-
+    $conn = ConnexionBD::getInstance();
     // Start the session
     session_start();
 

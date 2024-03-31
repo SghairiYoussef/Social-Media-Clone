@@ -1,7 +1,8 @@
 <?php
 
 session_start();
-include 'connection.php';
+include "..\DataBase.php";
+$conn = ConnexionBD::getInstance();
 
 // Function to send a message
 function sendMessage() {
