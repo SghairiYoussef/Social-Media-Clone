@@ -25,20 +25,6 @@
       navBar,
       Inbox
     },
-    methods: {
-      visiblePosts() {
-        return this.Posts.slice(0, this.visiblePostCount);
-      },
-      hasMorePosts() {
-        return this.visiblePostCount < this.Posts.length;
-      },
-      loadMorePosts() {
-        this.visiblePostCount += 5;
-      },
-      handlePostAdded(post) {
-        this.Posts.unshift(post);
-      }
-    },
     data(){
       return {
         Posts : [],
@@ -76,7 +62,18 @@
             .catch(error => {
                 console.error('Error fetching posts:', error);
       });
+      },visiblePosts() {
+        return this.Posts.slice(0, this.visiblePostCount);
       },
+      hasMorePosts() {
+        return this.visiblePostCount < this.Posts.length;
+      },
+      loadMorePosts() {
+        this.visiblePostCount += 5;
+      },
+      handlePostAdded(post) {
+        this.Posts.unshift(post);
+      }
       
     },
     created() {

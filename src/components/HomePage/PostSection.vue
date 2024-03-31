@@ -52,7 +52,9 @@ export default {
         props:['Posts'],
         methods: {
             deletePost(post){
-                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=deletePost`, post)
+                let data = new FormData();
+                data.append('Post_ID',post.Post_ID);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=deletePost`, data)
                     .then(response => {
                         console.log("Post Deleted");
                         console.log(response);
