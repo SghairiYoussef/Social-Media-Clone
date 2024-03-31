@@ -8,9 +8,9 @@
             <input type="text" v-model="search" placeholder="Search users..." class="form-control">
             <button class="btn btn-success" type="submit">Go</button>
         </li>
-        <li v-for="user in users" :key="user.id" @click="selectUser(user)">
-            <div class="userBox">
-                <img src="https://via.placeholder.com/150" alt="User Image" class="rounded-pill" style="width: 40px;">
+      <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
+        <div class="userBox">
+        <img src="https://via.placeholder.com/150" alt="User Image" class="rounded-pill" style="width: 40px;">
                 {{ user.name }}
                 <span class="badge bg-danger">{{user.unread_messages}}</span>
             </div>
@@ -19,27 +19,24 @@
 </template>
 
 <script>
+    import axios from "axios";
     export default {
-        data() {
+      created() {
+        const sessionId=sessionStorage.getItem('sessionId');
+        let data = new FormData();
+        data.append('sessionId', sessionId);
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
+            .then(response => {
+                this.users = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
+      },
+      data() {
             return {
                 search: '',
-                users: [
-                    {
-                        id: 1,
-                        name: 'User 1',
-                        unread_messages: 2
-                    },
-                    {
-                        id: 2,
-                        name: 'User 2',
-                        unread_messages: 0
-                    },
-                    {
-                        id: 3,
-                        name: 'User 3',
-                        unread_messages: 1
-                    }
-                ],
+                users: [],
                 activeContactIndex: null
             }
         },
