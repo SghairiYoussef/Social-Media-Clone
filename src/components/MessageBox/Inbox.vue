@@ -2,7 +2,7 @@
     <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Inbox
-            <span class="badge bg-primary rounded-pill">{{ total_unread_messages() }}</span>
+            <!--<span class="badge bg-primary rounded-pill">{{ total_unread_messages() }}</span>-->
         </li>
         <li class="input-group mb-3">
             <input type="text" v-model="search" placeholder="Search users..." class="form-control">
@@ -13,7 +13,7 @@
         <img src="../../../public/img/noProfileImage.jpg" alt="User Image" class="rounded-pill" style="width: 40px;">
         <!--<img :src="user.avatar" alt="User Image" class="rounded-pill" style="width: 40px;">-->
                 {{ user.username }}
-                <span class="badge bg-danger">{{user.unread_messages}}</span>
+                <!--<span class="badge bg-danger">{{user.unread_messages}}</span>-->
             </div>
         </li>
     </ul>
