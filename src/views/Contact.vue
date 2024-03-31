@@ -218,7 +218,7 @@ export default {
       data.append('message', this.message);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/contactUsApi.php?action=contactUs', data)
           .then(response => {
-
+            console.log(response.data);
             if (response.data.success) {
               console.log(response.data.message);
               this.name = '';

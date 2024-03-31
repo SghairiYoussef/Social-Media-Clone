@@ -6,6 +6,8 @@ header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
 include 'ContactUs/notification.php';
+include 'ContactUs/addReport.php';
+include 'DataBase.php';
 $action = '';
 if (isset($_GET['action'])) {
 
@@ -15,11 +17,17 @@ if ($action == 'contactUs') {
     $email = $_POST['email'];
     $fullName = $_POST['name'];
     $message = $_POST['message'];
-    $result = notification();
+    $result = addReport('report', $fullName, $email, $message);
     if ($result) {
-        echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
+        $result = notification();
+        if($result) {
+            echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
+        }
+        else {
+            echo json_encode(['success' => false, 'message' => 'Failed to send email']);
+        }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to send email']);
+        echo json_encode(['success' => false, 'message' => 'Failed to add report']);
     }
 
 }
