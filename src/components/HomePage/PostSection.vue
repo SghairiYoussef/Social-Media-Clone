@@ -4,7 +4,8 @@
             <img class="user_img" src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User Image">
             <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
             <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
-                <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
+            <input class="post_input" type="file" accept="image/*">
+            <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
         </div>
         
         <div v-if="Posts.length > 0">
@@ -12,11 +13,15 @@
                 <div class="post_header">
                     <img class = user_img :src="post.user.img" :alt="post.user.alt">
                     <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
+                    <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;">Delete Post</button>
                 </div>
                 <img :src="post.img" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
-                    <button type="button" class="btn btn-outline-primary">React</button>
+                    <button type="button" class="btn btn-outline-primary">
+                        React
+                        <span class="badge badge-light">{{post.reacts}}</span>
+                    </button>
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
                     <button type="button" class="btn btn-outline-warning">Share</button>
                 </div>
@@ -43,6 +48,18 @@ export default {
         },
         props:['Posts'],
         methods: {
+            deletePost(post){
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=deletePost`, post)
+                    .then(response => {
+                        console.log("Post Deleted");
+                        console.log(response);
+                        this.$emit('postDeleted', response);
+                    })
+                    .catch(error => {
+                        console.error('Error Deleting Post:', error);
+                    });
+                    //hedha ketbou copilot, manaersh est-ce que sehih wla ghalet, fix it
+            },
             comment(post) {
                 post.commentsShown = !post.commentsShown;
             },
