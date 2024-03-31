@@ -10,8 +10,9 @@
         </li>
       <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
         <div class="userBox">
-            <img :src="user.avatar" alt="User Image" class="rounded-pill" style="width: 40px;">
-                {{ user.name }}
+        <img src="../../../public/img/noProfileImage.jpg" alt="User Image" class="rounded-pill" style="width: 40px;">
+        <!--<img :src="user.avatar" alt="User Image" class="rounded-pill" style="width: 40px;">-->
+                {{ user.username }}
                 <span class="badge bg-danger">{{user.unread_messages}}</span>
             </div>
         </li>
@@ -52,11 +53,11 @@
                   console.log(response.data);
                     this.users = response.data;
                 })
-                .catch(error => {
-                    console.error('Error fetching users:', error);
-                });
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
             }
         },
         name: 'InBox',
-}
+    }
 </script>
