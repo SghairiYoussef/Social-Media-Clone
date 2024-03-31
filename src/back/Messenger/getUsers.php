@@ -1,5 +1,4 @@
 <?php
-include 'DataBase.php';
 function getUsers($currentUserId)
 {
     $conn=ConnexionBD::getInstance();

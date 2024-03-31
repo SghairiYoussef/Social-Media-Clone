@@ -25,10 +25,21 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
     mounted() {
-        // Fetch currentUser from session
+        const sessionId = sessionStorage.getItem('sessionId');
+        let data = new FormData();
+        data.append('sessionId', sessionId);
+        data.append('userName', this.selectedUser.username)
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=selectUser', data)
+        .then(response => {
+            console.log(response.data);
+            this.senderName = response.data.currentUser;
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error);
+        });
     },
     props: ['selectedUser'],
     data() {

@@ -4,7 +4,7 @@ function displayMessages() {
     $conn = ConnexionBD::getInstance();
 
     // Get the current user's username from the session
-    $uname = getUsername($_SESSION['userId']);
+    $uname = getUsername();
 
     // Check if a recipient is selected
     if (isset($_SESSION['to_name'])) {
@@ -36,7 +36,7 @@ function displayMessages() {
         }*/
     } else {
         // No recipient selected
-        echo "Select somebody to chat with";
+        return false;
     }
 }
 ?>

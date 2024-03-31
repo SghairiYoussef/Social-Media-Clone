@@ -1,14 +1,11 @@
 <?php
 
-$conn = ConnexionBD::getInstance();
 
 // Function to send a message
-function sendMessage() {
-    global $conn;
-
+function send($message) {
+    $conn = ConnexionBD::getInstance();
     // Get data from session and POST request
     $from_name = getUsername($_SESSION['userId']);
-    $message = $_POST['message'];
     $to_name = $_SESSION['to_name'];
 
     // Ensure message and recipient are not empty
