@@ -1,8 +1,8 @@
 <template>
   <div class="chat-container">
     <div class="messages-container">
-      <div v-for="(message, index) in messages" :key="index" class="message">
-        <div class="message-sender">{{ message.from_name }}</div>
+      <div v-for="(message, index) in messages" :key="index" :class="{ 'sender-message': isSender(message.from_name, index), 'receiver-message': !isSender(message.from_name, index) }" :style="{ 'background-color': isSender(message.from_name, index) ? '#007bff' : '#f0f0f0' }" class="message">
+        <div v-if="!isConsecutiveSender(message.from_name, index)" class="message-sender">{{ message.from_name }}</div>
         <div class="message-content">{{ message.message }}</div>
       </div>
     </div>
@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       messages: [],
-      newMessage: ''
+      newMessage: '',
+      currentUser: ''
     };
   },
   methods: {
@@ -57,7 +58,7 @@ export default {
       axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=sendMessage', data)
           .then(response => {
             console.log(response.data);
-            if(response.data.success){
+            if (response.data.success) {
               this.fetchMessages();
               this.newMessage = '';
             }
@@ -65,13 +66,21 @@ export default {
           .catch(error => {
             console.error('Error sending message:', error);
           });
+    },
+    isSender(fromName, index) {
+      return fromName === this.currentUser && (!index || fromName !== this.messages[index - 1].from_name);
+    },
+    isConsecutiveSender(fromName, index) {
+      return fromName === this.currentUser && index && fromName === this.messages[index - 1].from_name;
     }
-
   },
   mounted() {
     setInterval(() => {
       this.fetchMessages();
     }, 500);
+
+    // Set the current user's name
+    this.currentUser = sessionStorage.getItem('currentUser');
   }
 };
 </script>
@@ -94,6 +103,22 @@ export default {
 
 .message-sender {
   font-weight: bold;
+}
+
+.sender-message {
+  align-self: flex-end; /* Align sender's messages to the right */
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  max-width: 70%;
+}
+
+.receiver-message {
+  align-self: flex-start; /* Align receiver's messages to the left */
+  color: #000;
+  border-radius: 5px;
+  padding: 5px 10px;
+  max-width: 70%;
 }
 
 .new-message-container {
