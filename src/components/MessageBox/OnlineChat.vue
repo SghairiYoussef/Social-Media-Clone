@@ -89,6 +89,7 @@ export default {
 .chat-container {
   display: flex;
   flex-direction: column;
+  height: 100%; /* Ensure the chat container takes full height */
 }
 
 .messages-container {
@@ -99,25 +100,29 @@ export default {
 
 .message {
   margin-bottom: 10px;
+  word-wrap: break-word; /* Wrap long messages */
 }
 
 .message-sender {
   font-weight: bold;
+  margin-bottom: 5px; /* Add space below sender's name */
 }
 
 .sender-message {
   align-self: flex-end; /* Align sender's messages to the right */
   color: #fff;
-  border-radius: 5px;
-  padding: 5px 10px;
+  background-color: #007bff; /* Set background color for sender's messages */
+  border-radius: 10px; /* Increase border-radius for a rounded look */
+  padding: 10px; /* Increase padding for better spacing */
   max-width: 70%;
 }
 
 .receiver-message {
   align-self: flex-start; /* Align receiver's messages to the left */
   color: #000;
-  border-radius: 5px;
-  padding: 5px 10px;
+  background-color: #f0f0f0; /* Set background color for receiver's messages */
+  border-radius: 10px; /* Increase border-radius for a rounded look */
+  padding: 10px; /* Increase padding for better spacing */
   max-width: 70%;
 }
 
@@ -129,5 +134,22 @@ export default {
 .new-message-container textarea {
   flex: 1;
   margin-right: 10px;
+  border-radius: 5px; /* Add border-radius to textarea */
+  border: 1px solid #ced4da; /* Add border to textarea */
+  padding: 10px; /* Add padding to textarea */
+}
+
+.new-message-container button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.new-message-container button:hover {
+  background-color: #0056b3;
 }
 </style>
+
