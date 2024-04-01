@@ -1,4 +1,3 @@
-
 <template>
     <input type="text" class="form-control me-2" v-model="input" placeholder="Search..." />
     <div class="item fruit" v-for="user in filteredList" :key="user">
@@ -7,10 +6,10 @@
     <div class="item error" v-if="input && !filteredList.length">
        <p>No results found!</p>
     </div>
- </template>
+</template>
  
- <script>
- /*
+<script>
+ 
  export default {
     props: {
         users: {
@@ -25,12 +24,17 @@
     },
    computed: {
      filteredList() {
-       return this.users.filter((user) =>
-         user.username.toLowerCase().includes(this.input.toLowerCase())
-       );
+      if (Array.isArray(this.users)) {
+        return this.users.filter(user =>
+          user.username.toLowerCase().includes(this.input.toLowerCase())
+        );
+      } else {
+        console.error('Users prop is not an array.');
+        return [];
+      }
      }
     },
     name: 'SearchBar'
  }
- */
- </script>
+ 
+</script>

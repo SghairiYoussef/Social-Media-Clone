@@ -153,7 +153,7 @@
           />
           <h2 class="course-card__heading">Youssef Sghairi</h2>
           <p class="course-card__description">
-            a dedicated software engineering student at INSAT with a burning passion for game development. 🚀 I'm constantly on the lookout for exciting opportunities to expand my knowledge and skills in the world of coding and game design.
+            a dedicated software engineering student at INSAT with a burning passion for game development. I'm constantly on the lookout for exciting opportunities to expand my knowledge and skills in the world of coding and game design.
           </p>
           <a href="#" class="course-card__link"></a>
         </div>
@@ -163,7 +163,7 @@
   <footer class="footer">
     <div class="footer-wrapper">
       <img class="logo" src="./assets/logo-light.gif" alt="logo" />
-      <a @click = 'RedirectContactUs' class="footer-button">Contact Us</a>
+      <a @click = 'RedirectContactUs()' class="footer-button">Contact Us</a>
     </div>
   </footer>
   </body>
@@ -444,7 +444,7 @@ body {
   }
 }
 
-@media  {
+@media  (min-width: 768px) {
   .hero-image {
     background-image: url(assets/logo.gif);
     background-size: auto 70%;
@@ -496,7 +496,7 @@ export default {
       this.$router.push('/login');
     },
     RedirectContactUs() {
-      this.$router.push('/contact');
+      this.$router.push('/Contact');
     }
   }
 }
