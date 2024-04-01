@@ -5,29 +5,26 @@
 function send($message) {
     $conn = ConnexionBD::getInstance();
     // Get data from session and POST request
-    $from_name = getUsername($_SESSION['userId']);
+    $from_name = getUsername();
     $to_name = $_SESSION['to_name'];
 
     // Ensure message and recipient are not empty
     if (!empty($message) && !empty($to_name)) {
         // Prepare the SQL statement with placeholders
-        $q = "INSERT INTO messenger (from_name, to_name, message, time) VALUES (?, ?, ?, ?)";
-
-        // Create a prepared statement
-        $stmt = mysqli_prepare($conn, $q);
-
-        // Bind parameters to the prepared statement
-        mysqli_stmt_bind_param($stmt, 'ssss', $from_name, $to_name, $message, $current_date);
-
-        // Get the current date and time
-        date_default_timezone_set('Africa/Tunis');
-        $current_date = date('Y-m-d H:i:s');
-
-        // Execute the prepared statement
-        mysqli_stmt_execute($stmt);
-
-        // Close the statement
-        mysqli_stmt_close($stmt);
+        $from_name = $conn->quote($from_name);
+        $to_name = $conn->quote($to_name);
+        $message = $conn->quote($message);
+        // Insert the message into the database
+        $sql = "INSERT INTO messenger (from_name, to_name, message,time) VALUES ($from_name, $to_name, $message,NOW())";
+       try{
+            $conn->exec($sql);
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+    }
+    } else {
+        return false;
     }
 }
 ?>

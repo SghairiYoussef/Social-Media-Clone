@@ -64,12 +64,18 @@ const routes = [
   {
     path: '/Messages',
     name: 'Messages',
-    component: Messages
+    component: Messages,
+    meta: {
+        requiresAuth: true
+    }
   },
   {
     path: '/EditProfile',
     name: 'EditProfile',
-    component: EditProfile
+    component: EditProfile,
+    meta: {
+        requiresAuth: true
+    }
   },
   {
     path: '/Admin',

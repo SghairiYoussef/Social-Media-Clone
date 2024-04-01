@@ -59,7 +59,21 @@ import axios from 'axios';
         });
       },
       sendMessage() {
-        // Send the new message to the selected user
+        let data = new FormData();
+        let sessionId = sessionStorage.getItem('sessionId');
+        data.append('sessionId', sessionId);
+        data.append('message', this.newMessage);
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=sendMessage', data)
+        .then(response => {
+          console.log(response.data);
+          if(response.data.success){
+            this.fetchMessages();
+            this.newMessage = '';
+          }
+        })
+        .catch(error => {
+          console.error('Error sending message:', error);
+        });
       }
 
     }
