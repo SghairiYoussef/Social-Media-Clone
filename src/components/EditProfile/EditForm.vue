@@ -57,6 +57,7 @@
           </div>
           <div v-if="errorMessage" class="mt-3 alert alert-danger" role="alert">{{ errorMessage }}</div>
           <div v-if="notifMessage" class="mt-3 alert alert-warning" role="alert">{{ notifMessage }}</div>
+          <div v-if="successMessage" class="mt-3 alert alert-success" role="alert">{{ successMessage }}</div>
         </div>
       </div>
     </div>
@@ -89,13 +90,20 @@ export default {
         { id: 'repeatNewPassword', label: 'Repeat New Password', type: 'password', placeholder: 'Repeat new password', value: ''}
       ],
       errorMessage: '',
-      notifMessage: ''
+      notifMessage: '',
+      successMessage: ''
     }
   },
   methods: {
+    clearFields() {
+      this.personalDetailsFields.forEach(field => field.value = '');
+      this.emailFields.forEach(field => field.value = '');
+      this.passwordFields.forEach(field => field.value = '');
+    },
     clearMessage() {
       this.errorMessage = '';
       this.notifMessage = '';
+      this.successMessage = '';
     },
     checkPasswordMatch() {
       const password = this.passwordFields.find(input => input.label === 'New Password').value;
@@ -189,17 +197,25 @@ export default {
         this.errorMessage = 'Please fill in all password fields';
         return;
       }
+      let sessionId = sessionStorage.getItem('sessionId');
+      update.append('sessionId', sessionId);
 
-      let action = 'update';
-      axios.post(`http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=${action}`, update)
+      if (personalDetailsCount > 0){
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UpdatePersonalDetails', update)
           .then(response => {
-            console.log(response.data.message);
-
+            if (response.data.success) {
+              this.successMessage = 'Personal details updated successfully';
+            }
+            else {
+              this.errorMessage = response.data.message;
+            }
           })
-
           .catch(error => {
-            console.error('Error signing in:', error);
+            console.error('Error updating personal details:', error);
           });
+      }
+      this.clearFields();
+      
     }
   }
 }

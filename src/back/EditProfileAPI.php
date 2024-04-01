@@ -7,6 +7,8 @@ header('Content-Type: application/json');
 
 include "EditProfile/fetch.php";
 include "DataBase.php";
+include "EditProfile/verifyUsername.php";
+include "EditProfile/updatePersonalDetails.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -24,5 +26,26 @@ if ($action == 'DetailsFetch'){
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to fetch details']);
     }
+}
+if ($action == 'UpdatePersonalDetails'){
+    $sessionId = $_POST['sessionId'];
+    session_id($sessionId);
+    session_start();
+    $fullName = $_POST['fullName'] ?? '';
+    $username = $_POST['username'] ?? '';
+    $birthDate = $_POST['birthDate'] ?? '';
+    $bio = $_POST['bio'] ?? '';
+    if ($username && verifyUsername($username)) {
+        echo json_encode(['success' => false, 'message' => 'Username already exists']);
+        return;
+    }
+
+    $result = updatePersonalDetails($fullName, $username, $birthDate, $bio);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Personal details updated successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to update personal details']);
+    }
+    
 }
 
