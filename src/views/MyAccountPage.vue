@@ -14,12 +14,15 @@
         </div>
     </header>
     <div v-if="Posts.length > 0">
-    <PostSection  :Posts="visiblePosts()" @postAdded="handlePostAdded()" /> <!-- Fixed The Visible Posts problem -->
-    <button class="btn btn-info"  @click="loadMorePosts()">Load More</button>
+        <PostSection  :Posts="visiblePosts" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()" /> <!-- Fixed The Visible Posts problem -->
+        <button class="btn btn-info"  @click="loadMorePosts()">Load More</button>
     </div>
     <div v-else>
         <p class="Note">No more posts to load</p>
     </div>
+    <button class="btn btn-info" @click="editProfile()" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+        Edit Profile
+    </button>
 </template>
 
 <script>
@@ -66,10 +69,10 @@ export default {
                         content: post.Caption,
                         img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
                         alt: 'Post Image',
-                        comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false
+                        isLiked: false,
+                        Post_ID : post.Post_ID
                     };
                 }
 
@@ -115,6 +118,12 @@ export default {
         },
         handlePostAdded() {
             this.fetchPosts();
+        },
+        editProfile(){
+            this.$router.push('/EditProfile');
+        },
+        handlePostDeleted(){
+            this.fetchPosts();
         }
     },
     mounted() {
@@ -125,3 +134,18 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+    .edit-profile-btn {
+        position: fixed;
+        bottom: 20px; 
+        right: 20px; 
+        z-index: 999;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none; 
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>

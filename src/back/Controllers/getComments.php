@@ -13,7 +13,7 @@
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $comments[] = $row;
         }
-        return $comments;
+        return json_encode($comments,true);
     }
     
 ?>

@@ -25,8 +25,7 @@
             </ul>
         </div>
         <form class="d-flex">
-            <input class="form-control me-2" type="text" placeholder="Search">
-            <button class="btn btn-secondary" type="button">Search</button>
+            <searchBar :users="users"/>
         </form>
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -39,8 +38,15 @@
 
 <script>
 import axios from "axios";
+import searchBar from '@/components/searchBar.vue';
+
 
     export default {
+        data () {
+            return {
+                users: []
+            }
+        },
         name: 'NavBar',
         methods: {
             logout() {
@@ -75,6 +81,20 @@ import axios from "axios";
             redirectContactUs() {
                 this.$router.push('/Contact');
             }
+        },
+        components: {
+            searchBar
+        },
+        created () {
+            axios.defaults.withCredentials = true;
+            axios.get(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=getUsers`)
+            .then(response => {
+                console.log(response.data);
+                this.users = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
         }
     }
 

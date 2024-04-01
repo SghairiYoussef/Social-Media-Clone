@@ -25,27 +25,14 @@
       navBar,
       Inbox
     },
-    methods: {
-      visiblePosts() {
-        return this.Posts.slice(0, this.visiblePostCount);
-      },
-      hasMorePosts() {
-        return this.visiblePostCount < this.Posts.length;
-      },
-      loadMorePosts() {
-        this.visiblePostCount += 5;
-      },
-      handlePostAdded(post) {
-        this.Posts.unshift(post);
-      }
-    },
     data(){
       return {
         Posts : [],
       }
     },
-    created() {
-                function transformPost(post) {
+    methods:{
+      fetchPosts(){
+        function transformPost(post) {
                     return {
                         user: {
                             name: post.Username,
@@ -56,7 +43,6 @@
                         content: post.Caption,
                         img: post.Media ? post.Media : 'https://via.placeholder.com/800x400',
                         alt: 'Post Image',
-                        comments: post.comments,
                         commentsShown: false,
                         newCommentContent: '',
                         isLiked: false,
@@ -76,6 +62,22 @@
             .catch(error => {
                 console.error('Error fetching posts:', error);
       });
+      },visiblePosts() {
+        return this.Posts.slice(0, this.visiblePostCount);
+      },
+      hasMorePosts() {
+        return this.visiblePostCount < this.Posts.length;
+      },
+      loadMorePosts() {
+        this.visiblePostCount += 5;
+      },
+      handlePostAdded(post) {
+        this.Posts.unshift(post);
+      }
+      
+    },
+    created() {
+          this.fetchPosts();
         },
   }
   
