@@ -1,12 +1,13 @@
 <?php
 
-function fetchDetails() {
+function fetchDetails(){
     $connexion = ConnexionBD::getInstance();
-    $sql = "SELECT * FROM userdata WHERE userID = :userID";
+    $id = $_SESSION['userId'];
+    $id = $connexion->quote($id);
+    $sql = "SELECT * FROM userData WHERE userID = :id ;";
     $stmt = $connexion->query($sql);
-    $result = $stmt->execute(['userID' => $_SESSION['userID']]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    return $result;;
+
+    return $result;
 }
 ?>
