@@ -6,6 +6,7 @@ header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
 include "EditProfile/fetch.php";
+include "DataBase.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -17,7 +18,7 @@ if ($action == 'DetailsFetch'){
     $sessionId = $_POST['sessionId'];
     session_id($sessionId);
     session_start();
-    $result = fetchDetails($userId);
+    $result = fetchDetails();
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Details fetched successfully', 'data' => $result]);
     } else {

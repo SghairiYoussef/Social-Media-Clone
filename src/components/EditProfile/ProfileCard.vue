@@ -42,7 +42,7 @@ export default {
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
         .then(response => {
-          console.log(response.data);
+          console.log(response.data.data);
           if(response.data.success){
             this.username = response.data.username;
             this.email = response.data.email;
