@@ -21,12 +21,14 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       username: '',
       email: '',
-      bio: '',
+      bio: 'No bio provided',
       avatarUrl: require('../../../public/img/noProfileImage.jpg')
     };
   },
@@ -35,10 +37,21 @@ export default {
   },
   methods: {
     fetchUserData() {
-      // Fetch user data from the database
-      this.username = 'Username';
-      this.email = 'example@email.com';
-      this.bio = 'This place is reserved for bio description.';
+      let data = new FormData();
+      let sessionId = sessionStorage.getItem('sessionId');
+      data.append('sessionId', sessionId);
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
+        .then(response => {
+          console.log(response.data);
+          if(response.data.success){
+            this.username = response.data.username;
+            this.email = response.data.email;
+            this.bio = response.data.bio;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching profile details:', error);
+        });
       //this.avatarUrl = response.data.avatarUrl;
     },
     handleAvatarChange(event) {
