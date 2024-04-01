@@ -16,7 +16,7 @@
           <div class="alert alert-success" role="alert">Password reset link sent to your email</div>
         </div>
         <div class="submit-btn" v-if="!isSent">
-          <button type="submit">Submit</button>
+          <button type="submit" :disabled="isSubmitting" class="submit-button">Submit</button>
         </div>
       </form>
     </div>
@@ -35,7 +35,8 @@ export default {
       email: '',
       errorMessage: '',
       error: false,
-      isSent: false
+      isSent: false,
+      isSubmitting: false
     };
   },
   methods: {
@@ -45,6 +46,7 @@ export default {
         this.error = true;
         return;
       }
+      this.isSubmitting = true;
       let data = new FormData();
       data.append('email', this.email);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPasswordRequest', data)
@@ -70,3 +72,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>
