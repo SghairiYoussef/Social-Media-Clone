@@ -188,6 +188,24 @@
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
+  .return-button {
+    position: absolute;
+    top: 20px;
+    left: 355px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #666;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    outline: none;
+  }
+  
+  .return-button:hover {
+    outline: none;
+  }
 
   @media (max-width: 767px) {
     .login-page {

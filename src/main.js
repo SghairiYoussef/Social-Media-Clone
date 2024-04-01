@@ -12,6 +12,9 @@ import './assets/css/homepage.css';
 import './assets/css/myaccount.css';
 import './assets/css/passwordReset.css';
 import './assets/css/EditProfile.css';
+import '@fortawesome/fontawesome-free/css/all.css';
+
+
 
 
 const app = createApp(App);
