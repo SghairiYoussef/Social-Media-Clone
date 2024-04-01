@@ -50,6 +50,9 @@ import axios from 'axios';
           if(response.data.success){
             this.messages = response.data.messages;
           }
+          else{
+            this.messages = [];
+          }
         })
         .catch(error => {
           console.error('Error fetching messages:', error);
