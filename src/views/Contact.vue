@@ -8,22 +8,78 @@
         <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
           <div class="formcarry-block">
               <label for="fc-generated-1-name">Full Name</label>
-              <input v-model="name" type="text" name="name" id="fc-generated-1-name" placeholder="Your first and last name" />
+              <input v-model="name" type="text" name="name" id="fc-generated-1-name" placeholder="Your first and last name" @input="clearMessage"/>
           </div>
           <div class="formcarry-block">
               <label for="fc-generated-1-email">Your Email Address</label>
-              <input v-model="email" type="email" name="email" id="fc-generated-1-email" placeholder="name@example.com" />
+              <input v-model="email" type="email" name="email" id="fc-generated-1-email" placeholder="name@example.com" @input="clearMessage" />
           </div>
           <div class="formcarry-block">
               <label for="fc-generated-1-message">Your message</label>
-              <textarea v-model="message" name="message" id="fc-generated-1-message" placeholder="Enter your message..."></textarea>
+              <textarea v-model="message" name="message" id="fc-generated-1-message" placeholder="Enter your message..." @input="clearMessage"></textarea>
           </div>
           <div class="formcarry-block">  
             <button type="submit">Send</button>
           </div>
+          <div v-if="notifMessage" class="mt-3 alert alert-warning" role="alert">{{ notifMessage }}</div>
+          <div v-if="successMessage" class="mt-3 alert alert-success" role="alert">{{ successMessage }}</div>
         </form>
     </section>
 </template>
+
+
+
+
+<script>
+import navBar from '../components/navbar.vue';
+import axios from 'axios';
+export default {
+  name: "ContactForm",
+  data: () => ({
+    name: '',
+    email: '',
+    message: '',
+    successMessage: '',
+    notifMessage: ''
+  }),
+
+  methods: {
+    clearMessage() {
+      this.successMessage = '';
+      this.notifMessage = '';
+    },
+    handleSubmit() {
+      if (!this.name || !this.email || !this.message) {
+        this.notifMessage = 'Please fill all the fields';
+        return;
+      }
+      let data =new FormData();
+      data.append('name', this.name);
+      data.append('email', this.email);
+      data.append('message', this.message);
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/contactUsApi.php?action=contactUs', data)
+          .then(response => {
+            console.log(response.data);
+            if (response.data.success) {
+              this.successMessage = response.data.message;
+              this.name = '';
+              this.email = '';
+              this.message = '';
+            }
+
+          })
+          .catch(error => {
+            console.log(error);
+          })
+
+    },
+  },
+  components: {
+    navBar
+  }
+
+};
+</script>
 
 <style>
 
@@ -48,6 +104,7 @@ h1 {
 /* Improving spacing and alignment */
 .formcarry-container {
   margin: 40px auto;
+  height: 560px;
   max-width: 500px; /* Increased container width */
   padding: 20px;
   background-color: #fff; /* White background */
@@ -99,45 +156,3 @@ h1 {
 }
 
 </style>
-
-
-<script>
-import navBar from '../components/navbar.vue';
-import axios from 'axios';
-export default {
-  name: "ContactForm",
-  data: () => ({
-    name: '',
-    email: '',
-    message: ''
-  }),
-
-  methods: {
-    handleSubmit() {
-      let data =new FormData();
-      data.append('name', this.name);
-      data.append('email', this.email);
-      data.append('message', this.message);
-      axios.post('http://localhost/php/Social-Media-Clone/src/back/contactUsApi.php?action=contactUs', data)
-          .then(response => {
-            console.log(response.data);
-            if (response.data.success) {
-              console.log(response.data.message);
-              this.name = '';
-              this.email = '';
-              this.message = '';
-            }
-
-          })
-          .catch(error => {
-            console.log(error);
-          })
-
-    },
-  },
-  components: {
-    navBar
-  }
-
-};
-</script>
