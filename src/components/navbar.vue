@@ -87,7 +87,7 @@ import searchBar from '@/components/searchBar.vue';
         },
         created () {
             axios.defaults.withCredentials = true;
-            axios.get(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=getUsers`)
+            axios.get(`http://localhost/php/Social-Media-Clone/src/back/Messenger/getUsers.php?action=getUsers`)
             .then(response => {
                 console.log(response.data);
                 this.users = response.data;
