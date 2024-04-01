@@ -67,6 +67,7 @@
 <script>
 import CustomInput from '@/components/Authentification/CustomInput.vue';
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -95,6 +96,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setIsModified']),
     clearFields() {
       this.personalDetailsFields.forEach(field => field.value = '');
       this.emailFields.forEach(field => field.value = '');
@@ -204,6 +206,7 @@ export default {
         axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UpdatePersonalDetails', update)
           .then(response => {
             if (response.data.success) {
+              this.setIsModified(true);
               this.successMessage = 'Personal details updated successfully';
             }
             else {

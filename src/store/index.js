@@ -4,7 +4,8 @@ export default createStore({
   state: {
     SignupFormData: null,
     isEmailVerified: false,
-    rememberMe: false
+    rememberMe: false,
+    isModified: false
   },
   mutations: {
     setSignupFormData(state, data) {
@@ -15,6 +16,9 @@ export default createStore({
     },
     setRememberMe(state, value) {
       state.rememberMe = value;
+    },
+    setIsModified(state, value) {
+      state.isModified = value;
     }
   },
   actions: {
@@ -26,6 +30,9 @@ export default createStore({
     },
     updateRememberMe(context, value){
       context.commit('setRememberMe', value);
+    },
+    setIsModified({ commit }, value) {
+      commit('setIsModified', value);
     }
   },
   getters: {

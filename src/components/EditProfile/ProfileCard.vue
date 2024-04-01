@@ -22,6 +22,7 @@
 
 <script>
 import axios from 'axios';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -32,10 +33,21 @@ export default {
       avatarUrl: require('../../../public/img/noProfileImage.jpg')
     };
   },
+  computed: {
+    ...mapState(['isModified'])
+  },
   mounted() {
     this.fetchUserData();
   },
+  watch: {
+    isModified() {
+      if (this.isModified) {
+        this.fetchUserData();
+      }
+    }
+  },
   methods: {
+    ...mapActions(['setIsModified']),
     fetchUserData() {
       let data = new FormData();
       let sessionId = sessionStorage.getItem('sessionId');
@@ -49,6 +61,7 @@ export default {
             if (response.data.data.bio !== null){
               this.bio = response.data.data.bio;
             }
+            this.setIsModified(false);
           }
         })
         .catch(error => {
