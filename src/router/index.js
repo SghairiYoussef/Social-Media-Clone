@@ -57,9 +57,6 @@ const routes = [
     path: '/Contact',
     name: 'Contact',
     component: Contact,
-    meta: {
-        requiresAuth: true
-    }
     },
   {
     path: '/Messages',
