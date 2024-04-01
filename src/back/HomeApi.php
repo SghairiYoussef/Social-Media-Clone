@@ -28,13 +28,16 @@ include "Controllers/getUserID.php";
 include "Controllers/addPost.php";
 include "Controllers/addComment.php";
 include "Controllers/deletePost.php";
+include "Controllers/addReact.php";
+include "Controllers/getAllUsers.php";
 $action='';
 if (isset($_GET['action'])) {
 
     $action=$_GET['action'];
 }
 if($action == 'getAllPosts'){
-    //$user_id = $_SESSION['CurrentUserID'];;
+    //$user_id = $_SESSION['CurrentUserID'];
+    
     $result = getPostsForFeed();
     if ($result) {
         echo $result;
@@ -43,8 +46,12 @@ if($action == 'getAllPosts'){
     }
 }
 if($action == 'getCurrentUserPosts'){
-    //$user_id = $_SESSION['CurrentUserID'];;
-    $result = getUserPosts(2);
+    //$user_id = $_SESSION['CurrentUserID'];
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = getUserPosts($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -143,5 +150,35 @@ if($action == 'deletePost'){
         echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
     }else{
         echo json_encode(['success' => false, 'message' => 'Error deleting post']);
+    }
+}if($action == 'sharePost'){
+    $caption = $_POST['content'];
+    $title = $_POST['title'];
+    $media = $_POST['media'];
+    $result = addPost(1, $caption, $title,$media);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Post shared successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error sharing post']);
+    }
+
+}
+if($action == 'reactToPost'){
+    $Post_ID = $_POST['Post_ID'];
+    $result = addReact($Post_ID);
+    print_r($result);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'React added successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error reacting to post']);
+    }
+
+}
+if($action == 'getAllUsers'){
+    $result = getAllUsers();
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
     }
 }

@@ -3,7 +3,7 @@
     function getAllUsers(){
           
           $connexion = ConnexionBD::getInstance();
-        $query="select * from profile";
+        $query="select * from userdata";
         $result = $connexion->query($query);
         $users = array();
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 

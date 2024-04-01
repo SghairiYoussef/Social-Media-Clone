@@ -18,12 +18,12 @@
                 <img v-if="post.img !== ''" :src="`../../src/back/uploads/${post.img}`" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
-                    <button type="button" class="btn btn-outline-primary">
+                    <button type="button" class="btn btn-outline-primary" @click="react(post)">
                         React
                         <span class="badge badge-light">{{post.React_Count}}</span>
                     </button>
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
-                    <button type="button" class="btn btn-outline-warning">Share</button>
+                    <button type="button" class="btn btn-outline-warning" @click="share(post)">Share</button>
                 </div>
 
                 <comments v-bind:post="post" v-bind:comments="comments" v-if="post.commentsShown" @commentAdded="handleCommentAdded(post)" />
@@ -110,6 +110,33 @@ export default {
             },
             handleCommentAdded(post){
                 this.fetchComments(post);
+            },
+            share(post){
+                let data = new FormData();
+                data.append('title',post.title);
+                data.append('content',post.content);
+                data.append('media',post.img);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=sharePost`, data)
+                    .then(response => {
+                        console.log(response);
+                        this.$emit('postAdded', response);
+                    })
+                    .catch(error => {
+                        console.error('Error Deleting Post:', error);
+                    });
+            },
+            react(post){
+                let data = new FormData();
+                data.append('Post_ID',post.Post_ID);
+                console.log(post.Post_ID);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=reactToPost`, data)
+                    .then(response => {
+                        console.log(response);
+                        this.$emit('postAdded', response);
+                    })
+                    .catch(error => {
+                        console.error('Error Deleting Post:', error);
+                    });
             }
             
         },

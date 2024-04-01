@@ -4,8 +4,8 @@
           
           $connexion = ConnexionBD::getInstance();
           $Post_ID = $connexion->quote($Post_ID);
-        $query="select U.User_ID, U.Username, U.image, C.* from comment C
-        inner join profile U on U.User_ID = C.User_ID
+        $query="select U.userID, U.userName, U.image, C.* from comment C
+        inner join userdata U on U.userID = C.User_ID
         where C.Post_ID = $Post_ID
         order by C.Date_posted desc";
         $result = $connexion->query($query);

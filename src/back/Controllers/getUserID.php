@@ -4,7 +4,7 @@
           
           $connexion = ConnexionBD::getInstance();
           $username = $connexion->quote($username);
-        $query="select User_ID from profile
+        $query="select userID from userdata
             where username = $username
         ";
         $result = $connexion->query($query)->fetch(PDO::FETCH_ASSOC);

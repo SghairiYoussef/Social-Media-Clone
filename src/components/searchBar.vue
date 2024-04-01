@@ -28,9 +28,11 @@
    computed: {
      filteredList() {
       if (Array.isArray(this.users)) {
-        return this.users.filter(user =>
-          user.username.toLowerCase().includes(this.input.toLowerCase())
+        let result= this.users.filter(user =>
+          user.userName.toLowerCase().includes(this.input.toLowerCase())
         );
+        console.log(result);
+        return result;
       } else {
         console.error('Users prop is not an array.');
         return [];
