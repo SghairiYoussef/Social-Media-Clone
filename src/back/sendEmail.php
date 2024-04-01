@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 // Load Composer's autoloader
-require 'C:/xampp/htdocs/php/Social-Media-Clone/vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 function sendEmail($email, $subject, $body)
 {

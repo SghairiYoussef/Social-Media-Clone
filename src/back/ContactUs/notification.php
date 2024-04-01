@@ -61,5 +61,6 @@ function notification()
                 </body>
                 </html>
     ";
-    return sendEmail('med.amine.haouas@gmail.com',$subject,$body);
+    return sendEmail('',$subject,$body);     //put your email in the first parameter
+
 }
