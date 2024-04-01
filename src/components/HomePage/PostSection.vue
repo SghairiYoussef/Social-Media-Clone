@@ -63,7 +63,6 @@ export default {
                     .catch(error => {
                         console.error('Error Deleting Post:', error);
                     });
-                    //hedha ketbou copilot, manaersh est-ce que sehih wla ghalet, fix it
             },
             comment(post) {
                 post.commentsShown = !post.commentsShown;

@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 header("Content-Type: application/json");
 include "Controllers/getAllUsers.php";
 include "Controllers/deleteUser.php";
-
+include "Controllers/getPosts.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -46,4 +46,12 @@ if($action == 'deleteUser'){
         echo json_encode(['success' => false, 'message' => 'Failed to delete user']);
     }
 
+}
+if($action == 'getAllPosts'){
+    $result = getPostsForFeed();
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
 }

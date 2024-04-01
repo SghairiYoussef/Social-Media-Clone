@@ -35,7 +35,7 @@ if (isset($_GET['action'])) {
 }
 if($action == 'getAllPosts'){
     //$user_id = $_SESSION['CurrentUserID'];;
-    $result = getPostsForFeed(2);
+    $result = getPostsForFeed();
     if ($result) {
         echo $result;
     } else {
@@ -74,7 +74,7 @@ if($action == 'addPost'){
     $fileActualExt = strtolower(end($fileExt));
 
     $allowed = array('jpg','jpeg','png');
-
+    print_r("file");
     if(in_array($fileActualExt,$allowed)){
         if($fileError === 0){
             if($fileSize< 1000000){
@@ -88,6 +88,7 @@ if($action == 'addPost'){
                 $fileDestination = 'uploads/'.$fileNameNew;
                 move_uploaded_file($fileTmpName,$fileDestination);
                 $fileDestination='../../src/back/'.$fileDestination;
+                //change the user id
                 $result = addPost(2, $Caption, $Title,$fileNameNew);
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
@@ -103,7 +104,13 @@ if($action == 'addPost'){
             echo 'There was an error uploading your file!';
         }
     }else{
-        echo "You cannot upload files";
+        $result = addPost(2, $Caption, $Title,"");
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Post added successfully']);
+                } else {
+
+                    echo json_encode(['success' => false, 'message' => 'Error adding post']);
+                }
     }
 }
 if($action == 'addComment'){

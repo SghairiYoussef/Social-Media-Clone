@@ -26,7 +26,7 @@
                         <button @click="showComments(index)" class="btn btn-outline-secondary">View Comments</button>
                     </td>
                     <td>
-                        <button @click="deletePost(index)" class="btn btn-danger">Delete</button>
+                        <button @click="deletePost(post.Post_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
                 <tr v-if="showMoreButton()">
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import axios from 'axios';
     export default {
         data() {
             return {
@@ -79,8 +80,18 @@
             }
         },
         methods: {
-            deletePost(post) {
-                console.log('Delete post', post);
+            deletePost(Post_ID) {
+                let data = new FormData();
+                data.append('Post_ID',Post_ID);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=deletePost`, data)
+                    .then(response => {
+                        console.log("Post Deleted");
+                        console.log(response);
+                        this.fetchPosts();
+                    })
+                    .catch(error => {
+                        console.error('Error Deleting Post:', error);
+                    });
             },
             showContent(index) {
                 alert(this.Posts[index].Content);
@@ -113,9 +124,38 @@
             },
             loadMorePosts() {
                 this.displayedPostsCount += 5;
+            },
+            fetchPosts(){
+                function transformPost(post) {
+
+                    return {
+                        Username: post.Username,
+                        Content: post.Caption,
+                        Media: post.Media,
+                        Comments: post.Comments,
+                        Post_ID : post.Post_ID
+                    };
+                }
+
+                axios.get(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getAllPosts`)
+            .then(response => {
+                
+                let result = response.data;
+                console.log("admin posts");
+                console.log(result);
+                result = result.map(post=>transformPost(post));
+                this.Posts = result;
+                
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+      });
             }
         },
-        name: 'postSection'
+        name: 'postSection',
+        mounted(){
+            this.fetchPosts();
+        }
     }
 </script>
 <style>

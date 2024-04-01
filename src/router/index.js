@@ -22,9 +22,9 @@ const routes = [
     path: '/Home',
     name: 'Home',
     component: HomePage,
-    /*meta: {
+    meta: {
         requiresAuth: true
-    }*/
+    }
   },
   {
     path: '/',
@@ -44,9 +44,9 @@ const routes = [
     path: '/myAccount',
     name: 'MyAccountPage',
     component: MyAccountPage,
-    /*meta: {
+    meta: {
         requiresAuth: true
-    }*/
+    }
   },
   {
     path: '/login/passwordReset/:resetPasswordToken',
