@@ -14,6 +14,51 @@
   </div>
 </template>
 
+<style>
+
+/* Styling for the row layout */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Styling for the left column */
+.col-sm-10 {
+  flex: 0 0 83.333333%;
+  max-width: 83.333333%;
+}
+
+/* Styling for the right column */
+.col-sm-2 {
+  flex: 0 0 16.666667%;
+  max-width: 16.666667%;
+}
+
+/* Styling for the load more button */
+.btn-info {
+  background-color: #17a2b8; /* Button color */
+  color: #fff; /* Text color */
+  margin-top: 20px; /* Spacing from the posts section */
+  padding: 10px 20px; /* Padding */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.btn-info:hover {
+  background-color: #138496; /* Darker color on hover */
+}
+
+/* Styling for the note when no more posts to load */
+.Note {
+  color: #777; /* Text color */
+  margin-top: 20px; /* Spacing from the button */
+}
+
+</style>
+
+
 <script>
   import PostSection from '@/components/HomePage/PostSection.vue';
   import navBar from '@/components/navbar.vue';
