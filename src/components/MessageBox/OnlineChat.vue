@@ -12,73 +12,70 @@
       </div>
     </div>
   </template>
-  
-  <script>
-import axios from 'axios';
-  export default {
-    props: {
-      selectedUser: {
-        type: Object,
-        required: true
-      }
-    },
-    data() {
-      return {
-        messages: [],
-        newMessage: ''
-      };
-    },
-    watch: {
-      selectedUser: {
-        immediate: true,
-        handler(newVal, oldVal) {
-          if (newVal !== oldVal) {
-            this.fetchMessages();
-          }
-        }
-      }
-    },
-    methods: {
-      fetchMessages() {
-        let data = new FormData();
-        let sessionId = sessionStorage.getItem('sessionId');
-        data.append('sessionId', sessionId);
-        data.append('userName', this.selectedUser.username);
-        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=displayMessages', data)
-        .then(response => {
-          console.log(response.data);
-          if(response.data.success){
-            this.messages = response.data.messages;
-          }
-          else{
-            this.messages = [];
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching messages:', error);
-        });
-      },
-      sendMessage() {
-        let data = new FormData();
-        let sessionId = sessionStorage.getItem('sessionId');
-        data.append('sessionId', sessionId);
-        data.append('message', this.newMessage);
-        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=sendMessage', data)
-        .then(response => {
-          console.log(response.data);
-          if(response.data.success){
-            this.fetchMessages();
-            this.newMessage = '';
-          }
-        })
-        .catch(error => {
-          console.error('Error sending message:', error);
-        });
-      }
 
+<script>
+import axios from 'axios';
+
+export default {
+  props: {
+    selectedUser: {
+      type: Object,
+      required: true
     }
-  };
-  </script>
+  },
+  data() {
+    return {
+      messages: [],
+      newMessage: ''
+    };
+  },
+  methods: {
+    fetchMessages() {
+      let data = new FormData();
+      let sessionId = sessionStorage.getItem('sessionId');
+      data.append('sessionId', sessionId);
+      data.append('userName', this.selectedUser.username);
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=displayMessages', data)
+          .then(response => {
+            console.log(response.data);
+            if(response.data.success){
+              this.messages = response.data.messages;
+            }
+            else{
+              this.messages = [];
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching messages:', error);
+          });
+    },
+    sendMessage() {
+      let data = new FormData();
+      let sessionId = sessionStorage.getItem('sessionId');
+      data.append('sessionId', sessionId);
+      data.append('message', this.newMessage);
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=sendMessage', data)
+          .then(response => {
+            console.log(response.data);
+            if(response.data.success){
+              this.fetchMessages();
+              this.newMessage = '';
+            }
+          })
+          .catch(error => {
+            console.error('Error sending message:', error);
+          });
+    }
+
+  },
+  mounted() {
+    // Fetch messages every 2 seconds
+    setInterval(() => {
+      this.fetchMessages();
+    }, 500);
+  }
+};
+</script>
   
   <style scoped>
   .chat-container {
