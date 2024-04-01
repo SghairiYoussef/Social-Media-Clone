@@ -1,6 +1,6 @@
 <template>
+      <navBar v-if="isLogged"/>
 
-    <navBar v-if="isLogged"/>
     <header>
         <h1> Contact Us! </h1>
     </header>
@@ -40,10 +40,11 @@ export default {
     email: '',
     message: '',
     successMessage: '',
-    notifMessage: ''
+    notifMessage: '',
+    isLogged: false
   }),
-  mounted() {
-    if (localStorage.getItem('sessionId')) {
+  created() {
+    if (sessionStorage.getItem('sessionId')) {
       this.isLogged = true;
     }
   },
