@@ -96,6 +96,7 @@ export default {
   flex: 1;
   overflow-y: auto;
   padding: 10px;
+  max-height: 400px;
 }
 
 .message {
