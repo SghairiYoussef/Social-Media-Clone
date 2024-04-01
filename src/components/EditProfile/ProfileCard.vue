@@ -44,9 +44,11 @@ export default {
         .then(response => {
           console.log(response.data.data);
           if(response.data.success){
-            this.username = response.data.username;
-            this.email = response.data.email;
-            this.bio = response.data.bio;
+            this.username = response.data.data.username;
+            this.email = response.data.data.email;
+            if (response.data.data.bio !== null){
+              this.bio = response.data.data.bio;
+            }
           }
         })
         .catch(error => {
