@@ -4,17 +4,17 @@ function displayMessages() {
     $conn = ConnexionBD::getInstance();
 
     // Get the current user's username from the session
-    $uname = getUsername($_SESSION['userId']);
+    $uname = getUsername();
 
     // Check if a recipient is selected
     if (isset($_SESSION['to_name'])) {
         $rname = $_SESSION['to_name'];
 
         // Query to fetch messages between the current user and the selected recipient
-        $q = "SELECT * FROM messenger WHERE (from_name='$uname' AND to_name='$rname') OR (from_name='$rname' AND to_name='$uname')";
-        $res = mysqli_query($conn, $q);
-        $row = mysqli_fetch_array($res);
-        return $row;
+        $q = "SELECT * FROM messenger WHERE (from_name='$uname' AND to_name='$rname') OR (from_name='$rname' AND to_name='$uname ') ORDER BY time";
+        $stmt = $conn->query($q);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $rows;
         // Loop through the results and display messages
         /*
         while ($row = mysqli_fetch_array($res)) {
@@ -36,7 +36,7 @@ function displayMessages() {
         }*/
     } else {
         // No recipient selected
-        echo "Select somebody to chat with";
+        return false;
     }
 }
 ?>
