@@ -1,11 +1,13 @@
 <template>
     <input type="text" class="form-control me-2" v-model="input" placeholder="Search..." />
-    <div class="item fruit" v-for="user in filteredList" :key="user">
-      <p>{{ user }}</p>
-    </div>
-    <div class="item error" v-if="input && !filteredList.length">
-       <p>No results found!</p>
-    </div>
+    <div v-if="input">
+      <div class="item fruit" v-for="user in filteredList" :key="user">
+        <p @click="selectUser">{{ user.username }}</p>
+      </div>
+      <div class="item error" v-if="!filteredList.length">
+        <p>No results found!</p>
+      </div>
+  </div>
 </template>
  
 <script>
@@ -17,6 +19,7 @@
             required: true
         },
     },
+    name: 'SearchBar',
    data() {
      return {
        input: '',
@@ -34,7 +37,11 @@
       }
      }
     },
-    name: 'SearchBar'
+    methods: {
+      selectUser() {
+        this.$router.push('/profile');
+      }
+    }
  }
  
 </script>
