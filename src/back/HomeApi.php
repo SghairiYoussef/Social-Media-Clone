@@ -35,7 +35,7 @@ if (isset($_GET['action'])) {
 }
 if($action == 'getAllPosts'){
     //$user_id = $_SESSION['CurrentUserID'];;
-    $result = getPostsForFeed(2);
+    $result = getPostsForFeed();
     if ($result) {
         echo $result;
     } else {
@@ -64,13 +64,53 @@ if($action == 'addPost'){
     //$user_id = $_SESSION['CurrentUserID'];
     $Caption = $_POST['Content'];
     $Title = $_POST['Title'];
-    $Media = $_POST['Media'];
-    $result = addPost(2, $Caption, $Title,$Media);
-    if ($result) {
-        echo json_encode(['success' => true, 'message' => 'Post added successfully']);
-    } else {
+    $file = $_FILES['Media'];
+    $fileName = $_FILES['Media']['name'];
+    $fileTmpName = $_FILES['Media']['tmp_name'];
+    $fileSize = $_FILES['Media']['size'];
+    $fileError = $_FILES['Media']['error'];
+    $fileType = $_FILES['Media']['type'];
+    $fileExt = explode('.',$fileName);
+    $fileActualExt = strtolower(end($fileExt));
 
-        echo json_encode(['success' => false, 'message' => 'Error adding post']);
+    $allowed = array('jpg','jpeg','png');
+    print_r("file");
+    if(in_array($fileActualExt,$allowed)){
+        if($fileError === 0){
+            if($fileSize< 1000000){
+                $fileNameNew = uniqid('',true).'.'.$fileActualExt;
+                if (!file_exists('uploads/')) {
+                    mkdir('uploads/', 0777, true);
+                    echo "Directory 'uploads/' created successfully.";
+                }else{
+                    echo "Directory 'uploads/' already exists.";
+                }
+                $fileDestination = 'uploads/'.$fileNameNew;
+                move_uploaded_file($fileTmpName,$fileDestination);
+                $fileDestination='../../src/back/'.$fileDestination;
+                //change the user id
+                $result = addPost(2, $Caption, $Title,$fileNameNew);
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Post added successfully']);
+                } else {
+
+                    echo json_encode(['success' => false, 'message' => 'Error adding post']);
+                }
+
+            }else{
+                echo "Your file is too big!";
+            }
+        }else{
+            echo 'There was an error uploading your file!';
+        }
+    }else{
+        $result = addPost(2, $Caption, $Title,"");
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Post added successfully']);
+                } else {
+
+                    echo json_encode(['success' => false, 'message' => 'Error adding post']);
+                }
     }
 }
 if($action == 'addComment'){
@@ -105,4 +145,3 @@ if($action == 'deletePost'){
         echo json_encode(['success' => false, 'message' => 'Error deleting post']);
     }
 }
-

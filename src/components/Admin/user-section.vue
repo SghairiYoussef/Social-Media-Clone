@@ -19,7 +19,7 @@
                     <td>{{ user.Role }}</td>
                     <td>
                         <button @click="editUser(user)" class="btn btn-primary">Edit</button>
-                        <button @click="deleteUser(user)" class="btn btn-danger">Delete</button>
+                        <button @click="deleteUser(user.User_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
                 <tr v-if="showMoreButton()">
@@ -41,8 +41,8 @@
 </template>
 
 <script>
-    import chartSection from '@/components/Admin/chartSection.vue'
-
+    import chartSection from '@/components/Admin/chartSection.vue';
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -54,8 +54,17 @@
             editUser(user) {
                 console.log('Edit user', user);
             },
-            deleteUser(user) {
-                console.log('Delete user', user);
+            deleteUser(User_ID) {
+                let data = new FormData();
+                data.append('User_ID',User_ID);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=deleteUser`,data)
+            .then(response => {
+                console.log(response,"user deleted");
+                this.fetchUsers();
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error);
+      });
             },
             loadMoreUsers() {
                 this.displayedUsersCount += 4;
@@ -65,15 +74,34 @@
             },
             showMoreButton() {
                 return this.displayedUsersCount < this.users.length;
+            },
+            fetchUsers(){
+                function transformData(user) {
+                    return {
+                        User_ID : user.User_ID,
+                        Username: user.Username,
+                        Email: user.mail,
+                        Role: "User"
+                    };
+                }
+            axios.get(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getAllUsers`)
+            .then(response => {
+                
+                let result = response.data;
+                result = result.map(user=>transformData(user));
+                console.log("users");
+                console.log(result);
+                this.users = result;
+                
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+      });
             }
         },
-        /*mounted() {
-            fetch('http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getUsers')
-                .then(response => response.json())
-                .then(data => {
-                    this.users = data;
-                });
-        },*/
+        mounted() {
+            this.fetchUsers();
+        },
         components: {
             chartSection
         }

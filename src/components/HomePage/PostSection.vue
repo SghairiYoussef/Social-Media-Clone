@@ -4,7 +4,7 @@
             <img class="user_img" src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User Image">
             <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
             <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
-            <input class="post_input" type="file" accept="image/*">
+            <input class="post_input" type="file" name="file" accept="image/*" >
             <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
         </div>
         
@@ -15,12 +15,12 @@
                     <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
                     <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;">Delete Post</button>
                 </div>
-                <img :src="post.img" :alt="post.alt">
+                <img v-if="post.img !== ''" :src="`../../src/back/uploads/${post.img}`" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
                     <button type="button" class="btn btn-outline-primary">
                         React
-                        <span class="badge badge-light">{{post.reacts}}</span>
+                        <span class="badge badge-light">{{post.React_Count}}</span>
                     </button>
                     <button type="button" class="btn btn-outline-secondary" @click="comment(post)">Comment</button>
                     <button type="button" class="btn btn-outline-warning">Share</button>
@@ -63,7 +63,6 @@ export default {
                     .catch(error => {
                         console.error('Error Deleting Post:', error);
                     });
-                    //hedha ketbou copilot, manaersh est-ce que sehih wla ghalet, fix it
             },
             comment(post) {
                 post.commentsShown = !post.commentsShown;
@@ -85,15 +84,16 @@ export default {
                     console.error('Error fetching comments:', error);
                     }); 
             },
-            addPost(content, title, Media ="") {
+            addPost(content, title) {
                 this.newPost = {
                     newContent: '',
                     newTitle: ''
                 };
+                let fileInput = document.querySelector('input[type="file"]');
                 let data = new FormData();
                 data.append('Content',content);
                 data.append('Title',title);
-                data.append('Media',Media);
+                data.append('Media',fileInput.files[0]);
                 console.log('posting data');
                 console.log(data);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addPost`, data)
