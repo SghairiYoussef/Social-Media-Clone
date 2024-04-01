@@ -23,19 +23,12 @@ if($action == 'getUsers'){
     $users = getUsers($currentUserId);
     echo json_encode($users);
 }
-if($action == 'selectUser'){
+if($action == 'displayMessages'){
     $sessionId = $_POST['sessionId'];
     $selectedUserName = $_POST['userName'];
     session_id($sessionId);
     session_start();
     $_SESSION['to_name']=$selectedUserName;
-    $currentUser= getUsername();
-    echo json_encode(['success'=>true,'currentUserName'=>$currentUser]);
-}
-if($action == 'displayMessages'){
-    $sessionId = $_POST['sessionId'];
-    session_id($sessionId);
-    session_start();
     $result= displayMessages();
     if($result){
         echo json_encode(['success'=>true,'messages'=>$result]);

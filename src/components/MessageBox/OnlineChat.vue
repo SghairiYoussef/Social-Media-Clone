@@ -14,7 +14,7 @@
   </template>
   
   <script>
-
+import axios from 'axios';
   export default {
     props: {
       selectedUser: {
@@ -40,12 +40,25 @@
     },
     methods: {
       fetchMessages() {
-        console.log(this.selectedUser);
-        // fetch messages from database where sender = selectedUser.username
+        let data = new FormData();
+        let sessionId = sessionStorage.getItem('sessionId');
+        data.append('sessionId', sessionId);
+        data.append('userName', this.selectedUser.username);
+        axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=displayMessages', data)
+        .then(response => {
+          console.log(response.data);
+          if(response.data.success){
+            this.messages = response.data.messages;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching messages:', error);
+        });
       },
       sendMessage() {
         // Send the new message to the selected user
       }
+
     }
   };
   </script>

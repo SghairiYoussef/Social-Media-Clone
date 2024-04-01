@@ -9,10 +9,9 @@ function getUsername() {
     $id = $conn->quote($id);
 
     // Query to fetch online users
-    $q = "SELECT name FROM userData WHERE userId = $id ;";
-    $res = mysqli_query($conn, $q);
-
-    $row = mysqli_fetch_array($res);
+    $q = "SELECT username FROM userData WHERE userId = $id ;";
+    $stmt = $conn->query($q);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row['username'];
 }
 
