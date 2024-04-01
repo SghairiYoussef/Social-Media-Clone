@@ -9,7 +9,7 @@ import Contact from '@/views/Contact.vue';
 import Messages from '@/views/Messages.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import Admin from '@/views/Admin.vue';
-import AboutUs from '@/views/AboutUs.vue';
+import WelcomePage from '@/views/WelcomePage.vue';
 import axios from "axios";
 
 const routes = [
@@ -64,12 +64,18 @@ const routes = [
   {
     path: '/Messages',
     name: 'Messages',
-    component: Messages
+    component: Messages,
+    meta: {
+        requiresAuth: true
+    }
   },
   {
     path: '/EditProfile',
     name: 'EditProfile',
-    component: EditProfile
+    component: EditProfile,
+    meta: {
+        requiresAuth: true
+    }
   },
   {
     path: '/Admin',
@@ -77,9 +83,9 @@ const routes = [
     component: Admin
   },
   {
-    path: '/AboutUs',
-    name: 'AboutUs',
-    component: AboutUs
+    path: '/WelcomePage',
+    name: 'WelcomePage',
+    component: WelcomePage
   }
 ];
 

@@ -10,7 +10,7 @@ function isLoggedIn()
         $result = checkToken('userdata', $token, 'rememberMeToken');
         if ($result) {
             $userID = getUserId('userdata', 'rememberMeToken', $token);
-            $_SESSION['userID'] = $userID;
+            $_SESSION['userId'] = $userID;
             $_SESSION['loggedIn'] = true;
             return true;
         } else {

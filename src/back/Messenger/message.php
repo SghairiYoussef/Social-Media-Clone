@@ -1,19 +1,16 @@
 <?php
 
-session_start();
-
 // Main function to handle the messenger page
 function messengerPage() {
     $rname = "this-is-the-new-chat";
 
     if (isset($_SESSION['username'])) {
-        include "..\DataBase.php";
         $conn = ConnexionBD::getInstance();
         $uname = $_SESSION['username'];
 
         if (isset($_SESSION['to_name'])) {
             $rname = $_SESSION['to_name'];
-            $q = "SELECT * FROM userData;";
+            $q = "SELECT * FROM messenger;";
             $res = mysqli_query($conn, $q);
         }
 
@@ -21,7 +18,7 @@ function messengerPage() {
             $queryl = "SELECT DISTINCT * FROM messenger WHERE to_name='$uname' OR from_name='$uname' ORDER BY time DESC;";
             $heading = 'Chats';
         } else {
-            $queryl = "SELECT name FROM users WHERE 1;";
+            $queryl = "SELECT name FROM userData;";
             $heading = 'New Chats';
         }
 

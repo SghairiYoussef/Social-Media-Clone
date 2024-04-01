@@ -2,66 +2,49 @@
     <navBar/>
     <header>
         <h1>Messages</h1>
-        <h2>{{ Name }}</h2>
+        <h2>{{ selectedUser?.username }}</h2>
         <p>{{ status }}</p> <!-- Display user status (online wala le) here  -->
     </header>
     <div class="row">
         <div class="col-sm-4">
-            <Inbox :users="users" @user-selected="selectUser"/>
+            <Inbox @users-fetched="setUsers" @user-selected="selectUser"/>
         </div>
-        <div v-if="activeContactIndex === null" class="Note">
+        <div v-if="!selectedUser" class="Note">
             Select a contact to start chatting
         </div>
         <div v-else class="col-sm-8">
-            <Chat :Receiver="users[activeContactIndex]"/>
+            <OnlineChat :selectedUser="selectedUser"/>
         </div>
     </div>
 </template>
 
 <script>
-import Chat from '@/components/MessageBox/Chat.vue';
+import OnlineChat from '@/components/MessageBox/OnlineChat.vue';
 import navBar from '@/components/navbar.vue';
 import Inbox from '@/components/MessageBox/Inbox.vue';
 
 export default {
+    data() {
+        return {
+            selectedUser: null,
+            users: [],
+            status: 'Online'
+        };
+    },
     name: 'MessageBox',
     components: {
-        Chat,
+        OnlineChat,
         navBar,
         Inbox
     },
-
-    data()
-    {
-        return{
-            status: 'Online',
-            search: '',
-            users: [
-                {
-                    id: 1,
-                    name: 'User 1',
-                    unread_messages: 2
-                },
-                {
-                    id: 2,
-                    name: 'User 2',
-                    unread_messages: 0
-                },
-                {
-                    id: 3,
-                    name: 'User 3',
-                    unread_messages: 1
-                }
-            ],
-            activeContactIndex: null
-        }
-    },
-
     methods: {
-        selectUser(user)
-        {
-            this.activeContactIndex = this.users.indexOf(user);
+        setUsers(users) {
+            this.users = users;
+            console.log(this.users);
         },
+        selectUser(user) {
+            this.selectedUser = user;
+        }
     }
 };
 </script>
@@ -76,5 +59,4 @@ export default {
         cursor: pointer;
         border-radius: 5px;
     }
-
 </style>
