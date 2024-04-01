@@ -11,7 +11,7 @@ function displayMessages() {
         $rname = $_SESSION['to_name'];
 
         // Query to fetch messages between the current user and the selected recipient
-        $q = "SELECT * FROM messenger WHERE (from_name='$uname' AND to_name='$rname') OR (from_name='$rname' AND to_name='$uname')";
+        $q = "SELECT * FROM messenger WHERE (from_name='$uname' AND to_name='$rname') OR (from_name='$rname' AND to_name='$uname ') ORDER BY time";
         $stmt = $conn->query($q);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
