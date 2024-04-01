@@ -9,6 +9,7 @@ include "EditProfile/fetch.php";
 include "DataBase.php";
 include "EditProfile/verifyUsername.php";
 include "EditProfile/updatePersonalDetails.php";
+include "EditProfile/verifyPassword.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -35,12 +36,17 @@ if ($action == 'UpdatePersonalDetails'){
     $username = $_POST['username'] ?? '';
     $birthDate = $_POST['birthDate'] ?? '';
     $bio = $_POST['bio'] ?? '';
+    $oldPassword = $_POST['oldPassword'] ?? '';
+    $newPassword = $_POST['newPassword'] ?? '';
     if ($username && verifyUsername($username)) {
         echo json_encode(['success' => false, 'message' => 'Username already exists']);
         return;
     }
-
-    $result = updatePersonalDetails($fullName, $username, $birthDate, $bio);
+    if ($oldPassword && verifyPassword($oldPassword)) {
+        echo json_encode(['success' => false, 'message' => 'Incorrect password']);
+        return;
+    } 
+    $result = updatePersonalDetails($fullName, $username, $birthDate, $bio, $newPassword);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Personal details updated successfully']);
     } else {

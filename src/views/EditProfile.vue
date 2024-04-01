@@ -30,6 +30,6 @@
   
 <style scoped>
 .row {
-  height: 750px;
+  height: 840px;
 }
 </style>

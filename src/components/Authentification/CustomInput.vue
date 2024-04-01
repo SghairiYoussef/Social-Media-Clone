@@ -1,5 +1,5 @@
 <template>
-  <div class="input-field">
+  <div :class="{'input-field': true, 'input-field-disabled': disabled}">
     <input :type="type" :disabled="disabled" v-model="inputValue" :placeholder="label">
   </div>
 </template>

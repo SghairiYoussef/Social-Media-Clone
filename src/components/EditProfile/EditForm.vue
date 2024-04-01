@@ -21,6 +21,11 @@
       <div class="row gutters">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
           <h6 class="section-title mb-2 text-primary">Email</h6>
+          <div class="form-group">
+      <div class="alert alert-info" role="alert">
+        This feature is still under development.
+      </div>
+    </div>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" v-for="(field, index) in emailFields" :key="index">
           <div class="form-group">
@@ -28,6 +33,7 @@
             <CustomInput :type="field.type" 
                          v-model="field.value" 
                          :label="field.placeholder"
+                         :disabled=true
                          @input="clearMessage"
             />
           </div>
@@ -52,7 +58,7 @@
       <div class="row gutters">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" :style="{ height: errorMessage ? '50px' : 'auto' }">
           <div class="text-right">
-            <button type="button" class="btn btn-secondary">Cancel</button>
+            <button type="button" class="btn btn-secondary" @click="myAccountRedirect">Cancel</button>
             <button type="button" class="btn btn-primary" @click="updateProfile">Update</button>
           </div>
           <div v-if="errorMessage" class="mt-3 alert alert-danger" role="alert">{{ errorMessage }}</div>
@@ -92,7 +98,7 @@ export default {
       ],
       errorMessage: '',
       notifMessage: '',
-      successMessage: ''
+      successMessage: '',
     }
   },
   methods: {
@@ -134,6 +140,9 @@ export default {
         }
       }
       return count;
+    },
+    myAccountRedirect() {
+      this.$router.push('/myAccount');
     },
     updateProfile() {
       let update = new FormData();
@@ -182,6 +191,10 @@ export default {
         return;
       }
       if (passwordCount === 3) {
+        if (!this.checkPasswordMatch()) {
+          this.errorMessage = 'Passwords do not match';
+          return;
+        }
         const oldPasswordField = this.passwordFields.find(field => field.id === 'oldPassword');
         if (oldPasswordField.value) {
           update.append('oldPassword', oldPasswordField.value);
@@ -202,19 +215,19 @@ export default {
       let sessionId = sessionStorage.getItem('sessionId');
       update.append('sessionId', sessionId);
 
-      if (personalDetailsCount > 0){
+      if (personalDetailsCount > 0 || passwordCount > 0){
         axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UpdatePersonalDetails', update)
           .then(response => {
             if (response.data.success) {
               this.setIsModified(true);
-              this.successMessage = 'Personal details updated successfully';
+              this.successMessage = 'Account details updated successfully';
             }
             else {
               this.errorMessage = response.data.message;
             }
           })
           .catch(error => {
-            console.error('Error updating personal details:', error);
+            console.error('Error updating account details:', error);
           });
       }
       this.clearFields();
