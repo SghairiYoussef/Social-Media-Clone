@@ -24,6 +24,8 @@ header("Content-Type: application/json");
 include "Controllers/getAllUsers.php";
 include "Controllers/deleteUser.php";
 include "Controllers/getPosts.php";
+include "Controllers/getReports.php";
+include "Controllers/deleteReport.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -53,5 +55,22 @@ if($action == 'getAllPosts'){
         echo $result;
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+if($action == 'getReports'){
+    $result = getReports();
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+if($action == 'deleteReport'){
+    $report_id = $_POST['Report_ID'];
+    $result = deleteReport($report_id);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Report deleted']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to delete Repoert']);
     }
 }

@@ -28,37 +28,57 @@
 </template>
 
 <script>
+import axios from 'axios';
     export default {
         data() {
             return {
-                reports: [
-                    {
-                        id: 1,
-                        username: 'User 1',
-                        email: 'john@example.com',
-                        content: 'This is a report from user 1'
-                    },
-                ]
+                reports: []
             }
         },
         methods: {
-            editReport(report) {
-                console.log('Edit report', report);
-            },
             deleteReport(report) {
-                console.log('Delete report', report);
+                let data = new FormData();
+                data.append('Report_ID',report.id);
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=deleteReport`, data)
+                    .then(response => {
+                        console.log("Report Deleted");
+                        console.log(response);
+                        this.fetchReports();
+                    })
+                    .catch(error => {
+                        console.error('Error Deleting Report:', error);
+                    });
             },
             showContent(report) {
                 alert(report.content);
+            },
+            fetchReports(){
+                function transformReport(report) {
+
+                    return {
+                        id: report.report_id,
+                        username: report.fullName,
+                        email: report.email,
+                        content: report.message
+                    };
+                }
+
+                axios.get(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getReports`)
+            .then(response => {
+                
+                let result = response.data;
+                result = result.map(report=>transformReport(report));
+                this.reports = result;
+                
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+      });
             }
         },
-        /*mounted() {
-            fetch('http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getReports')
-                .then(response => response.json())
-                .then(data => {
-                    this.reports = data;
-                });
-        },*/
+        mounted() {
+            this.fetchReports();
+        },
         name: 'reportSection'
     }
 </script>
