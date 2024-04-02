@@ -4,13 +4,13 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   /* Body styles */
   body {
     font-family: Arial, sans-serif;
     background-color: #f0f2f5; /* Light grey background */
   }
-  
+
   /* Header styles */
   header {
     position: relative; /* Set position relative to allow absolute positioning of background image */
@@ -18,7 +18,7 @@
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
   }
-  
+
   .background {
     width: 100%; /* Make background image cover entire header */
     height: auto; /* Maintain aspect ratio */
@@ -27,11 +27,11 @@
     left: 0;
     z-index: -1; /* Send background image to back */
   }
-  
+
   .header {
     display: flex;
   }
-  
+
   .avatar {
     width: 60px;
     height: 60px;
@@ -40,25 +40,25 @@
     border: 3px solid #ffffff; /* White border */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
   }
-  
+
   .profileUsername {
     font-size: 24px;
     font-weight: bold;
     color: #333333; /* Dark grey color */
   }
-  
+
   .profileName {
     font-size: 18px;
     color: #666666; /* Grey color */
     margin-bottom: 5px;
   }
-  
+
   .bio {
     font-size: 16px;
     color: #555555; /* Slightly darker grey color */
     margin-top: 15px;
   }
-  
+
   /* Post section styles */
   .PostSection {
     background-color: #ffffff; /* White background */
@@ -67,21 +67,21 @@
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
   }
-  
+
   .PostSection h3 {
     font-size: 20px;
     font-weight: bold;
     color: #333333; /* Dark grey color */
     margin-bottom: 10px;
   }
-  
+
   .PostSection p {
     font-size: 16px;
     color: #555555; /* Slightly darker grey color */
     line-height: 1.6;
     margin-bottom: 15px;
   }
-  
+
   /* Load more button styles */
   .load-more {
     background-color: #007bff; /* Blue color */
@@ -94,11 +94,11 @@
     transition: background-color 0.3s ease; /* Smooth transition */
     margin-top: 20px;
   }
-  
+
   .load-more:hover {
     background-color: #0056b3; /* Darker blue color on hover */
   }
-  
+
   /* Message styles */
   .Note {
     font-size: 18px;
@@ -106,4 +106,3 @@
     text-align: center;
     margin-top: 20px;
   }
-  
