@@ -31,6 +31,17 @@ function sendVerificationEmail($email, $verificationCode)
                 max-width: 600px;
                 margin: 0 auto;
             }
+            .logo {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .logo img {
+                max-width: 150px;
+                height: auto;
+                border-radius: 50%;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+            }
             h1 {
                 color: #28536B;
                 margin-bottom: 20px;
@@ -56,6 +67,9 @@ function sendVerificationEmail($email, $verificationCode)
     </head>
     <body>
         <div class='container'>
+        <div class='logo'>
+            <img src='https://i.imgur.com/W911Nk3.gif' alt='INSAT: Social Club Logo'>
+        </div>
             <div class='message'>
                 <h1>Email Verification</h1>
                 <p>Dear User,</p>

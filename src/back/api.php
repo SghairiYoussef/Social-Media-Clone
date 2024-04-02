@@ -91,7 +91,7 @@ if ($action == 'signup') {
             if ($rememberMe) {
                 $result = setRememberMe('UserData', $username);
                 if ($result) {
-                    echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set','sessionID'=>$sessionID]);
+                    echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set','sessionID'=>$sessionID,'userId'=>$userId]);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Failed to log in user and set remember me']);
                 }
@@ -168,7 +168,7 @@ if ($action == 'isLoggedIn') {
     }
     $result = isLoggedIn();
         if ($result) {
-            echo json_encode(['success' => true, 'message' => 'User is logged in','sessionID'=>session_id()]);
+            echo json_encode(['success' => true, 'message' => 'User is logged in','sessionID'=>session_id(),'userId'=>$_SESSION['userId']]);
         } else {
             echo json_encode(['success' => false, 'message' => 'User is not logged in']);
         }

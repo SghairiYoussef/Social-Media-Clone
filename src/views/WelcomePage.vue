@@ -19,7 +19,7 @@
   <div class="main-wrapper">
     <header class="header">
       <img class="logo" src="./assets/logo-dark.gif" alt="logo" />
-      <a href ='#' @click = 'SignIn' class="header-button">Sign In</a>
+      <a href ='#' @click = 'RedirectContactUs' class="header-button">Contact Us ✉️ </a>
     </header>
     <main>
       <section class="intro">
@@ -163,6 +163,7 @@
   <footer class="footer">
     <div class="footer-wrapper">
       <img class="logo" src="./assets/logo-light.gif" alt="logo" />
+      <p style="margin: 1rem;">©2024 Made with 💕 by INSAT Students </p>
       <a @click = 'RedirectContactUs()' class="footer-button">Contact Us</a>
     </div>
   </footer>

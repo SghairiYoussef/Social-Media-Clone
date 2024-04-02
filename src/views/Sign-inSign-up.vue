@@ -4,6 +4,9 @@
       <div class="login-content">
         <div class="form-column">
           <div class="login-popup">
+            <button class="return-button" @click="returnToWelcomePage">
+              <i class="fas fa-long-arrow-alt-left"></i>
+            </button>
             <div class="toggle-buttons">
               <button @click="switchToSignin" :class="{ active: currentForm === 'signin' }">Sign In</button>
               <button @click="switchToSignup" :class="{ active: currentForm === 'signup' }">Sign Up</button>
@@ -74,6 +77,9 @@ export default {
     },
     updateRememberMe(event) {
       this.$store.dispatch('updateRememberMe', event.target.checked);
+    },
+    returnToWelcomePage() {
+      this.$router.push('/WelcomePage');
     }
 }
 };

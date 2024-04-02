@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-cloak>
         <div class="user_post">
-            <img class="user_img" src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User Image">
+            <img class="user_img" src="../../../public/img/noProfileImage.jpg" alt="User Image">
             <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
             <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
             <input class="post_input" type="file" name="file" accept="image/*" >

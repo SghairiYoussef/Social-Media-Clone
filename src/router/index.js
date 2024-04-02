@@ -57,9 +57,6 @@ const routes = [
     path: '/Contact',
     name: 'Contact',
     component: Contact,
-    meta: {
-        requiresAuth: true
-    }
     },
   {
     path: '/Messages',
@@ -108,10 +105,11 @@ router.beforeEach((to, from, next) => {
           console.log(response.data.message);
           if (!response.data.success) {
             // If the user is not logged in, redirect to the login page
-            next('/login');
+            next('/WelcomePage');
           } else {
             // If the user is logged in, continue with the navigation
             sessionStorage.setItem('sessionId', response.data.sessionID);
+            sessionStorage.setItem('userId', response.data.userId);
             next();
           }
         })

@@ -76,7 +76,7 @@
 
   .login-popup {
     padding: 10px;
-    height: 710px;
+    height: 738px;
     overflow: auto;
   }
 
@@ -188,6 +188,27 @@
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
+  .return-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #666;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    outline: none;
+  }
+  
+  .return-button i {
+    margin-right: 1px;
+    outline: none;
+  }
+  .return-button:hover {
+    outline: none;
+  }
 
   @media (max-width: 767px) {
     .login-page {
@@ -276,4 +297,10 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+  }
+  
+  .input-field-disabled input {
+    background-color: #f5f5f5;
+    color: #aaa;
+    cursor: not-allowed;
   }

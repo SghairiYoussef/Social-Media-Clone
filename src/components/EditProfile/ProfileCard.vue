@@ -21,24 +21,52 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { mapState, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
       username: '',
       email: '',
-      bio: '',
+      bio: 'No bio provided',
       avatarUrl: require('../../../public/img/noProfileImage.jpg')
     };
+  },
+  computed: {
+    ...mapState(['isModified'])
   },
   mounted() {
     this.fetchUserData();
   },
+  watch: {
+    isModified() {
+      if (this.isModified) {
+        this.fetchUserData();
+      }
+    }
+  },
   methods: {
+    ...mapActions(['setIsModified']),
     fetchUserData() {
-      // Fetch user data from the database
-      this.username = 'Username';
-      this.email = 'example@email.com';
-      this.bio = 'This place is reserved for bio description.';
+      let data = new FormData();
+      let sessionId = sessionStorage.getItem('sessionId');
+      data.append('sessionId', sessionId);
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
+        .then(response => {
+          console.log(response.data.data);
+          if(response.data.success){
+            this.username = response.data.data.username;
+            this.email = response.data.data.email;
+            if (response.data.data.bio !== null){
+              this.bio = response.data.data.bio;
+            }
+            this.setIsModified(false);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching profile details:', error);
+        });
       //this.avatarUrl = response.data.avatarUrl;
     },
     handleAvatarChange(event) {
