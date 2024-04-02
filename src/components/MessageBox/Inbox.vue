@@ -2,16 +2,14 @@
   <ul class="list-group">
     <li class="list-group-item d-flex justify-content-between align-items-center">
       Inbox
-      <!--<span class="badge bg-primary rounded-pill">{{ total_unread_messages() }}</span>-->
     </li>
     <li class="input-group mb-3">
       <searchBar :users="users"/>
     </li>
     <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
       <div class="userBox">
-        <img :src="user.img ? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`)" alt="User Image" class="rounded-pill user-avatar">
-        <span class="username">{{ user.username }}</span>
-        <!--<span class="badge bg-danger">{{user.unread_messages}}</span>-->
+        <img :src="user.img ? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`)" alt="User Image" class="rounded-pill" style="width: 40px;">
+        {{ user.username }}
       </div>
     </li>
   </ul>
@@ -20,7 +18,6 @@
 <script>
 import axios from "axios";
 import searchBar from '@/components/searchBar.vue';
-import router from "@/router"; // Import Vue Router instance
 
 export default {
   mounted() {
@@ -34,8 +31,10 @@ export default {
   },
   methods: {
     selectUser(user) {
-      // Redirect to Messages route with user ID as parameter
-      router.push({ name: 'Messages', params: { userId: user.id } });
+      this.$emit('user-selected', user);
+      if (this.$route.path === '/Home') {
+        this.$router.push('/Messages');
+      }
     },
     fetchUsers() {
       const sessionId = sessionStorage.getItem('sessionId');
@@ -87,15 +86,9 @@ export default {
   cursor: pointer;
 }
 
-.user-avatar {
+.userBox img {
   margin-right: 10px;
   border-radius: 50%;
-  width: 40px; /* Setting a fixed width for consistency */
-}
-
-.username {
-  font-size: 16px; /* Adjusting font size for better readability */
-  color: #333; /* Darkening text color */
 }
 
 .userBox:hover {
