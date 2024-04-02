@@ -13,6 +13,7 @@
   import userSection from '@/components/Admin/user-section.vue'
   import reports from '@/components/Admin/reports.vue'
   import posts from '@/components/Admin/posts.vue'
+  import axios from 'axios'
   
   export default {
     components: {
@@ -75,7 +76,7 @@
                 this.$router.push('/Home');
                 break;
             case 'logout':
-                this.$router.push('/login');
+                this.logout();
                 break;
             default:
                 break;
@@ -83,7 +84,26 @@
       },
       onToggleCollapse(collapsed) {
         this.isSidebarCollapsed = collapsed;
-      }
+      },
+        logout() {
+            const sessionID = sessionStorage.getItem('sessionId');
+            let data =new FormData();
+            data.append('sessionID', sessionID);
+            axios.defaults.withCredentials = true;
+            axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=logout`,data)
+            .then(response => {
+            console.log(response.data);
+            if(response.data.success) {
+                console.log(response.data.message);
+                sessionStorage.removeItem('sessionId');
+                sessionStorage.removeItem('userId');
+                this.$router.push('/login');
+            }
+            })
+            .catch(error => {
+            console.log(error);
+            });
+        }
     }
   }
   </script>
