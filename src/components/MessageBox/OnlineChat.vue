@@ -75,12 +75,15 @@ export default {
     }
   },
   mounted() {
-    setInterval(() => {
+    this.fetchInterval = setInterval(() => {
       this.fetchMessages();
     }, 500);
 
     // Set the current user's name
     this.currentUser = sessionStorage.getItem('currentUser');
+  },
+  beforeUnmount() {
+    clearInterval(this.fetchInterval);
   }
 };
 </script>
