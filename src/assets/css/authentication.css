@@ -76,7 +76,7 @@
 
   .login-popup {
     padding: 10px;
-    height: 710px;
+    height: 738px;
     overflow: auto;
   }
 
@@ -189,20 +189,23 @@
     opacity: 0;
   }
   .return-button {
-    position: absolute;
-    top: 20px;
-    left: 355px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     background-color: transparent;
     border: none;
     cursor: pointer;
     font-size: 24px;
     color: #666;
-    padding: 5px;
     border-radius: 50%;
     transition: background-color 0.3s ease;
     outline: none;
   }
   
+  .return-button i {
+    margin-right: 1px;
+    outline: none;
+  }
   .return-button:hover {
     outline: none;
   }
