@@ -9,8 +9,7 @@
         </li>
       <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
         <div class="userBox">
-        <img src="../../../public/img/noProfileImage.jpg" alt="User Image" class="rounded-pill" style="width: 40px;">
-        <!--<img :src="user.avatar" alt="User Image" class="rounded-pill" style="width: 40px;">-->
+          <img :src="user.img ? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`)" alt="User Image" class="rounded-pill" style="width: 40px;">
                 {{ user.username }}
                 <!--<span class="badge bg-danger">{{user.unread_messages}}</span>-->
             </div>
