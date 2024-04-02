@@ -46,7 +46,6 @@ if($action == 'getAllPosts'){
     }
 }
 if($action == 'getCurrentUserPosts'){
-    //$user_id = $_SESSION['CurrentUserID'];
     $session_id= $_POST['sessionId'];
     session_id($session_id);
     session_start();
@@ -59,8 +58,11 @@ if($action == 'getCurrentUserPosts'){
     }
 }
 if($action == 'getCurrentUserProfile'){
-    //$user_id = $_SESSION['CurrentUserID'];
-    $result = getUser(2);
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = getUser($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -68,7 +70,10 @@ if($action == 'getCurrentUserProfile'){
     }
 }
 if($action == 'addPost'){
-    //$user_id = $_SESSION['CurrentUserID'];
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
     $Caption = $_POST['Content'];
     $Title = $_POST['Title'];
     $file = $_FILES['Media'];
@@ -96,7 +101,7 @@ if($action == 'addPost'){
                 move_uploaded_file($fileTmpName,$fileDestination);
                 $fileDestination='../../src/back/'.$fileDestination;
                 //change the user id
-                $result = addPost(2, $Caption, $Title,$fileNameNew);
+                $result = addPost($user_id, $Caption, $Title,$fileNameNew);
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
                 } else {
@@ -111,7 +116,7 @@ if($action == 'addPost'){
             echo 'There was an error uploading your file!';
         }
     }else{
-        $result = addPost(2, $Caption, $Title,"");
+        $result = addPost($user_id, $Caption, $Title,"");
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
                 } else {
@@ -121,10 +126,13 @@ if($action == 'addPost'){
     }
 }
 if($action == 'addComment'){
-    //$user_id = $_SESSION['CurrentUserID'];
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
     $Caption = $_POST['Content'];
     $Post_ID = $_POST['Post_ID'];
-    $result = addComment(2, $Post_ID,$Caption);
+    $result = addComment($user_id, $Post_ID,$Caption);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Comment added successfully']);
     } else {
@@ -133,7 +141,6 @@ if($action == 'addComment'){
     }
 }
 if($action == 'getComments'){
-    //$user_id = $_SESSION['CurrentUserID'];
     $Post_ID = $_POST['Post_ID'];
     $result = getComments($Post_ID);
     if ($result) {
@@ -155,7 +162,11 @@ if($action == 'deletePost'){
     $caption = $_POST['content'];
     $title = $_POST['title'];
     $media = $_POST['media'];
-    $result = addPost(1, $caption, $title,$media);
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = addPost($user_id, $caption, $title,$media);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Post shared successfully']);
     } else {

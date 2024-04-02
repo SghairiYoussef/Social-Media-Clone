@@ -50,6 +50,10 @@
                 let data = new FormData();
                 data.append('Content',content);
                 data.append('Post_ID',post_id);
+                const sessionId = sessionStorage.getItem('sessionId');
+                if (sessionId !== null) {
+                    data.append('sessionId', sessionId);
+                }
                 
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addComment`, data)
                     .then(response => {

@@ -108,7 +108,12 @@ export default {
                     
                     };
                 }
-                axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserProfile`)
+                const sessionId = sessionStorage.getItem('sessionId');
+                let data =new FormData();
+                if (sessionId !== null) {
+                    data.append('sessionId', sessionId);
+                }
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserProfile`,data)
                 .then(response => {
                     
                     let result = response.data;

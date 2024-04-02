@@ -95,7 +95,10 @@ export default {
                 data.append('Title',title);
                 data.append('Media',fileInput.files[0]);
                 console.log('posting data');
-                console.log(data);
+                const sessionId = sessionStorage.getItem('sessionId');
+                if (sessionId !== null) {
+                    data.append('sessionId', sessionId);
+                }
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addPost`, data)
                     .then(response => {
                         console.log("Post Added");
@@ -116,6 +119,10 @@ export default {
                 data.append('title',post.title);
                 data.append('content',post.content);
                 data.append('media',post.img);
+                const sessionId = sessionStorage.getItem('sessionId');
+                if (sessionId !== null) {
+                    data.append('sessionId', sessionId);
+                }
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=sharePost`, data)
                     .then(response => {
                         console.log(response);
