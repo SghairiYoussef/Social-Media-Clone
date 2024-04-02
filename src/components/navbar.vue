@@ -60,6 +60,7 @@ import searchBar from '@/components/searchBar.vue';
                 if(response.data.success) {
                   console.log(response.data.message);
                   sessionStorage.removeItem('sessionId');
+                  sessionStorage.removeItem('userId');
                   this.$router.push('/login');
                 }
               })

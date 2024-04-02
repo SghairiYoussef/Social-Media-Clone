@@ -91,6 +91,6 @@ function notification()
             </body>
         </html>
     ";
-    return sendEmail('',$subject,$body);     //put your email in the first parameter
+    return sendEmail('insatsocialclubadm1n@gmail.com',$subject,$body);     //put your email in the first parameter
 
 }

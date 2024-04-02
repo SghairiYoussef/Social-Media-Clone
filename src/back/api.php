@@ -19,7 +19,7 @@ include "Authentication/passwordResetEmail.php";
 include "Authentication/isLoggedIn.php";
 include "Authentication/setRememberMe.php";
 include "Authentication/logout.php";
-include "Authentication/getUserId.php";
+include "Authentication/getUserData.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -86,17 +86,19 @@ if ($action == 'signup') {
             session_start();
             $_SESSION['loggedIn'] = true;
             $sessionID = session_id();
-            $userId = getUserId('UserData', 'username', $username);
-            $_SESSION['userId'] = $userId;
+            $userData = getUserData('UserData', 'username', $username);
+            $_SESSION['userId'] = $userData['userID'];
+            $_SESSION['email'] = $userData['email'];
+            $isAdmin=$_SESSION['email']==='insatsocialclubadm1n@gmail.com';
             if ($rememberMe) {
                 $result = setRememberMe('UserData', $username);
                 if ($result) {
-                    echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set','sessionID'=>$sessionID,'userId'=>$userId]);
+                    echo json_encode(['success' => true, 'message' => 'User logged in successfully and remember me set','sessionID'=>$sessionID,'userId'=>$_SESSION['userId'],'isAdmin'=>$isAdmin]);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Failed to log in user and set remember me']);
                 }
             } else {
-                echo json_encode(['success' => true, 'message' => 'User logged in successfully','sessionID'=>$sessionID]);
+                echo json_encode(['success' => true, 'message' => 'User logged in successfully','sessionID'=>$sessionID,'userId'=>$_SESSION['userId'],'isAdmin'=>$isAdmin]);
             }
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to log in user']);
@@ -168,10 +170,12 @@ if ($action == 'isLoggedIn') {
     }
     $result = isLoggedIn();
         if ($result) {
-            echo json_encode(['success' => true, 'message' => 'User is logged in','sessionID'=>session_id(),'userId'=>$_SESSION['userId']]);
+            $isAdmin=$_SESSION['email']==='insatsocialclubadm1n@gmail.com';
+            echo json_encode(['success' => true, 'message' => 'User is logged in','sessionID'=>session_id(),'userId'=>$_SESSION['userId'],'isAdmin'=>$isAdmin]);
         } else {
             echo json_encode(['success' => false, 'message' => 'User is not logged in']);
         }
+
 
 
 }
