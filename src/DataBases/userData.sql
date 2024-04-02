@@ -8,5 +8,5 @@ CREATE OR REPLACE TABLE userdata (
     resetPasswordToken VARCHAR(64),
     rememberMeToken VARCHAR(64),
     bio VARCHAR(256),
-    image VARCHAR(126)
+    img VARCHAR(512)
 );

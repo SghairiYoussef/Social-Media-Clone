@@ -12,6 +12,7 @@ include "EditProfile/verifyUsername.php";
 include "EditProfile/updatePersonalDetails.php";
 include "EditProfile/verifyPassword.php";
 include "EditProfile/addAvatarName.php";
+include "EditProfile/fetchAvatar.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -80,7 +81,12 @@ if ($action == 'UploadAvatar'){
         }
         $fileDestination = 'avatars/'.$fileNameNew;
         move_uploaded_file($fileTmpName,$fileDestination);
+        $previousAvatar = fetchAvatar($userId);
         $result = addAvatarName($fileNameNew, $userId);
+        $previousAvatarPath = 'avatars/'.$previousAvatar['img'];
+        if (file_exists($previousAvatarPath)) {
+            unlink($previousAvatarPath);
+        }
         if ($result) {
             echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileDestination]);
         } else {
