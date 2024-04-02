@@ -1,6 +1,6 @@
 <template>
     <div class="container" v-cloak>
-        <div class="user_post">
+        <div class="user_post" v-if="routePath ==='/Home' || routePath==='/myAccount'">
             <img class="user_img" src="../../../public/img/noProfileImage.jpg" alt="User Image">
             <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
             <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
@@ -10,12 +10,12 @@
         
         <div v-if="Posts.length > 0">
             <div class="post" v-for="post in this.Posts" :key="post.title" >
-                <div class="post_header">
+                <div class="post_header" @click="selectUser(post.user.id)">
                     <img class = user_img :src="post.user.img" :alt="post.user.alt">
                     <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
                     <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;" v-if="isLoggedIn(post.user.id)===true">Delete Post</button>
                 </div>
-                <img v-if="post.img !== ''" :src="`../../src/back/uploads/${post.img}`" :alt="post.alt">
+                <img v-if="post.img !== ''" :src="require(`../../back/uploads/${post.img}`)" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
                     <button type="button" class="btn btn-outline-primary" @click="react(post)">
@@ -46,7 +46,8 @@ export default {
                     newContent: '',
                     newTitle: ''
                 },
-                comments :[]
+                comments :[],
+                routePath:''
             }
         },
         props:['Posts'],
@@ -152,8 +153,21 @@ export default {
                 console.log("current user id", currentUserID);
                  console.log("post user id", id);
                 return currentUserID == id;
+            },
+            selectUser(User_ID) {
+                const currentUserID = sessionStorage.getItem('userId');
+                if(currentUserID == User_ID){
+                    this.$router.push(`/myAccount`);
+                }else{
+                    this.$router.push(`/profile?User_ID=${User_ID}`);
+                }
+                
             }
             
+        },
+        created(){
+            this.routePath=window.location.pathname;
+            console.log("routePath", this.routePath,this.routePath ==='/Home' || this.routePath==='/myAccount');
         },
         components: {
             comments: CommentSection

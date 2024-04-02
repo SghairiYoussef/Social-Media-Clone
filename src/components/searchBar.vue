@@ -40,7 +40,12 @@
     },
     methods: {
       selectUser(User_ID) {
-        this.$router.push(`/profile?User_ID=${User_ID}`);
+        const currentUserID = sessionStorage.getItem('userId');
+                if(currentUserID == User_ID){
+                    this.$router.push(`/myAccount`);
+                }else{
+                    this.$router.push(`/profile?User_ID=${User_ID}`);
+                }
       }
     }
  }
