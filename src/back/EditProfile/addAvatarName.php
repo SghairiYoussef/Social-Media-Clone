@@ -3,7 +3,7 @@
 function addAvatarName($fileName, $userId){
     $connexion = ConnexionBD::getInstance();
     $fileName = $connexion->quote($fileName);
-    $sql = "update userData set image = $fileName where userId = $userId";
+    $sql = "update userData set img = $fileName where userId = $userId";
     $stmt = $connexion->query($sql);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if($result){

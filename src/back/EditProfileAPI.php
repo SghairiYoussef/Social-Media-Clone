@@ -57,17 +57,13 @@ if ($action == 'UpdatePersonalDetails'){
     
 }
 
-if (action == 'UploadAvatar'){
+if ($action == 'UploadAvatar'){
     $sessionId = $_POST['sessionId'];
     session_id($sessionId);
     session_start();
     $userId = $_SESSION['userId'];
 
     $file = $_FILES['avatar'];
-    if (!isset($file) || $file['error'] != 0) {
-        echo json_encode(['success' => false, 'message' => 'Failed to upload avatar']);
-        return;
-    }
     $fileName = $_FILES['avatar']['name'];
     $fileTmpName = $_FILES['avatar']['tmp_name'];
     $fileError = $_FILES['avatar']['error'];
@@ -89,7 +85,7 @@ if (action == 'UploadAvatar'){
             echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileDestination]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
-        }        
+        }    
     }
 }
 

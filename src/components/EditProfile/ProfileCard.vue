@@ -61,13 +61,13 @@ export default {
             if (response.data.data.bio !== null){
               this.bio = response.data.data.bio;
             }
+            this.avatarUrl = require('../../back/avatars/' + response.data.data.img); 
             this.setIsModified(false);
           }
         })
         .catch(error => {
           console.error('Error fetching profile details:', error);
         });
-      //this.avatarUrl = require('path/' + response.data.avatarUrl);
     },
     handleAvatarChange() {
       let fileInput = document.querySelector('input[type="file"]');
@@ -93,8 +93,8 @@ export default {
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UploadAvatar', data)
         .then(response => {
-          console.log(response.data);
-          if (response.data) {
+          console.log(response.data.path);
+          if (response.data.success) {
             console.log('Avatar uploaded:', response.data.message);
             this.avatarUrl = require('../../back/' + response.data.path);     
           }
