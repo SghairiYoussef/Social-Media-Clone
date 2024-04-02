@@ -97,12 +97,9 @@ import searchBar from '@/components/searchBar.vue';
                 }
                 axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllUsers`)
                 .then(response => {
-                    
                     let result = response.data;
-                    console.log(result);
-                    result = transformUserData(result);
-                    this.user = result;
-                    console.log(this.user);
+                    result = result.map(user=>transformUserData(user));
+                    this.users = result;
                 })
                 .catch(error => {
                     console.error('Error fetching User info:', error);
@@ -113,15 +110,7 @@ import searchBar from '@/components/searchBar.vue';
             searchBar
         },
         created () {
-            //axios.defaults.withCredentials = true;
-            axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllUsers`)
-            .then(response => {
-                console.log(response.data);
-                this.users = response.data;
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            this.fetchUsersInfo();
         }
     }
 

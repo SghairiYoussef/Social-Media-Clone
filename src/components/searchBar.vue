@@ -13,7 +13,7 @@
 <script>
  
  export default {
-    props: {
+   props: {
         users: {
             type: Array,
             required: true
@@ -29,9 +29,8 @@
      filteredList() {
       if (Array.isArray(this.users)) {
         let result= this.users.filter(user =>
-          user.userName.toLowerCase().includes(this.input.toLowerCase())
+          user.username.toLowerCase().includes(this.input.toLowerCase())
         );
-        console.log(result);
         return result;
       } else {
         console.error('Users prop is not an array.');
