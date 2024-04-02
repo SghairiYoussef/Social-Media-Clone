@@ -8,7 +8,7 @@
     </div>
     <div class="new-message-container">
       <textarea v-model="newMessage" class="form-control" rows="3" placeholder="Type your message..."></textarea>
-      <button @click="sendMessage" class="btn btn-primary">Send</button>
+      <button @click="sendMessage" class="btn btn-primary send-button">Send</button>
     </div>
   </div>
 </template>
@@ -68,7 +68,7 @@ export default {
           });
     },
     isSender(fromName) {
-  return fromName === this.currentUser;
+      return fromName === this.currentUser;
     },
     isConsecutive(fromName, index) {
       if (index > 0) {
@@ -76,8 +76,7 @@ export default {
         return fromName === previousMessage.from_name;
       }
       return false;
-}
-
+    }
   },
   mounted() {
     this.fetchInterval = setInterval(() => {
