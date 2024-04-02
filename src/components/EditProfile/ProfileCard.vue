@@ -30,7 +30,7 @@ export default {
       username: '',
       email: '',
       bio: 'No bio provided',
-      avatarUrl: ''
+      avatarUrl: require('../../../public/img/noProfileImage.jpg')
     };
   },
   computed: {
@@ -70,7 +70,24 @@ export default {
       //this.avatarUrl = require('path/' + response.data.avatarUrl);
     },
     handleAvatarChange() {
-      let fileInput = document.querySelector('input[type="file"]');
+      let fileInput = document.getElementById('avatarUpload');
+      console.log(fileInput.files[0]);
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        console.error('No file selected.');
+        return;
+      }
+      else if (fileInput.files[0].size > 2097152) {
+        console.error('File size exceeds 2MB.');
+        return;
+      }
+      else if (!fileInput.files[0].type.startsWith('image/')) {
+        console.error('File is not an image.');
+        return;
+      }
+      else if (!['.jpg', '.jpeg', '.png', '.gif'].includes(fileInput.files[0].name.slice(-4).toLowerCase())) {
+        console.error('File is not a valid image format.');
+        return;
+      }
       let sessionId = sessionStorage.getItem('sessionId');
       const data = new FormData();
       data.append('avatar', fileInput.files[0]);

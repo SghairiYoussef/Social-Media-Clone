@@ -4,6 +4,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
+header('Access-Control-Max-Age: 86400');
 
 include "EditProfile/fetch.php";
 include "DataBase.php";
@@ -56,7 +57,7 @@ if ($action == 'UpdatePersonalDetails'){
     
 }
 
-if (action == 'UpdateAvatar'){
+if (action == 'UploadAvatar'){
     $sessionId = $_POST['sessionId'];
     session_id($sessionId);
     session_start();
@@ -65,39 +66,25 @@ if (action == 'UpdateAvatar'){
     $file = $_FILES['avatar'];
     $fileName = $_FILES['avatar']['name'];
     $fileTmpName = $_FILES['avatar']['tmp_name'];
-    $fileSize = $_FILES['avatar']['size'];
     $fileError = $_FILES['avatar']['error'];
-    $fileType = $_FILES['avatar']['type'];
     $fileExt = explode('.',$fileName);
     $fileActualExt = strtolower(end($fileExt));
-    $allowed = array('jpg','jpeg','png');
-    print_r("file");
-    if(in_array($fileActualExt,$allowed)){
-        if($fileError === 0){
-            if($fileSize< 1000000){
-                $fileNameNew = uniqid('',true).'.'.$fileActualExt;
-                if (!file_exists('avatars/')) {
-                    mkdir('avatar/', 0777, true);
-                    echo "Directory 'avatars/' created successfully.";
-                }else{
-                    echo "Directory 'avatars/' already exists.";
-                }
-                $fileDestination = 'avatars/'.$fileNameNew;
-                move_uploaded_file($fileTmpName,$fileDestination);
-                $fileDestination='../back/'.$fileDestination;
-                $result = addAvatarName($fileNameNew, $userId);
-                if ($result) {
-                    echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully']);
-                } else {
-
-                    echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
-                }
-
-            }else{
-                echo "Your avatar is too big!";
-            }
+    if($fileError === 0){
+        $fileNameNew = uniqid('',true).'.'.$fileActualExt;
+        if (!file_exists('avatars/')) {
+            mkdir('avatar/', 0777, true);
+            echo "Directory 'avatars/' created successfully.";
         }else{
-            echo 'There was an error uploading your file!';
+            echo "Directory 'avatars/' already exists.";
+        }
+        $fileDestination = 'avatars/'.$fileNameNew;
+        move_uploaded_file($fileTmpName,$fileDestination);
+        $fileDestination='../back/'.$fileDestination;
+        $result = addAvatarName($fileNameNew, $userId);
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
         }
     }
 }
