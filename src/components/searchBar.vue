@@ -1,10 +1,12 @@
 <template>
     <input type="text" class="form-control me-2" v-model="input" placeholder="Search..." />
     <div v-if="input">
-      <div class="item fruit" v-for="user in filteredList" :key="user">
-        <!--<img :src="user.avatar" alt="profilePic" />-->
+      <div class="item fruit" v-for="user in filteredList" :key="user.id">
+      <div class="user-item">
+        <img :src="user.avatar" alt="profilePic" class="user-searchbar-avatar" />
         <p @click="selectUser(user.id)">{{ user.username }}</p>
       </div>
+    </div>
       <div class="item error" v-if="!filteredList.length">
         <p>No results found!</p>
       </div>
@@ -52,3 +54,22 @@
  }
  
 </script>
+
+<style scoped>
+.user-searchbar-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+}
+
+.user-item p {
+  margin: 0;
+}
+
+</style>
