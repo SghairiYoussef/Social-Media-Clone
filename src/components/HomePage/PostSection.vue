@@ -107,7 +107,7 @@ export default {
                         console.log("Post Added");
                         console.log(response);
                         this.$emit('postAdded', response);
-                        fileInput.value = '';
+                        //fileInput.value = '';
                     
                     })
                     .catch(error => {
