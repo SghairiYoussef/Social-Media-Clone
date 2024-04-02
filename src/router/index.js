@@ -10,6 +10,7 @@ import Messages from '@/views/Messages.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import Admin from '@/views/Admin.vue';
 import WelcomePage from '@/views/WelcomePage.vue';
+import UserAccount from '@/views/UserAccount.vue';
 import axios from "axios";
 
 const routes = [
@@ -62,6 +63,14 @@ const routes = [
     path: '/Messages',
     name: 'Messages',
     component: Messages,
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: UserAccount,
     meta: {
         requiresAuth: true
     }

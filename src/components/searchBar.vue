@@ -2,7 +2,7 @@
     <input type="text" class="form-control me-2" v-model="input" placeholder="Search..." />
     <div v-if="input">
       <div class="item fruit" v-for="user in filteredList" :key="user">
-        <p @click="selectUser">{{ user.username }}</p>
+        <p @click="selectUser(user.id)">{{ user.username }}</p>
       </div>
       <div class="item error" v-if="!filteredList.length">
         <p>No results found!</p>
@@ -39,8 +39,8 @@
      }
     },
     methods: {
-      selectUser() {
-        this.$router.push('/profile');
+      selectUser(User_ID) {
+        this.$router.push(`/profile?User_ID=${User_ID}`);
       }
     }
  }

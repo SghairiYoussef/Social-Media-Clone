@@ -194,3 +194,21 @@ if($action == 'getAllUsers'){
         echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
     }
 }
+if($action == 'getUserPosts'){
+    $user_id = $_POST['userID'];
+    $result = getUserPosts($user_id);
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+if($action == 'getUserProfile'){
+    $user_id = $_POST['userID'];
+    $result = getUser($user_id);
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
