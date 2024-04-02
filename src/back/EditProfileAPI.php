@@ -64,12 +64,17 @@ if (action == 'UploadAvatar'){
     $userId = $_SESSION['userId'];
 
     $file = $_FILES['avatar'];
+    if (!isset($file) || $file['error'] != 0) {
+        echo json_encode(['success' => false, 'message' => 'Failed to upload avatar']);
+        return;
+    }
     $fileName = $_FILES['avatar']['name'];
     $fileTmpName = $_FILES['avatar']['tmp_name'];
     $fileError = $_FILES['avatar']['error'];
     $fileExt = explode('.',$fileName);
     $fileActualExt = strtolower(end($fileExt));
     if($fileError === 0){
+        
         $fileNameNew = uniqid('',true).'.'.$fileActualExt;
         if (!file_exists('avatars/')) {
             mkdir('avatar/', 0777, true);
@@ -84,7 +89,7 @@ if (action == 'UploadAvatar'){
             echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileDestination]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
-        }
+        }        
     }
 }
 
