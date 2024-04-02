@@ -6,7 +6,7 @@
           <div class="user-avatar">
             <img :src="avatarUrl" alt="ProfileImage" class="ProfileImage img-fluid rounded-circle">
             <label for="avatarUpload" class="btn btn-outline-danger mt-2">Upload Image</label>
-            <input type="file" id="avatarUpload" name="file" accept="image/*" @change="handleAvatarChange" style="display: none;">
+            <input ref="avatarInput" type="file" id="avatarUpload" name="file" accept="image/*" @change="handleAvatarChange" style="display: none;">
           </div>
           <h5 class="username">{{ username }}</h5>
           <h6 class="user-email"><a :href="'mailto:' + email">{{ email }}</a></h6>
@@ -70,34 +70,32 @@ export default {
       //this.avatarUrl = require('path/' + response.data.avatarUrl);
     },
     handleAvatarChange() {
-      let fileInput = document.getElementById('avatarUpload');
-      console.log(fileInput.files[0]);
-      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      let fileInput = this.$refs.avatarInput;
+      let file = fileInput.files[0];
+      console.log(file);
+      if (!file) {
         console.error('No file selected.');
         return;
-      }
-      else if (fileInput.files[0].size > 2097152) {
+      } else if (file.size > 2097152) {
         console.error('File size exceeds 2MB.');
         return;
-      }
-      else if (!fileInput.files[0].type.startsWith('image/')) {
+      } else if (!file.type.startsWith('image/')) {
         console.error('File is not an image.');
         return;
-      }
-      else if (!['.jpg', '.jpeg', '.png', '.gif'].includes(fileInput.files[0].name.slice(-4).toLowerCase())) {
+      } else if (!['.jpg', '.jpeg', '.png', '.gif'].includes(file.name.slice(-4).toLowerCase())) {
         console.error('File is not a valid image format.');
         return;
       }
       let sessionId = sessionStorage.getItem('sessionId');
       const data = new FormData();
-      data.append('avatar', fileInput.files[0]);
+      data.append('avatar', file);
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UploadAvatar', data)
         .then(response => {
           console.log(response.data);
           if (response.data.success) {
             console.log('Avatar uploaded:', response.data.message);
-            this.avatarUrl = require('../../back/' + response.data.avatarUrl);     
+            this.avatarUrl = require('../../back/' + response.data.path);     
           }
         })
         .catch(error => {

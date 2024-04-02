@@ -79,10 +79,9 @@ if (action == 'UploadAvatar'){
         }
         $fileDestination = 'avatars/'.$fileNameNew;
         move_uploaded_file($fileTmpName,$fileDestination);
-        $fileDestination='../back/'.$fileDestination;
         $result = addAvatarName($fileNameNew, $userId);
         if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully']);
+            echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileDestination]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
         }

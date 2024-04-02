@@ -36,6 +36,7 @@
     "eslint-plugin-vue": "^8.0.3",
     "php-loader": "^0.2.0",
     "postcss-loader": "^8.1.1",
+    "raw-loader": "^4.0.2",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "vue-loader": "^17.4.2",
