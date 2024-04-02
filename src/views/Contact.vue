@@ -66,7 +66,7 @@ export default {
           .then(response => {
             console.log(response.data);
             if (response.data.success) {
-              this.successMessage = response.data.message;
+              this.successMessage = "Report sent successfully";
               this.name = '';
               this.email = '';
               this.message = '';
