@@ -61,6 +61,7 @@ export default {
             function transformPost(post) {
                     return {
                         user: {
+                            id:post.userID,
                             name: post.userName,
                             img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
                             alt: 'User Image'

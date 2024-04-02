@@ -13,7 +13,7 @@
                 <div class="post_header">
                     <img class = user_img :src="post.user.img" :alt="post.user.alt">
                     <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
-                    <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;">Delete Post</button>
+                    <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;" v-if="isLoggedIn(post.user.id)">Delete Post</button>
                 </div>
                 <img v-if="post.img !== ''" :src="`../../src/back/uploads/${post.img}`" :alt="post.alt">
                 <p>{{post.content}}</p>
@@ -144,6 +144,11 @@ export default {
                     .catch(error => {
                         console.error('Error Deleting Post:', error);
                     });
+            },
+            isLoggedIn(id){
+                const currentUserID = sessionStorage.getItem('userId');
+                console.log(currentUserID, ' id');
+                return currentUserID === id;
             }
             
         },
