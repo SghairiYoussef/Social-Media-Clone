@@ -30,18 +30,9 @@
             </tbody>
         </table>
     </div>
-    <div class="row">
-        <div class="Chart col-sm-6">
-            <chartSection/>
-        </div>
-        <div class="Chart-Container col-sm-5">
-            <img src="../../../public/img/logo.gif" alt="Logo" style="width:400px;" class="rounded-pill">
-        </div>
-    </div>
 </template>
 
 <script>
-    import chartSection from '@/components/Admin/chartSection.vue';
     import axios from 'axios';
     export default {
         data() {
@@ -99,9 +90,6 @@
         mounted() {
             this.fetchUsers();
         },
-        components: {
-            chartSection
-        }
     }
 </script>
 
