@@ -18,7 +18,7 @@
                     <td>{{ user.Email }}</td>
                     <td>{{ user.Role }}</td>
                     <td>
-                        <button @click="editUser(user)" class="btn btn-primary">Edit</button>
+                        
                         <button @click="deleteUser(user.User_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
@@ -51,9 +51,6 @@
             }
         },
         methods: {
-            editUser(user) {
-                console.log('Edit user', user);
-            },
             deleteUser(User_ID) {
                 let data = new FormData();
                 data.append('User_ID',User_ID);
@@ -78,9 +75,9 @@
             fetchUsers(){
                 function transformData(user) {
                     return {
-                        User_ID : user.User_ID,
-                        Username: user.Username,
-                        Email: user.mail,
+                        User_ID : user.userID,
+                        Username: user.userName,
+                        Email: user.email,
                         Role: "User"
                     };
                 }

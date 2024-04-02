@@ -1,0 +1,7 @@
+CREATE OR REPLACE TABLE comment (
+    Comment_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Content VARCHAR(500),
+    Date_posted DATE DEFAULT CURRENT_DATE() ,
+    Post_ID INT,
+    User_ID INT
+);

@@ -61,7 +61,8 @@ export default {
             function transformPost(post) {
                     return {
                         user: {
-                            name: post.Username,
+                            id:post.userID,
+                            name: post.userName,
                             img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
                             alt: 'User Image'
                         },
@@ -72,11 +73,16 @@ export default {
                         commentsShown: false,
                         newCommentContent: '',
                         isLiked: false,
-                        Post_ID : post.Post_ID
+                        Post_ID : post.Post_ID,
+                        React_Count : post.React_Count
                     };
                 }
-
-            axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserPosts`)
+            const sessionId = sessionStorage.getItem('sessionId');
+            let data =new FormData();
+            if (sessionId !== null) {
+                data.append('sessionId', sessionId);
+            }
+            axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserPosts`,data)
             .then(response => {
                 
                 let result = response.data;
@@ -93,17 +99,22 @@ export default {
             function transformUserData(user) {
                     return {
                     
-                        id: user.User_ID,
-                        name : user.fullname,
-                        username: user.Username,
-                        email: user.mail,
+                        id: user.userID,
+                        name : user.fullName,
+                        username: user.userName,
+                        email: user.email,
                         avatar: user.image? user.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
                         background: user.background? user.background : 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
                         bio: user.bio,
                     
                     };
                 }
-                axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserProfile`)
+                const sessionId = sessionStorage.getItem('sessionId');
+                let data =new FormData();
+                if (sessionId !== null) {
+                    data.append('sessionId', sessionId);
+                }
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserProfile`,data)
                 .then(response => {
                     
                     let result = response.data;

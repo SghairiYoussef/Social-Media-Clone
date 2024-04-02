@@ -2,7 +2,7 @@
   <navBar/>
   <div class="row">
     <div class = "col-sm-10">
-      <PostSection :Posts="visiblePosts()"/>
+      <PostSection :Posts="visiblePosts()" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()"/>
       <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
       <div v-else>
           <p class="Note">No more posts to load</p>
@@ -80,7 +80,8 @@
         function transformPost(post) {
                     return {
                         user: {
-                            name: post.Username,
+                            id:post.userID,
+                            name: post.userName,
                             img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
                             alt: 'User Image'
                         },
@@ -91,7 +92,8 @@
                         commentsShown: false,
                         newCommentContent: '',
                         isLiked: false,
-                        Post_ID : post.Post_ID
+                        Post_ID : post.Post_ID,
+                        React_Count : post.React_Count
                     };
                 }
 
@@ -116,9 +118,12 @@
       loadMorePosts() {
         this.visiblePostCount += 5;
       },
-      handlePostAdded(post) {
-        this.Posts.unshift(post);
-      }
+      handlePostAdded() {
+        this.fetchPosts();
+      },
+      handlePostDeleted(){
+            this.fetchPosts();
+        }
       
     },
     created() {
