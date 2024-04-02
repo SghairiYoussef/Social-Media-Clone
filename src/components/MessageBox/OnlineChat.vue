@@ -1,14 +1,14 @@
 <template>
   <div class="chat-container">
     <div class="messages-container">
-      <div v-for="(message, index) in messages" :key="index" :class="{ 'sender-message': isSender(message.from_name, index), 'receiver-message': !isSender(message.from_name, index) }" :style="{ 'background-color': isSender(message.from_name, index) ? '#007bff' : '#f0f0f0' }" class="message">
+      <div v-for="(message, index) in messages" :key="index" :class="{ 'sender-message': isSender(message.from_name), 'receiver-message': !isSender(message.from_name) }" class="message">
         <div v-if="!isConsecutiveSender(message.from_name, index)" class="message-sender">{{ message.from_name }}</div>
         <div class="message-content">{{ message.message }}</div>
       </div>
     </div>
     <div class="new-message-container">
       <textarea v-model="newMessage" class="form-control" rows="3" placeholder="Type your message..."></textarea>
-      <button @click="sendMessage" class="btn btn-primary">Send</button>
+      <button @click="sendMessage" class="btn btn-primary send-button">Send</button>
     </div>
   </div>
 </template>
@@ -67,11 +67,11 @@ export default {
             console.error('Error sending message:', error);
           });
     },
-    isSender(fromName, index) {
-      return fromName === this.currentUser && (!index || fromName !== this.messages[index - 1].from_name);
+    isSender(fromName) {
+      return fromName === this.currentUser;
     },
     isConsecutiveSender(fromName, index) {
-      return fromName === this.currentUser && index && fromName === this.messages[index - 1].from_name;
+      return index > 0 && fromName === this.messages[index - 1].from_name;
     }
   },
   mounted() {
@@ -102,6 +102,9 @@ export default {
 .message {
   margin-bottom: 10px;
   word-wrap: break-word; /* Wrap long messages */
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 70%;
 }
 
 .message-sender {
@@ -113,18 +116,12 @@ export default {
   align-self: flex-end; /* Align sender's messages to the right */
   color: #fff;
   background-color: #007bff; /* Set background color for sender's messages */
-  border-radius: 10px; /* Increase border-radius for a rounded look */
-  padding: 10px; /* Increase padding for better spacing */
-  max-width: 70%;
 }
 
 .receiver-message {
   align-self: flex-start; /* Align receiver's messages to the left */
   color: #000;
   background-color: #f0f0f0; /* Set background color for receiver's messages */
-  border-radius: 10px; /* Increase border-radius for a rounded look */
-  padding: 10px; /* Increase padding for better spacing */
-  max-width: 70%;
 }
 
 .new-message-container {
@@ -140,8 +137,8 @@ export default {
   padding: 10px; /* Add padding to textarea */
 }
 
-.new-message-container button {
-  padding: 10px 20px;
+.new-message-container button.send-button {
+  padding: 8px 15px; /* Adjust button padding */
   border-radius: 5px;
   background-color: #007bff;
   color: #fff;
@@ -149,7 +146,7 @@ export default {
   cursor: pointer;
 }
 
-.new-message-container button:hover {
+.new-message-container button.send-button:hover {
   background-color: #0056b3;
 }
 </style>
