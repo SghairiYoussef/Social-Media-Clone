@@ -134,7 +134,9 @@ export default {
             },
             react(post){
                 let data = new FormData();
+                const currentUserID = sessionStorage.getItem('userId');
                 data.append('Post_ID',post.Post_ID);
+                data.append('User_ID',currentUserID);
                 console.log(post.Post_ID);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=reactToPost`, data)
                     .then(response => {

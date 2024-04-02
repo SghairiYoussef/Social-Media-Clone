@@ -176,7 +176,8 @@ if($action == 'deletePost'){
 }
 if($action == 'reactToPost'){
     $Post_ID = $_POST['Post_ID'];
-    $result = addReact($Post_ID);
+    $user_id = $_POST['User_ID'];
+    $result = addReact($Post_ID,$user_id);
     print_r($result);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'React added successfully']);
