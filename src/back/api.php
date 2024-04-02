@@ -194,3 +194,18 @@ if($action=='logout') {
 
 }
 
+if($action=='verifyAdmin') {
+    if (isset($_POST['sessionId'])){
+        $sessionID = $_POST['sessionId'];
+        session_id($sessionID);
+        session_start();
+        $userId = $_SESSION['userId'];
+    }
+    $userData = getUserData('userData','userID',$userId);
+    $isAdmin=$userData['email']==='insatsocialclubadm1n@gmail.com';
+    if ($isAdmin) {
+        echo json_encode(['success' => true, 'message' => 'User is an admin', 'isAdmin' => $isAdmin]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'User is not an admin']);
+    }
+}
