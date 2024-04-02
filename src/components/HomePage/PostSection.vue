@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-cloak>
         <div class="user_post" v-if="routePath ==='/Home' || routePath==='/myAccount'">
-            <img class="user_img" src="../../../public/img/noProfileImage.jpg" alt="User Image">
+            <img class="user_img" :src="avatar" alt="User Image">
             <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
             <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
             <!--<input class="post_input" type="file" name="file" accept="image/*" >-->
@@ -49,8 +49,12 @@ export default {
                     newTitle: ''
                 },
                 comments :[],
-                routePath:''
+                routePath:'',
+                avatar: require('../../../public/img/noProfileImage.jpg')
             }
+        },
+        mounted(){
+            this.fetchAvatar();
         },
         props:['Posts'],
         methods: {
@@ -165,6 +169,20 @@ export default {
                     this.$router.push(`/profile?User_ID=${User_ID}`);
                 }
                 
+            },
+            fetchAvatar(){
+                let data = new FormData();
+                let sessionId = sessionStorage.getItem('sessionId');
+                data.append('sessionId', sessionId);
+                axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
+                .then(response => {
+                    if(response.data.success){
+                        this.avatar = require('../../back/avatars/' + response.data.data.img); 
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching profile details:', error);
+                });
             }
             
         },
