@@ -4,12 +4,15 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
+header('Access-Control-Max-Age: 86400');
 
 include "EditProfile/fetch.php";
 include "DataBase.php";
 include "EditProfile/verifyUsername.php";
 include "EditProfile/updatePersonalDetails.php";
 include "EditProfile/verifyPassword.php";
+include "EditProfile/addAvatarName.php";
+include "EditProfile/fetchAvatar.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -53,5 +56,42 @@ if ($action == 'UpdatePersonalDetails'){
         echo json_encode(['success' => false, 'message' => 'Failed to update personal details']);
     }
     
+}
+
+if ($action == 'UploadAvatar'){
+    $sessionId = $_POST['sessionId'];
+    session_id($sessionId);
+    session_start();
+    $userId = $_SESSION['userId'];
+
+    $file = $_FILES['avatar'];
+    $fileName = $_FILES['avatar']['name'];
+    $fileTmpName = $_FILES['avatar']['tmp_name'];
+    $fileError = $_FILES['avatar']['error'];
+    $fileExt = explode('.',$fileName);
+    $fileActualExt = strtolower(end($fileExt));
+    if($fileError === 0){
+        
+        $fileNameNew = uniqid('',true).'.'.$fileActualExt;
+        if (!file_exists('avatars/')) {
+            mkdir('avatar/', 0777, true);
+            echo "Directory 'avatars/' created successfully.";
+        }else{
+            echo "Directory 'avatars/' already exists.";
+        }
+        $fileDestination = 'avatars/'.$fileNameNew;
+        move_uploaded_file($fileTmpName,$fileDestination);
+        $previousAvatar = fetchAvatar($userId);
+        $result = addAvatarName($fileNameNew, $userId);
+        $previousAvatarPath = 'avatars/'.$previousAvatar['img'];
+        if (file_exists($previousAvatarPath)) {
+            unlink($previousAvatarPath);
+        }
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileDestination]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
+        }    
+    }
 }
 
