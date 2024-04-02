@@ -22,6 +22,9 @@
                 <li class="nav-item">
                     <a class="nav-link" @click="redirectContactUs" style="font-size: 20px">Contact Us</a>
                 </li>
+                <li class="nav-item" v-if="isAdmin">
+                    <a class="nav-link" @click="redirectAdmin" style="font-size: 20px">Admin Panel</a>
+                </li>
             </ul>
         </div>
         <form class="d-flex">
@@ -44,7 +47,8 @@ import searchBar from '@/components/searchBar.vue';
     export default {
         data () {
             return {
-                users: []
+                users: [],
+                isAdmin: false
             }
         },
         name: 'NavBar',
@@ -73,6 +77,9 @@ import searchBar from '@/components/searchBar.vue';
             redirectHome() {
                 this.$router.push('/Home');
             },
+            redirectAdmin() {
+                this.$router.push('/Admin');
+            },
             redirectMessages() {
                 this.$router.push('/Messages');
             },
@@ -90,7 +97,7 @@ import searchBar from '@/components/searchBar.vue';
                         name : user.fullName,
                         username: user.userName,
                         email: user.email,
-                        avatar: user.image? user.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                        avatar: user.img? require(`../back/avatars/${user.img}`) : require(`../../public/img/noProfileImage.jpg`),
                         background: user.background? user.background : 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
                         bio: user.bio,
                     
@@ -112,6 +119,25 @@ import searchBar from '@/components/searchBar.vue';
         },
         created () {
             this.fetchUsersInfo();
+        },
+        mounted() {
+            let data = new FormData();
+            let sessionId = sessionStorage.getItem('sessionId');
+            data.append('sessionId', sessionId);
+            axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=verifyAdmin', data)
+            .then(response => {
+                if(response.data.success){
+                    if(response.data.isAdmin){
+                        this.isAdmin = true;
+                    }
+                    else{
+                        this.isAdmin = false;
+                    }
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching profile details:', error);
+        });
         }
     }
 

@@ -2,6 +2,7 @@
     <input type="text" class="form-control me-2" v-model="input" placeholder="Search..." />
     <div v-if="input">
       <div class="item fruit" v-for="user in filteredList" :key="user">
+        <!--<img :src="user.avatar" alt="profilePic" />-->
         <p @click="selectUser(user.id)">{{ user.username }}</p>
       </div>
       <div class="item error" v-if="!filteredList.length">
