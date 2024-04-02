@@ -109,6 +109,7 @@ router.beforeEach((to, from, next) => {
           } else {
             // If the user is logged in, continue with the navigation
             sessionStorage.setItem('sessionId', response.data.sessionID);
+            sessionStorage.setItem('userId', response.data.userId);
             next();
           }
         })

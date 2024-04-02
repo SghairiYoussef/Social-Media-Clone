@@ -125,6 +125,7 @@ export default {
 
             if (action === 'login' && response.data.success) {
               sessionStorage.setItem('sessionId', response.data.sessionID);
+              sessionStorage.setItem('userId', response.data.userId);
               console.log(response.data.sessionID);
 
               this.$router.push('/Home');
