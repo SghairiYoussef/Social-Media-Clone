@@ -60,6 +60,7 @@ import searchBar from '@/components/searchBar.vue';
                 if(response.data.success) {
                   console.log(response.data.message);
                   sessionStorage.removeItem('sessionId');
+                  sessionStorage.removeItem('userId');
                   this.$router.push('/login');
                 }
               })
@@ -80,21 +81,37 @@ import searchBar from '@/components/searchBar.vue';
             },
             redirectContactUs() {
                 this.$router.push('/Contact');
+            },
+            fetchUsersInfo(){
+            function transformUserData(user) {
+                    return {
+                    
+                        id: user.userID,
+                        name : user.fullName,
+                        username: user.userName,
+                        email: user.email,
+                        avatar: user.image? user.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                        background: user.background? user.background : 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
+                        bio: user.bio,
+                    
+                    };
+                }
+                axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllUsers`)
+                .then(response => {
+                    let result = response.data;
+                    result = result.map(user=>transformUserData(user));
+                    this.users = result;
+                })
+                .catch(error => {
+                    console.error('Error fetching User info:', error);
+        });
             }
         },
         components: {
             searchBar
         },
         created () {
-            axios.defaults.withCredentials = true;
-            axios.get(`http://localhost/php/Social-Media-Clone/src/back/Messenger/getUsers.php?action=getUsers`)
-            .then(response => {
-                console.log(response.data);
-                this.users = response.data;
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            this.fetchUsersInfo();
         }
     }
 

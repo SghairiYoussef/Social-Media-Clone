@@ -28,13 +28,16 @@ include "Controllers/getUserID.php";
 include "Controllers/addPost.php";
 include "Controllers/addComment.php";
 include "Controllers/deletePost.php";
+include "Controllers/addReact.php";
+include "Controllers/getAllUsers.php";
 $action='';
 if (isset($_GET['action'])) {
 
     $action=$_GET['action'];
 }
 if($action == 'getAllPosts'){
-    //$user_id = $_SESSION['CurrentUserID'];;
+    //$user_id = $_SESSION['CurrentUserID'];
+    
     $result = getPostsForFeed();
     if ($result) {
         echo $result;
@@ -43,8 +46,11 @@ if($action == 'getAllPosts'){
     }
 }
 if($action == 'getCurrentUserPosts'){
-    //$user_id = $_SESSION['CurrentUserID'];;
-    $result = getUserPosts(2);
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = getUserPosts($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -52,8 +58,11 @@ if($action == 'getCurrentUserPosts'){
     }
 }
 if($action == 'getCurrentUserProfile'){
-    //$user_id = $_SESSION['CurrentUserID'];
-    $result = getUser(2);
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = getUser($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -61,7 +70,10 @@ if($action == 'getCurrentUserProfile'){
     }
 }
 if($action == 'addPost'){
-    //$user_id = $_SESSION['CurrentUserID'];
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
     $Caption = $_POST['Content'];
     $Title = $_POST['Title'];
     $file = $_FILES['Media'];
@@ -89,7 +101,7 @@ if($action == 'addPost'){
                 move_uploaded_file($fileTmpName,$fileDestination);
                 $fileDestination='../../src/back/'.$fileDestination;
                 //change the user id
-                $result = addPost(2, $Caption, $Title,$fileNameNew);
+                $result = addPost($user_id, $Caption, $Title,$fileNameNew);
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
                 } else {
@@ -104,7 +116,7 @@ if($action == 'addPost'){
             echo 'There was an error uploading your file!';
         }
     }else{
-        $result = addPost(2, $Caption, $Title,"");
+        $result = addPost($user_id, $Caption, $Title,"");
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
                 } else {
@@ -114,10 +126,13 @@ if($action == 'addPost'){
     }
 }
 if($action == 'addComment'){
-    //$user_id = $_SESSION['CurrentUserID'];
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
     $Caption = $_POST['Content'];
     $Post_ID = $_POST['Post_ID'];
-    $result = addComment(2, $Post_ID,$Caption);
+    $result = addComment($user_id, $Post_ID,$Caption);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Comment added successfully']);
     } else {
@@ -126,7 +141,6 @@ if($action == 'addComment'){
     }
 }
 if($action == 'getComments'){
-    //$user_id = $_SESSION['CurrentUserID'];
     $Post_ID = $_POST['Post_ID'];
     $result = getComments($Post_ID);
     if ($result) {
@@ -143,5 +157,58 @@ if($action == 'deletePost'){
         echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
     }else{
         echo json_encode(['success' => false, 'message' => 'Error deleting post']);
+    }
+}if($action == 'sharePost'){
+    $caption = $_POST['content'];
+    $title = $_POST['title'];
+    $media = $_POST['media'];
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = addPost($user_id, $caption, $title,$media);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Post shared successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error sharing post']);
+    }
+
+}
+if($action == 'reactToPost'){
+    $Post_ID = $_POST['Post_ID'];
+    $user_id = $_POST['User_ID'];
+    $result = addReact($Post_ID,$user_id);
+    print_r($result);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'React added successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error reacting to post']);
+    }
+
+}
+if($action == 'getAllUsers'){
+    $result = getAllUsers();
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+if($action == 'getUserPosts'){
+    $user_id = $_POST['userID'];
+    $result = getUserPosts($user_id);
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
+    }
+}
+if($action == 'getUserProfile'){
+    $user_id = $_POST['userID'];
+    $result = getUser($user_id);
+    if ($result) {
+        echo $result;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to retrieve Data']);
     }
 }

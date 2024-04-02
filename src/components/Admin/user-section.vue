@@ -18,7 +18,7 @@
                     <td>{{ user.Email }}</td>
                     <td>{{ user.Role }}</td>
                     <td>
-                        <button @click="editUser(user)" class="btn btn-primary">Edit</button>
+                        
                         <button @click="deleteUser(user.User_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
@@ -30,18 +30,9 @@
             </tbody>
         </table>
     </div>
-    <div class="row">
-        <div class="Chart col-sm-6">
-            <chartSection/>
-        </div>
-        <div class="Chart-Container col-sm-5">
-            <img src="../../../public/img/logo.gif" alt="Logo" style="width:400px;" class="rounded-pill">
-        </div>
-    </div>
 </template>
 
 <script>
-    import chartSection from '@/components/Admin/chartSection.vue';
     import axios from 'axios';
     export default {
         data() {
@@ -51,9 +42,6 @@
             }
         },
         methods: {
-            editUser(user) {
-                console.log('Edit user', user);
-            },
             deleteUser(User_ID) {
                 let data = new FormData();
                 data.append('User_ID',User_ID);
@@ -78,9 +66,9 @@
             fetchUsers(){
                 function transformData(user) {
                     return {
-                        User_ID : user.User_ID,
-                        Username: user.Username,
-                        Email: user.mail,
+                        User_ID : user.userID,
+                        Username: user.userName,
+                        Email: user.email,
                         Role: "User"
                     };
                 }
@@ -102,9 +90,6 @@
         mounted() {
             this.fetchUsers();
         },
-        components: {
-            chartSection
-        }
     }
 </script>
 

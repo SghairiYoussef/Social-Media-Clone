@@ -20,9 +20,6 @@
     <div v-else>
         <p class="Note">No more posts to load</p>
     </div>
-    <button class="btn btn-info" @click="editProfile()" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
-        Edit Profile
-    </button>
 </template>
 
 <script>
@@ -77,12 +74,9 @@ export default {
                         React_Count : post.React_Count
                     };
                 }
-            const sessionId = sessionStorage.getItem('sessionId');
             let data =new FormData();
-            if (sessionId !== null) {
-                data.append('sessionId', sessionId);
-            }
-            axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserPosts`,data)
+            data.append('userID',this.getParameterByName('User_ID'));
+            axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getUserPosts`,data)
             .then(response => {
                 
                 let result = response.data;
@@ -109,12 +103,9 @@ export default {
                     
                     };
                 }
-                const sessionId = sessionStorage.getItem('sessionId');
                 let data =new FormData();
-                if (sessionId !== null) {
-                    data.append('sessionId', sessionId);
-                }
-                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getCurrentUserProfile`,data)
+                data.append('userID',this.getParameterByName('User_ID'));
+                axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getUserProfile`,data)
                 .then(response => {
                     
                     let result = response.data;
@@ -135,13 +126,22 @@ export default {
         },
         handlePostDeleted(){
             this.fetchPosts();
-        }
+        },
+        getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
     },
     mounted() {
         // Fetch initial set of posts when the component is created
         this.fetchPosts();
         this.fetchUserInfo();
-        console.log("mounted")
+        console.log("PROFILE USER ID");
+        console.log(this.getParameterByName('User_ID'));
     },
 };
 </script>

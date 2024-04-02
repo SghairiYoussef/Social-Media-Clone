@@ -121,13 +121,17 @@ export default {
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
             this.errorMessage = response.data.message;
-            console.log(response.data.message);
+            console.log(response.data);
 
             if (action === 'login' && response.data.success) {
               sessionStorage.setItem('sessionId', response.data.sessionID);
-              console.log(response.data.sessionID);
-
-              this.$router.push('/Home');
+              sessionStorage.setItem('userId', response.data.userId);
+              if(response.data.isAdmin){
+                this.$router.push('/admin');
+              }
+              else {
+                this.$router.push('/Home');
+              }
             }
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');

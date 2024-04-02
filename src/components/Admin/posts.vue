@@ -46,7 +46,7 @@
         <div class="col-sm-6">
             <div v-if="commentsShown!=NaN && Posts[commentsShown] && Posts[commentsShown].Comments">
                 <div v-for="comment in Posts[commentsShown].Comments" :key="comment.comment_ID">
-                    <p>{{ comment.Username }}</p>
+                    <p>{{ comment.userName }}</p>
                     <p>{{ comment.Content }}</p>
                 </div>
             </div>
@@ -129,7 +129,7 @@ import axios from 'axios';
                 function transformPost(post) {
 
                     return {
-                        Username: post.Username,
+                        Username: post.userName,
                         Content: post.Caption,
                         Media: post.Media,
                         Comments: post.Comments,

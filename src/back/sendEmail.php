@@ -21,7 +21,7 @@ function sendEmail($email, $subject, $body)
         $mail->Port = 587;
 
         // Recipients
-        $mail->setFrom('youssef.fazloun@gmail.com', 'Mailer');
+        $mail->setFrom('youssef.fazloun@gmail.com', 'INSAT Social Club');
         $mail->addAddress($email);
 
         // Content

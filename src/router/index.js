@@ -10,6 +10,7 @@ import Messages from '@/views/Messages.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import Admin from '@/views/Admin.vue';
 import WelcomePage from '@/views/WelcomePage.vue';
+import UserAccount from '@/views/UserAccount.vue';
 import axios from "axios";
 
 const routes = [
@@ -28,7 +29,7 @@ const routes = [
   },
   {
     path: '/',
-    redirect: '/Home'
+    redirect: '/Admin'
   },
   {
     path: '/login/verifyEmail',
@@ -67,6 +68,14 @@ const routes = [
     }
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: UserAccount,
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
     path: '/EditProfile',
     name: 'EditProfile',
     component: EditProfile,
@@ -77,7 +86,10 @@ const routes = [
   {
     path: '/Admin',
     name: 'Admin',
-    component: Admin
+    component: Admin,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/WelcomePage',
@@ -102,13 +114,18 @@ router.beforeEach((to, from, next) => {
     axios.defaults.withCredentials = true;
     axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn`,data)
         .then(response => {
-          console.log(response.data.message);
+          console.log(response.data);
           if (!response.data.success) {
             // If the user is not logged in, redirect to the login page
             next('/WelcomePage');
           } else {
             // If the user is logged in, continue with the navigation
             sessionStorage.setItem('sessionId', response.data.sessionID);
+            sessionStorage.setItem('userId', response.data.userId);
+            console.log(response.data.isAdmin);
+            if(to.meta.isAdmin && !response.data.isAdmin){
+                next('/Home');
+            }
             next();
           }
         })
