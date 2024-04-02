@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-sm navbar-custom navbar-dark justify-content-center">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="../../public/img/logo.jpg" alt="Logo" style="width:50px;" class="rounded-pill">
+            <img src="../../public/img/navlogo.gif" alt="Logo" style="width:100px;" >
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -119,7 +119,7 @@ import searchBar from '@/components/searchBar.vue';
 
 <style scoped>
     .navbar-custom {
-        background-color: #22223b;
+        background-color: #0D161A;
         color: white;
     }
     .navbar-brand {
