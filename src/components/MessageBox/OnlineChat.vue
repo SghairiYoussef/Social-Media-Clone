@@ -2,7 +2,7 @@
   <div class="chat-container">
     <div class="messages-container" ref="messagesContainer">
       <div v-for="(message, index) in messages" :key="index" :class="{ 'sender-message': isSender(message.from_name), 'receiver-message': !isSender(message.from_name) }" :style="{ 'background-color': isSender(message.from_name) ? '#007bff' : '#f0f0f0' }" class="message">
-        <div v-if="!isConsecutive(message.from_name, index)" class="message-sender">{{ message.from_name }} <span class="message-time">{{ message.time }}</span></div>
+        <div v-if="!isConsecutive(message.from_name, index)" class="message-sender">{{ message.from_name }} <span class="message-time">{{ formatMessageTime(message.time) }}</span></div>
         <div class="message-content">{{ message.message }}</div>
       </div>
     </div>
@@ -93,12 +93,34 @@ export default {
     isConsecutive(fromName, index) {
       if (index > 0) {
         const previousMessage = this.messages[index - 1];
-        return fromName === previousMessage.from_name;
+        const currentMessage = this.messages[index];
+        const previousTime = new Date(previousMessage.time);
+        const currentTime = new Date(currentMessage.time);
+        const timeDifference = Math.abs(currentTime - previousTime) / (1000 * 60);
+        return fromName === previousMessage.from_name && timeDifference <= 5;
       }
-      return false;
-    },
+  return false;
+},
     scrollToBottom() {
       this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
+    },
+    formatMessageTime(time) {
+      const messageTime = new Date(time);
+      const today = new Date();
+      if (
+        messageTime.getDate() === today.getDate() &&
+        messageTime.getMonth() === today.getMonth() &&
+        messageTime.getFullYear() === today.getFullYear()
+      ) {
+        let hours = messageTime.getHours();
+        let suffix = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const minutes = messageTime.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes} ${suffix}`;
+      } else {
+        return `${messageTime.getMonth() + 1}/${messageTime.getDate()} ${messageTime.getHours()}:${messageTime.getMinutes().toString().padStart(2, '0')}`;
+      }
     }
   },
   mounted() {
