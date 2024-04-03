@@ -119,7 +119,17 @@ export default {
         const minutes = messageTime.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes} ${suffix}`;
       } else {
-        return `${messageTime.getMonth() + 1}/${messageTime.getDate()} ${messageTime.getHours()}:${messageTime.getMinutes().toString().padStart(2, '0')}`;
+        const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+        const year = (messageTime.getFullYear() !== today.getFullYear()) ? `, ${messageTime.getFullYear()}` : '';
+        const month = months[messageTime.getMonth()];
+        const day = messageTime.getDate();
+        let hours = messageTime.getHours();
+        let suffix = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const minutes = messageTime.getMinutes().toString().padStart(2, '0');
+        const time = `${year}, ${month}, ${day} at ${hours}:${minutes} ${suffix}`;
+        return time.substring(1);
       }
     }
   },
