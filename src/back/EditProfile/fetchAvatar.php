@@ -6,7 +6,9 @@ function fetchAvatar($userId){
     $sql = "SELECT img FROM userData WHERE userID = $userId ;";
     $stmt = $connexion->query($sql);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $result;
+    if ($result) {
+        return $result['img'];
+    }
+    return false;
 }
 ?>

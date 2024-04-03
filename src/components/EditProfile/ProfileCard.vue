@@ -57,7 +57,6 @@ export default {
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
         .then(response => {
-          console.log(response.data.data);
           if(response.data.success){
             this.username = response.data.data.username;
             this.email = response.data.data.email;
@@ -98,9 +97,8 @@ export default {
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UploadAvatar', data)
         .then(response => {
-          console.log(response.data.path);
           if (response.data.success) {
-            console.log('Avatar uploaded:', response.data.message);
+            console.log(response.data.message);
             this.avatarUrl = require('../../back/avatars/' + response.data.path);
           }
         })

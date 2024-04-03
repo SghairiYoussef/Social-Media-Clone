@@ -80,10 +80,13 @@ if ($action == 'UploadAvatar'){
         move_uploaded_file($fileTmpName,$fileDestination);
         $previousAvatar = fetchAvatar($userId);
         $result = addAvatarName($fileNameNew, $userId);
-        $previousAvatarPath = 'avatars/'.$previousAvatar['img'];
-        if (file_exists($previousAvatarPath)) {
-            unlink($previousAvatarPath);
+        if ($previousAvatar){
+            $previousAvatarPath = 'avatars/'.$previousAvatar;
+            if (file_exists($previousAvatarPath)) {
+                unlink($previousAvatarPath);
+            }
         }
+        
         if ($result) {
             echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileNameNew]);
         } else {
