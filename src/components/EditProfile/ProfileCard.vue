@@ -40,10 +40,13 @@ export default {
     this.fetchUserData();
   },
   watch: {
-    isModified() {
-      if (this.isModified) {
-        this.fetchUserData();
-      }
+    isModified: {
+      immediate: true,
+      handler(newValue, oldValue) {
+        if (newValue!==oldValue) {
+          this.fetchUserData();
+        }
+    }
     }
   },
   methods: {
@@ -61,7 +64,9 @@ export default {
             if (response.data.data.bio !== null){
               this.bio = response.data.data.bio;
             }
-            this.avatarUrl = require('../../back/avatars/' + response.data.data.img); 
+            if (response.data.data.img !== null){
+              this.avatarUrl = require('../../back/avatars/' + response.data.data.img);
+            }
             this.setIsModified(false);
           }
         })
