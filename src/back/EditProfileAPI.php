@@ -88,7 +88,7 @@ if ($action == 'UploadAvatar'){
             unlink($previousAvatarPath);
         }
         if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileDestination]);
+            echo json_encode(['success' => true, 'message' => 'Avatar uploaded successfully', 'path' => $fileNameNew]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);
         }    

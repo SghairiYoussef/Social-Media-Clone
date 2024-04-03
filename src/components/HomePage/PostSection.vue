@@ -177,7 +177,9 @@ export default {
                 axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
                 .then(response => {
                     if(response.data.success){
-                        this.avatar = require('../../back/avatars/' + response.data.data.img); 
+                        if (response.data.data.img !== null){
+                        this.avatar = require('../../back/avatars/' + response.data.data.img);
+                    }
                     }
                 })
                 .catch(error => {
