@@ -74,10 +74,7 @@ if ($action == 'UploadAvatar'){
         
         $fileNameNew = uniqid('',true).'.'.$fileActualExt;
         if (!file_exists('avatars/')) {
-            mkdir('avatar/', 0777, true);
-            echo "Directory 'avatars/' created successfully.";
-        }else{
-            echo "Directory 'avatars/' already exists.";
+            mkdir('avatars/', 0777, true);
         }
         $fileDestination = 'avatars/'.$fileNameNew;
         move_uploaded_file($fileTmpName,$fileDestination);
