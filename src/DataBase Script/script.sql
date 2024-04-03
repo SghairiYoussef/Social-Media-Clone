@@ -1,0 +1,73 @@
+CREATE DATABASE IF NOT EXISTS INSATSocialClub;
+
+USE INSATSocialClub;
+
+CREATE TABLE IF NOT EXISTS userdata (
+    userID INT AUTO_INCREMENT PRIMARY KEY,
+    fullName VARCHAR(64),
+    userName VARCHAR(32),
+    email VARCHAR(64),
+    password VARCHAR(64),
+    birthDay DATE,
+    resetPasswordToken VARCHAR(64),
+    rememberMeToken VARCHAR(64),
+    bio VARCHAR(256),
+    img VARCHAR(512)
+);
+
+CREATE TABLE IF NOT EXISTS messenger (
+    from_name VARCHAR(40) NOT NULL,
+    to_name VARCHAR(40) NOT NULL,
+    message LONGTEXT NOT NULL,
+    time DATETIME NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS report (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    fullName VARCHAR(64),
+    email VARCHAR(64),
+    message VARCHAR(256),
+    date DATETIME
+);
+
+CREATE TABLE IF NOT EXISTS post (
+    Post_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Caption VARCHAR(500),
+    Date_published DATE DEFAULT CURRENT_DATE(),
+    Media VARCHAR(500),
+    React_Count INT DEFAULT 0,
+    User_ID INT,
+    title VARCHAR(64),
+    FOREIGN KEY (User_ID) REFERENCES userdata(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS reacts (
+    Post_ID INT,
+    User_ID INT,
+    PRIMARY KEY (Post_ID, User_ID),
+    FOREIGN KEY (Post_ID) REFERENCES post(Post_ID) ON DELETE CASCADE,
+    FOREIGN KEY (User_ID) REFERENCES userdata(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS comment (
+    Comment_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Content VARCHAR(500),
+    Date_posted DATE DEFAULT CURRENT_DATE(),
+    Post_ID INT,
+    User_ID INT,
+    FOREIGN KEY (Post_ID) REFERENCES post(Post_ID) ON DELETE CASCADE,
+    FOREIGN KEY (User_ID) REFERENCES userdata(userID) ON DELETE CASCADE
+);
+
+DELIMITER //
+
+CREATE TRIGGER post_delete_trigger
+AFTER DELETE ON post
+FOR EACH ROW
+BEGIN
+    DELETE FROM reacts WHERE Post_ID = OLD.Post_ID;
+    DELETE FROM comment WHERE Post_ID = OLD.Post_ID;
+END;
+//
+
+DELIMITER ;

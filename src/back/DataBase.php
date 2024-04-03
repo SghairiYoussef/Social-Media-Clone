@@ -1,7 +1,7 @@
 <?php
 class ConnexionBD
 {
-    private static $_dbname = "login.php";
+    private static $_dbname = "INSATSocialClub";
     private static $_user = "root";
     private static $_pwd = "";
     private static $_host = "localhost";
