@@ -23,6 +23,8 @@
   .message-sender {
     font-weight: bold;
     margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
   }
   
   .sender-message {
@@ -65,4 +67,13 @@
   
   .new-message-container button:hover {
     background-color: #0056b3;
+  }
+  .message-time {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+
+  .sender-message .message-time {
+    color: #fff;
   }
