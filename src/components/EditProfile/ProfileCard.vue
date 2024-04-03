@@ -101,7 +101,7 @@ export default {
           console.log(response.data.path);
           if (response.data.success) {
             console.log('Avatar uploaded:', response.data.message);
-            this.avatarUrl = require('../../back/' + response.data.path);     
+            this.avatarUrl = require('../../back/avatars/' + response.data.data.img);
           }
         })
         .catch(error => {
