@@ -50,7 +50,7 @@ export default {
                 },
                 comments :[],
                 routePath:'',
-                avatar: require('../../../public/img/noProfileImage.jpg')
+                avatar: ''
             }
         },
         mounted(){
@@ -174,12 +174,15 @@ export default {
                 let data = new FormData();
                 let sessionId = sessionStorage.getItem('sessionId');
                 data.append('sessionId', sessionId);
-                axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
+                axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=fetchAvatar', data)
                 .then(response => {
                     if(response.data.success){
-                        if (response.data.data.img !== null){
-                        this.avatar = require('../../back/avatars/' + response.data.data.img);
+                        if (response.data.path !== null){
+                        this.avatar = require('../../back/avatars/' + response.data.path);
                     }
+                    else{
+                        this.avatar = require('../../../public/img/noProfileImage.jpg')
+                       }
                     }
                 })
                 .catch(error => {

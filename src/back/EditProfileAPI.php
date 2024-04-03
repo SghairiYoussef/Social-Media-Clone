@@ -95,3 +95,16 @@ if ($action == 'UploadAvatar'){
     }
 }
 
+if ($action == 'fetchAvatar'){
+    $sessionId = $_POST['sessionId'];
+    session_id($sessionId);
+    session_start();
+    $userId = $_SESSION['userId'];
+    $result = fetchAvatar($userId);
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Avatar fetched successfully', 'path' => $result]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to fetch avatar']);
+    }
+}
+
