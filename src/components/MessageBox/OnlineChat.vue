@@ -1,6 +1,6 @@
 <template>
   <div class="chat-container">
-    <div class="messages-container">
+    <div class="messages-container" ref="messagesContainer">
       <div v-for="(message, index) in messages" :key="index" :class="{ 'sender-message': isSender(message.from_name), 'receiver-message': !isSender(message.from_name) }" :style="{ 'background-color': isSender(message.from_name) ? '#007bff' : '#f0f0f0' }" class="message">
         <div v-if="!isConsecutive(message.from_name, index)" class="message-sender">{{ message.from_name }}</div>
         <div class="message-content">{{ message.message }}</div>
@@ -27,8 +27,20 @@ export default {
     return {
       messages: [],
       newMessage: '',
-      currentUser: ''
+      currentUser: '',
+      isScrolledDown: true
     };
+  },
+  watch: {
+    selectedUser: {
+      immediate: true,
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.isScrolledDown = true;
+          this.fetchMessages();
+        }
+      }
+    }
   },
   methods: {
     fetchMessages() {
@@ -41,6 +53,13 @@ export default {
             console.log(response.data);
             if(response.data.success){
               this.messages = response.data.messages;
+              if (this.isScrolledDown){
+                this.$nextTick(() => {
+                this.scrollToBottom();
+              });
+              this.isScrolledDown = false;
+              }
+              
             }
             else{
               this.messages = [];
@@ -59,6 +78,7 @@ export default {
           .then(response => {
             console.log(response.data);
             if (response.data.success) {
+              this.isScrolledDown = true;
               this.fetchMessages();
               this.newMessage = '';
             }
@@ -76,6 +96,9 @@ export default {
         return fromName === previousMessage.from_name;
       }
       return false;
+    },
+    scrollToBottom() {
+      this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
     }
   },
   mounted() {
@@ -90,6 +113,7 @@ export default {
       console.log(response.data);
       if (response.data.success) {
         this.currentUser = response.data.username;
+        
       }
     })
     .catch(error => {
