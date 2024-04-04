@@ -1,5 +1,4 @@
 <?php
-    require_once "./DataBase.php";
     function addPost($user_id, $Caption, $Title,$Media ){
           $connexion = ConnexionBD::getInstance();
           $user_id = $connexion->quote($user_id);

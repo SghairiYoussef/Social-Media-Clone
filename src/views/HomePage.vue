@@ -82,12 +82,12 @@
                         user: {
                             id:post.userID,
                             name: post.userName,
-                            img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                            img: post.img ? require('../back/avatars/' + post.img) : require('../../public/img/noProfileImage.jpg'),
                             alt: 'User Image'
                         },
                         title: post.title,
                         content: post.Caption,
-                        img: post.Media,
+                        img: post.Media ? require('../back/uploads/' + post.Media) : '',
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
@@ -99,7 +99,7 @@
 
             axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllPosts`)
             .then(response => {
-                
+              console.log(response.data);
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
                 console.log(result);

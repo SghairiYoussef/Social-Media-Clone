@@ -1,5 +1,4 @@
 <?php
-    require_once "./DataBase.php";
     function addComment($user_id, $post_id ,$Caption ){
           $connexion = ConnexionBD::getInstance();
           $user_id = $connexion->quote($user_id);

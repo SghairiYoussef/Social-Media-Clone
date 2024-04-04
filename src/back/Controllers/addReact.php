@@ -1,5 +1,4 @@
 <?php
-    require_once "./DataBase.php";
     function addReact($post_id, $user_id) {
         $connexion = ConnexionBD::getInstance();
         $post_id = $connexion->quote($post_id);

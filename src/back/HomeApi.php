@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 // Set Content-Type header to allow POST requests
 header("Content-Type: application/json");
+include "DataBase.php";
 include "Controllers/getPosts.php";
 include "Controllers/getUserPosts.php";
 include "Controllers/getUser.php";
@@ -30,6 +31,7 @@ include "Controllers/addComment.php";
 include "Controllers/deletePost.php";
 include "Controllers/addReact.php";
 include "Controllers/getAllUsers.php";
+include "Controllers/getComments.php";
 $action='';
 if (isset($_GET['action'])) {
 

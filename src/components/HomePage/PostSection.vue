@@ -159,11 +159,11 @@ export default {
                 const currentUserID = sessionStorage.getItem('userId');
                 console.log("current user id", currentUserID);
                  console.log("post user id", id);
-                return currentUserID == id;
+                return currentUserID === id;
             },
             selectUser(User_ID) {
                 const currentUserID = sessionStorage.getItem('userId');
-                if(currentUserID == User_ID){
+                if(currentUserID === User_ID){
                     this.$router.push(`/myAccount`);
                 }else{
                     this.$router.push(`/profile?User_ID=${User_ID}`);

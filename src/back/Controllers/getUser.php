@@ -1,5 +1,4 @@
 <?php
-    require_once "./DataBase.php";
     function getUser($user_id){
           
           $connexion = ConnexionBD::getInstance();

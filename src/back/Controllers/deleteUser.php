@@ -1,5 +1,4 @@
 <?php
-    require_once "./DataBase.php";
     function deleteUser($user_id){
           $connexion = ConnexionBD::getInstance();
           $user_id = $connexion->quote($user_id);
