@@ -89,6 +89,7 @@ const routes = [
     component: Admin,
     meta: {
       requiresAuth: true,
+      isAdmin : true
     }
   },
   {
@@ -122,7 +123,7 @@ router.beforeEach((to, from, next) => {
             // If the user is logged in, continue with the navigation
             sessionStorage.setItem('sessionId', response.data.sessionID);
             sessionStorage.setItem('userId', response.data.userId);
-            console.log(response.data.isAdmin);
+            console.log(to.meta.isAdmin);
             if(to.meta.isAdmin && !response.data.isAdmin){
                 next('/Home');
             }

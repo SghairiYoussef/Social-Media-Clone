@@ -5,25 +5,22 @@
                 <tr>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Role</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-if="users.length === 0">
-                    <td colspan="4" class="Note">No users found</td>
+                    <td colspan="3" class="Note">No users found</td>
                 </tr>
                 <tr v-for="user in displayedUsers()" :key="user.User_ID">
-                    <td>{{ user.Username }}</td>
-                    <td>{{ user.Email }}</td>
-                    <td>{{ user.Role }}</td>
-                    <td>
-                        
+                    <td v-if="user.Email !== 'insatsocialclubadm1n@gmail.com'">{{ user.Username }}</td>
+                    <td v-if="user.Email !== 'insatsocialclubadm1n@gmail.com'">{{ user.Email }}</td>
+                    <td v-if="user.Email !== 'insatsocialclubadm1n@gmail.com'">
                         <button @click="deleteUser(user.User_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
                 <tr v-if="showMoreButton()">
-                    <td colspan="4">
+                    <td colspan="3">
                         <button @click="loadMoreUsers()" class="btn btn-primary">Show More</button>
                     </td>
                 </tr>
@@ -69,7 +66,6 @@
                         User_ID : user.userID,
                         Username: user.userName,
                         Email: user.email,
-                        Role: "User"
                     };
                 }
             axios.get(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getAllUsers`)

@@ -6,7 +6,7 @@
           <div class="user-avatar">
             <img :src="avatarUrl" alt="ProfileImage" class="ProfileImage img-fluid rounded-circle">
             <label for="avatarUpload" class="btn btn-outline-danger mt-2">Upload Image</label>
-            <input type="file" id="avatarUpload" accept="image/*" @change="handleAvatarChange" style="display: none;">
+            <input type="file" id="avatarUpload" name="file" accept="image/*" @change="handleAvatarChange" style="display: none;">
           </div>
           <h5 class="username">{{ username }}</h5>
           <h6 class="user-email"><a :href="'mailto:' + email">{{ email }}</a></h6>
@@ -40,10 +40,13 @@ export default {
     this.fetchUserData();
   },
   watch: {
-    isModified() {
-      if (this.isModified) {
-        this.fetchUserData();
-      }
+    isModified: {
+      immediate: true,
+      handler(newValue, oldValue) {
+        if (newValue!==oldValue) {
+          this.fetchUserData();
+        }
+    }
     }
   },
   methods: {
@@ -54,12 +57,14 @@ export default {
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=DetailsFetch', data)
         .then(response => {
-          console.log(response.data.data);
           if(response.data.success){
             this.username = response.data.data.username;
             this.email = response.data.data.email;
             if (response.data.data.bio !== null){
               this.bio = response.data.data.bio;
+            }
+            if (response.data.data.img !== null){
+              this.avatarUrl = require('../../back/avatars/' + response.data.data.img);
             }
             this.setIsModified(false);
           }
@@ -67,18 +72,39 @@ export default {
         .catch(error => {
           console.error('Error fetching profile details:', error);
         });
-      //this.avatarUrl = response.data.avatarUrl;
     },
-    handleAvatarChange(event) {
-      const file = event.target.files[0];
-      const formData = new FormData();
-      formData.append('avatar', file);
-      // Send the file to the server and update the image in the database
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.avatarUrl = reader.result;
-      };
-      reader.readAsDataURL(file);
+    handleAvatarChange() {
+      let fileInput = document.querySelector('input[type="file"]');
+      let file = fileInput.files[0];
+      if (!file) {
+        return;
+      }
+      else if (file.size > 2097152) {
+        alert('File size must be less than 2MB');
+        return;
+      }
+      else if (!file.type.match('image.*')) {
+        alert('File must be an image');
+        return;
+      }
+      else if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
+        alert('File must be a JPEG, JPG, or PNG');
+        return;
+      }
+      let sessionId = sessionStorage.getItem('sessionId');
+      const data = new FormData();
+      data.append('avatar', file);
+      data.append('sessionId', sessionId);
+      axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=UploadAvatar', data)
+        .then(response => {
+          if (response.data.success) {
+            console.log(response.data.message);
+            this.avatarUrl = require('../../back/avatars/' + response.data.path);
+          }
+        })
+        .catch(error => {
+          console.error('Avatar upload error:', error);
+        });
     }
   }
 };

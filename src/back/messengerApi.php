@@ -48,3 +48,15 @@ if($action == 'sendMessage'){
         echo json_encode(['success'=>false,'message'=>'Failed to send message']);
     }
 }
+
+if($action == 'getCurrentUserName'){
+    $sessionId = $_POST['sessionId'];
+    session_id($sessionId);
+    session_start();
+    $result = getUsername();
+    if($result){
+        echo json_encode(['success'=>true,'username'=>$result]);
+    }else{
+        echo json_encode(['success'=>false,'message'=>'Failed to get username']);
+    }
+}
