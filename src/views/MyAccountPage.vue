@@ -63,7 +63,7 @@ export default {
                         user: {
                             id:post.userID,
                             name: post.userName,
-                            img: post.image ? post.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                            img: post.img ? require('../back/avatars/' + post.img) : require('../../public/img/noProfileImage.jpg'),
                             alt: 'User Image'
                         },
                         title: post.title,
