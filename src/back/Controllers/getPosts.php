@@ -1,4 +1,6 @@
 <?php
+    require_once "./DataBase.php";
+    include "Controllers/getComments.php";
     function getPostsForFeed(){
           
           $connexion = ConnexionBD::getInstance();
