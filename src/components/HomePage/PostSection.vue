@@ -4,7 +4,7 @@
             <img class="user_img" :src="avatar" alt="User Image">
             <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!">
             <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?">
-            <!--<input class="post_input" type="file" name="file" accept="image/*" >-->
+            <input class="post_input" type="file" name="file" accept="image/*" >
             <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)">Post</button>
         </div>
         
@@ -17,7 +17,7 @@
                     </div>
                     <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;" v-if="isLoggedIn(post.user.id)===true">Delete Post</button>
                 </div>
-                <!--<img v-if="post.img !== ''" :src="require(`../../back/uploads/${post.img}`)" :alt="post.alt">-->
+                <img v-if="post.img !== ''" :src="require(`../../back/uploads/${post.img}`)" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
                     <button type="button" class="btn btn-outline-primary" @click="react(post)">
@@ -96,11 +96,11 @@ export default {
                     newContent: '',
                     newTitle: ''
                 };
-                //let fileInput = document.querySelector('input[type="file"]');
+                let fileInput = document.querySelector('input[type="file"]');
                 let data = new FormData();
                 data.append('Content',content);
                 data.append('Title',title);
-                //data.append('Media',fileInput.files[0]);
+                data.append('Media',fileInput.files[0]);
                 console.log('posting data');
                 const sessionId = sessionStorage.getItem('sessionId');
                 if (sessionId !== null) {
@@ -111,7 +111,7 @@ export default {
                         console.log("Post Added");
                         console.log(response);
                         this.$emit('postAdded', response);
-                        //fileInput.value = '';
+                        fileInput.value = '';
                     
                     })
                     .catch(error => {
