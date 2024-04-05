@@ -32,6 +32,7 @@ include "Controllers/addReact.php";
 include "Controllers/getAllUsers.php";
 include "Controllers/fetchMedia.php";
 include "Controllers/getPost.php";
+include "Controllers/verifyMedia.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -155,8 +156,9 @@ if($action == 'getComments'){
 if($action == 'deletePost'){
     $Post_ID = $_POST['Post_ID'];
     $media = fetchMedia($Post_ID);
+    $isMediaUsedOnce = verifyMedia($media);
     $result = deletePost($Post_ID);
-    if($media){
+    if($media != "" && $isMediaUsedOnce){
         $mediaPath = 'uploads/'.$media;
         if (file_exists($mediaPath)) {
             unlink($mediaPath);
