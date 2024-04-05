@@ -93,16 +93,15 @@
                         newCommentContent: '',
                         isLiked: false,
                         Post_ID : post.Post_ID,
-                        React_Count : post.React_Count
+                        React_Count : post.React_Count,
+                        date: post.Date_published
                     };
                 }
 
             axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllPosts`)
             .then(response => {
-
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
-                console.log(result);
                 this.Posts = result;
                 
             })

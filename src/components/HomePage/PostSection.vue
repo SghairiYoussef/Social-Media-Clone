@@ -14,6 +14,7 @@
                     <div @click="selectUser(post.user.id)">
                         <img class = user_img :src="post.user.img" :alt="post.user.alt">
                         <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
+                      <p>{{post.date}}</p>
                     </div>
                     <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;" v-if="isLoggedIn(post.user.id)===true">Delete Post</button>
                 </div>
@@ -64,7 +65,6 @@ export default {
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=deletePost`, data)
                     .then(response => {
                         console.log("Post Deleted");
-                        console.log(response);
                         this.$emit('postDeleted', response);
                     })
                     .catch(error => {
@@ -82,7 +82,6 @@ export default {
                 data.append('Post_ID',post.Post_ID);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getComments`, data)
                     .then(response => {
-                        console.log(response.data);
                         this.comments=response.data;
                         this.comments.forEach(comment => {
                         comment.img = require('../../back/avatars/' + comment.img);
@@ -116,7 +115,6 @@ export default {
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addPost`, data)
                     .then(response => {
                         console.log("Post Added");
-                        console.log(response);
                         this.$emit('postAdded', response);
                         fileInput.value = '';
                     
@@ -136,7 +134,6 @@ export default {
                 data.append('sessionId', sessionId);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=sharePost`, data)
                     .then(response => {
-                        console.log(response);
                         this.$emit('postAdded', response);
                     })
                     .catch(error => {
@@ -151,7 +148,6 @@ export default {
                 console.log(post.Post_ID);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=reactToPost`, data)
                     .then(response => {
-                        console.log(response);
                         this.$emit('postAdded', response);
                     })
                     .catch(error => {
@@ -160,8 +156,6 @@ export default {
             },
             isLoggedIn(id){
                 const currentUserID = sessionStorage.getItem('userId');
-                console.log("current user id", currentUserID);
-                 console.log("post user id", id);
                 return currentUserID == id;
             },
             selectUser(User_ID) {
@@ -180,7 +174,6 @@ export default {
                 axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=fetchAvatar', data)
                 .then(response => {
                     if(response.data.success){
-                    console.log(response.data.path);
                         if (response.data.path !== null){
                         this.avatar = require('../../back/avatars/' + response.data.path);
                         }
@@ -194,7 +187,6 @@ export default {
         },
         created(){
             this.routePath=window.location.pathname;
-            console.log("routePath", this.routePath,this.routePath ==='/Home' || this.routePath==='/myAccount');
         },
         components: {
             comments: CommentSection
