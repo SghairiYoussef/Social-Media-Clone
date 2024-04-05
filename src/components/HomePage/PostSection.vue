@@ -50,7 +50,7 @@ export default {
                 },
                 comments :[],
                 routePath:'',
-                avatar: ''
+                avatar: require('../../../public/img/noProfileImage.jpg')
             }
         },
         mounted(){
@@ -177,12 +177,10 @@ export default {
                 axios.post('http://localhost/php/Social-Media-Clone/src/back/EditProfileAPI.php?action=fetchAvatar', data)
                 .then(response => {
                     if(response.data.success){
+                    console.log(response.data.path);
                         if (response.data.path !== null){
                         this.avatar = require('../../back/avatars/' + response.data.path);
-                    }
-                    else{
-                        this.avatar = require('../../../public/img/noProfileImage.jpg')
-                       }
+                        }
                     }
                 })
                 .catch(error => {
