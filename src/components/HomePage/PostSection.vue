@@ -127,13 +127,9 @@ export default {
             },
             share(post){
                 let data = new FormData();
-                data.append('title',post.title);
-                data.append('content',post.content);
-                data.append('media',post.img);
+                data.append('Post_ID',post.Post_ID);
                 const sessionId = sessionStorage.getItem('sessionId');
-                if (sessionId !== null) {
-                    data.append('sessionId', sessionId);
-                }
+                data.append('sessionId', sessionId);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=sharePost`, data)
                     .then(response => {
                         console.log(response);

@@ -31,6 +31,7 @@ include "Controllers/deletePost.php";
 include "Controllers/addReact.php";
 include "Controllers/getAllUsers.php";
 include "Controllers/fetchMedia.php";
+include "Controllers/getPost.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -167,14 +168,13 @@ if($action == 'deletePost'){
         echo json_encode(['success' => false, 'message' => 'Error deleting post']);
     }
 }if($action == 'sharePost'){
-    $caption = $_POST['content'];
-    $title = $_POST['title'];
-    $media = $_POST['media'];
     $session_id= $_POST['sessionId'];
     session_id($session_id);
     session_start();
     $user_id = $_SESSION['userId'];
-    $result = addPost($user_id, $caption, $title,$media);
+    $Post_ID = $_POST['Post_ID'];
+    $post = getPost($Post_ID);
+    $result = addPost($user_id, $post['Caption'], $post['title'],$post['Media']);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Post shared successfully']);
     } else {
