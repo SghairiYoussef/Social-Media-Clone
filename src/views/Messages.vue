@@ -3,7 +3,7 @@
     <header>
         <h1>Messages</h1>
         <h2>{{ selectedUser?.username }}</h2>
-        <p>{{ status }}</p> <!-- Display user status (online wala le) here  -->
+        <p>{{ selectedUser?.userStatus }}</p> <!-- Display user status (online wala le) here  -->
     </header>
     <div class="row">
         <div class="col-sm-4">
@@ -27,8 +27,7 @@ export default {
     data() {
         return {
             selectedUser: null,
-            users: [],
-            status: 'Online'
+            users: []
         };
     },
     name: 'MessageBox',

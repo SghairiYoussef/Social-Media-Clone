@@ -10,6 +10,9 @@
       <div class="userBox">
         <img :src="user.img ? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`)" alt="User Image" class="rounded-pill" style="width: 40px;">
         {{ user.username }}
+        <div class="userStatus" :class="{ 'text-success': user.userStatus === 'Online', 'text-danger': user.userStatus === 'Offline' }">
+          {{ user.userStatus }}
+        </div>
       </div>
     </li>
   </ul>
@@ -113,5 +116,8 @@ export default {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+.userStatus {
+  margin-left: 20px;
 }
 </style>
