@@ -29,7 +29,7 @@
             return {
                 newComment: {
                     newContent: '',
-                },
+                }
             }
         },
         props: {

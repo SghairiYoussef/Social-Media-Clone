@@ -84,7 +84,7 @@ export default {
                     .then(response => {
                         this.comments=response.data;
                         this.comments.forEach(comment => {
-                        comment.img = require('../../back/avatars/' + comment.img);
+                        comment.img = comment.img === null ? require('../../../public/img/noProfileImage.jpg') : require(`../../back/avatars/${comment.img}`);
                       });
 
                     })
