@@ -55,6 +55,9 @@
     <div class="image-container" v-if="mediaShown">
         <img :src="mediaShown" alt="Media Image" style="max-width: 100%; height: auto;">
     </div>
+    <div class="image-container" v-else>
+        <p>No Media to show</p>
+    </div>
 </template>
 
 <script>
@@ -94,7 +97,13 @@ import axios from 'axios';
                 alert(this.Posts[index].Content);
             },
             showMedia(media) {
-                this.mediaShown = require(`../../back/uploads/${media}`);
+                if (media){
+                    this.mediaShown = require(`../../back/uploads/${media}`);
+                }
+                else
+                {
+                    this.mediaShown = "";
+                }
             },
             showComments(index) {
                 if (this.commentsShown!=index)
