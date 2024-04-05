@@ -65,7 +65,7 @@ export default {
                         },
                         title: post.title,
                         content: post.Caption,
-                        img: post.Media,
+                        img: post.Media ?require('../back/uploads/' + post.Media) : "",
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
@@ -97,10 +97,9 @@ export default {
                         name : user.fullName,
                         username: user.userName,
                         email: user.email,
-                        avatar: user.image? user.image : 'https://wweb.dev/resources/navigation-generator/logo-placeholder.png',
+                        avatar: user.img? require(`../back/avatars/${user.img}`) : require(`../../public/img/noProfileImage.jpg`),
                         background: user.background? user.background : 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
-                        bio: user.bio,
-                    
+                        bio: user.bio,            
                     };
                 }
                 let data =new FormData();
