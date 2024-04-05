@@ -81,7 +81,13 @@ export default {
             console.error('Error Deleting Post:', error);
           });
     },
+    closeComments() {
+      this.Posts.forEach(post => {
+        post.commentsShown = false;
+      });
+    },
     comment(post) {
+      this.closeComments();
       post.commentsShown = !post.commentsShown;
       this.fetchComments(post);
 
