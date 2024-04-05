@@ -87,8 +87,9 @@ export default {
       });
     },
     comment(post) {
+      const state = post.commentsShown;
       this.closeComments();
-      post.commentsShown = !post.commentsShown;
+      post.commentsShown = !state;
       this.fetchComments(post);
 
 
