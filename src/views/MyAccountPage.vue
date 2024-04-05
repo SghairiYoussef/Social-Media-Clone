@@ -68,7 +68,7 @@ export default {
                         },
                         title: post.title,
                         content: post.Caption,
-                        img: post.Media,
+                        img: post.Media ?require('../back/uploads/' + post.Media) : "",
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
