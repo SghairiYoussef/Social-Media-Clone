@@ -30,6 +30,7 @@ include "Controllers/addComment.php";
 include "Controllers/deletePost.php";
 include "Controllers/addReact.php";
 include "Controllers/getAllUsers.php";
+include "Controllers/fetchMedia.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -152,7 +153,14 @@ if($action == 'getComments'){
 }
 if($action == 'deletePost'){
     $Post_ID = $_POST['Post_ID'];
+    $media = fetchMedia($Post_ID);
     $result = deletePost($Post_ID);
+    if($media){
+        $mediaPath = 'uploads/'.$media;
+        if (file_exists($mediaPath)) {
+            unlink($mediaPath);
+        }
+    }
     if($result){
         echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
     }else{
