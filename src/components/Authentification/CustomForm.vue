@@ -120,9 +120,6 @@ export default {
 
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
-            this.errorMessage = response.data.message;
-            console.log(response.data);
-
             if (action === 'login' && response.data.success) {
               sessionStorage.setItem('sessionId', response.data.sessionID);
               sessionStorage.setItem('userId', response.data.userId);
