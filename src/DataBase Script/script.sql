@@ -2,17 +2,18 @@ CREATE DATABASE IF NOT EXISTS INSATSocialClub;
 
 USE INSATSocialClub;
 
-CREATE TABLE IF NOT EXISTS userdata (
+CREATE OR REPLACE TABLE userdata (
     userID INT AUTO_INCREMENT PRIMARY KEY,
     fullName VARCHAR(64),
     userName VARCHAR(32),
     email VARCHAR(64),
     password VARCHAR(64),
     birthDay DATE,
-    resetPasswordToken VARCHAR(64),
-    rememberMeToken VARCHAR(64),
+    status BOOLEAN DEFAULT FALSE,
     bio VARCHAR(256),
-    img VARCHAR(512)
+    img VARCHAR(512),
+    resetPasswordToken VARCHAR(64),
+    rememberMeToken VARCHAR(64)
 );
 
 CREATE TABLE IF NOT EXISTS messenger (
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS report (
 CREATE TABLE IF NOT EXISTS post (
     Post_ID INT AUTO_INCREMENT PRIMARY KEY,
     Caption VARCHAR(500),
-    Date_published DATE DEFAULT CURRENT_DATE(),
+    Date_published DATETIME DEFAULT CURRENT_TIMESTAMP(),
     Media VARCHAR(500),
     React_Count INT DEFAULT 0,
     User_ID INT,
