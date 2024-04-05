@@ -14,13 +14,13 @@
                 <tr v-if="Posts.length === 0">
                     <td colspan="5" class="Note">No Posts found</td>
                 </tr>
-                <tr v-for="(post,index) in displayedPosts()" :key="post.post_ID">
+                <tr v-for="(post,index) in displayedPosts" :key="post.post_ID">
                     <td>{{ post.Username }}</td>
                     <td>
                         <button @click="showContent(index)" class="btn btn-outline-secondary">Read Content</button>
                     </td>
                     <td>
-                        <button @click="showMedia(index)" class="btn btn-outline-secondary">View Media</button>
+                        <button @click="showMedia(post.Media)" class="btn btn-outline-secondary">View Media</button>
                     </td>
                     <td>
                         <button @click="showComments(index)" class="btn btn-outline-secondary">View Comments</button>
@@ -29,7 +29,7 @@
                         <button @click="deletePost(post.Post_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
-                <tr v-if="showMoreButton()">
+                <tr v-if="$options.showMoreButton">
                     <td colspan="5">
                         <button @click="loadMorePosts()" class="btn btn-primary">Show More</button>
                     </td>
@@ -52,6 +52,9 @@
             </div>
         </div>
     </div>
+    <div class="image-container" v-if="mediaShown">
+        <img :src="mediaShown" alt="Media Image" style="max-width: 100%; height: auto;">
+    </div>
 </template>
 
 <script>
@@ -59,24 +62,18 @@ import axios from 'axios';
     export default {
         data() {
             return {
-                Posts: [
-                    {
-                        post_ID: 1,
-                        Username: 'User 1',
-                        Content: 'This is a post from user 1',
-                        Media: 'Image',
-                        Comments: [
-                            {
-                                comment_ID: 1,
-                                Username: 'User 2',
-                                Content: 'Nice Post'
-                            }
-                        ]
-                    },
-                ],
+                Posts: [],
                 displayedPostsCount: 5,
-                mediaShown: NaN,
+                mediaShown: "",
                 commentsShown: NaN
+            }
+        },
+        computed: {
+            displayedPosts() {
+                return this.Posts.slice(0, this.displayedPostsCount);
+            },
+            showMoreButton() {
+                return this.displayedPostsCount < this.Posts.length;
             }
         },
         methods: {
@@ -96,15 +93,8 @@ import axios from 'axios';
             showContent(index) {
                 alert(this.Posts[index].Content);
             },
-            showMedia(index) {
-                if(this.mediaShown!=index)
-                {
-                    this.mediaShown=index;
-                }
-                else
-                {
-                    this.mediaShown=NaN;
-                }
+            showMedia(media) {
+                this.mediaShown = require(`../../back/uploads/${media}`);
             },
             showComments(index) {
                 if (this.commentsShown!=index)
@@ -115,12 +105,6 @@ import axios from 'axios';
                 {
                     this.commentsShown=NaN;
                 }
-            },
-            displayedPosts() {
-                return this.Posts.slice(0, this.displayedPostsCount);
-            },
-            showMoreButton() {
-                return this.displayedPostsCount < this.Posts.length;
             },
             loadMorePosts() {
                 this.displayedPostsCount += 5;
@@ -170,5 +154,11 @@ import axios from 'axios';
         color: white;
         padding: 20px;
         border-radius: 20px;
+    }
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
     }
 </style>
