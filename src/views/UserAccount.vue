@@ -69,13 +69,17 @@ export default {
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false,
+                        isLiked: post.isLiked,
                         Post_ID : post.Post_ID,
                         React_Count : post.React_Count
                     };
                 }
             let data =new FormData();
             data.append('userID',this.getParameterByName('User_ID'));
+            const sessionId = sessionStorage.getItem('sessionId');
+            if (sessionId !== null) {
+                data.append('sessionId', sessionId);
+            }
             axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getUserPosts`,data)
             .then(response => {
                 

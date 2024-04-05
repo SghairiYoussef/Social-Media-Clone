@@ -72,7 +72,7 @@ export default {
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false,
+                        isLiked:post.isLiked,
                         Post_ID : post.Post_ID,
                         React_Count : post.React_Count
                     };
@@ -87,7 +87,7 @@ export default {
                 
                 let result = response.data;
                 console.log(result);
-                result = result.map(post=>transformPost(post))
+                result = result.map(post=>transformPost(post));
                 this.Posts = result;
                 console.log(this.Posts);
             })

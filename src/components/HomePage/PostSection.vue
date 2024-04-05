@@ -25,8 +25,8 @@
         <img v-if="post.img !== ''" :src="post.img" :alt="post.alt">
         <p>{{ post.content }}</p>
         <div class="post-footer">
-          <button type="button" class="btn btn-outline-primary" @click="react(post)" style="margin-right: 10px;">
-            <i class="far fa-thumbs-up"></i> <!-- Replace with appropriate icon class -->
+          <button type="button" class="btn btn-outline-primary" @click="react(post)" :style="{ 'background-color': post.isLiked ? '#007bff' : 'white' }" style="margin-right: 10px;">
+            <i class="far fa-thumbs-up" :style="{ 'color': post.isLiked ? 'white' : '#007bff' }" ></i> <!-- Replace with appropriate icon class -->
             <span class="badge badge-light">{{ post.React_Count }}</span>
           </button>
           <button type="button" class="btn btn-outline-secondary" @click="comment(post)" style="margin-right: 10px;">
@@ -166,6 +166,8 @@ export default {
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=reactToPost`, data)
           .then(response => {
             this.$emit('postAdded', response);
+            console.log('isLiked');
+            console.log(post.isLiked);
           })
           .catch(error => {
             console.error('Error Deleting Post:', error);

@@ -39,9 +39,11 @@ if (isset($_GET['action'])) {
     $action=$_GET['action'];
 }
 if($action == 'getAllPosts'){
-    //$user_id = $_SESSION['CurrentUserID'];
-    
-    $result = getPostsForFeed();
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $user_id = $_SESSION['userId'];
+    $result = getPostsForFeed($user_id);
     if ($result) {
         echo $result;
     } else {
@@ -53,7 +55,7 @@ if($action == 'getCurrentUserPosts'){
     session_id($session_id);
     session_start();
     $user_id = $_SESSION['userId'];
-    $result = getUserPosts($user_id);
+    $result = getUserPosts($user_id,$user_id);
     if ($result) {
         echo $result;
     } else {
@@ -206,7 +208,11 @@ if($action == 'getAllUsers'){
 }
 if($action == 'getUserPosts'){
     $user_id = $_POST['userID'];
-    $result = getUserPosts($user_id);
+    $session_id= $_POST['sessionId'];
+    session_id($session_id);
+    session_start();
+    $currentUser_id = $_SESSION['userId'];
+    $result = getUserPosts($user_id,$currentUser_id);
     if ($result) {
         echo $result;
     } else {
