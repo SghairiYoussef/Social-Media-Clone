@@ -6,7 +6,7 @@
     <li class="input-group mb-3">
       <searchBar :users="users"/>
     </li>
-    <li v-for="(user, index) in users" :key="index" @click="selectUser(user)">
+    <li v-for="(user, index) in users" :key="index" @click="selectUser(user)" @dblclick="redirectToProfile(user)">
       <div class="userBox">
         <img :src="user.img ? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`)" alt="User Image" class="rounded-pill" style="width: 40px;">
         {{ user.username }}
@@ -35,6 +35,9 @@ export default {
       if (this.$route.path === '/Home') {
         this.$router.push('/Messages');
       }
+    },
+    redirectToProfile(user) {
+      this.$router.push(`/profile?User_ID=${user.userID}`);
     },
     fetchUsers() {
       const sessionId = sessionStorage.getItem('sessionId');
