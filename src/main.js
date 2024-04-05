@@ -20,21 +20,23 @@ import axios from 'axios';
 
 const app = createApp(App);
 
-let data = new FormData();
-const sessionId = sessionStorage.getItem('sessionId');
-data.append('sessionId', sessionId);
 
-window.addEventListener('beforeunload', async function() {
-    await axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=setOffline`, data)
-        .then(response => {
-            if(response.data.success){
-                console.log('User is offline');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-});
+async function sendDataOnTabClose() {
+    try {
+        const sessionId = sessionStorage.getItem('sessionId');
+        if (sessionId) {
+            const data = new FormData();
+            data.append('sessionId', sessionId);
+            await axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=setOffline`, data);
+            console.log('User is offline');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+window.addEventListener('unload', sendDataOnTabClose);
 
 app.use(router);
 app.use(store);

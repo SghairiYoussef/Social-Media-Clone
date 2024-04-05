@@ -229,3 +229,18 @@ if($action == 'setOffline'){
     }
     
 }
+if($action == 'setOnline'){
+    if (isset($_POST['sessionId'])){
+        $sessionID = $_POST['sessionId'];
+        session_id($sessionID);
+        session_start();
+    }
+    $username = getUsername();
+    $result = setStatus($username, 'Online');
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'User status set to offline']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to set user status to offline']);
+    }
+    
+}

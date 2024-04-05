@@ -127,6 +127,8 @@ router.beforeEach((to, from, next) => {
             if(to.meta.isAdmin && !response.data.isAdmin){
                 next('/Home');
             }
+            // set user online
+            setUserOnline();
             next();
           }
         })
@@ -142,6 +144,19 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+function setUserOnline() {
+  try {
+      const sessionId = sessionStorage.getItem('sessionId');
+      if (sessionId) {
+          const data = new FormData();
+          data.append('sessionId', sessionId);
+          axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=setOnline`, data);
+          console.log('User is online');
+      }
+  } catch (error) {
+      console.error('Error:', error);
+  }
+}
 
 
 export default router;
