@@ -82,9 +82,12 @@ export default {
                 data.append('Post_ID',post.Post_ID);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getComments`, data)
                     .then(response => {
-                        console.log(response);
+                        console.log(response.data);
                         this.comments=response.data;
-                    
+                        this.comments.forEach(comment => {
+                        comment.img = require('../../back/avatars/' + comment.img);
+                      });
+
                     })
                     .catch(error => {
                 

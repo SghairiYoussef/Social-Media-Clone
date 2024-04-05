@@ -6,7 +6,8 @@
         <div class="comments">
             <div class="comment" v-for="(comment, index) in comments" :key="index">
                 <div class="comment__user">
-                    <img src="https://wweb.dev/resources/navigation-generator/logo-placeholder.png" alt="User"/>
+                    <img :src="comment.img" alt="User"/>
+                    <p>{{comment.userName}}</p>
                 </div>
                 <div class="comment__content">
                     <p class="comment__content__text">{{comment.Content}}</p>
