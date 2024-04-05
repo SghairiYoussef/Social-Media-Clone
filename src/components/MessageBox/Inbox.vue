@@ -25,6 +25,12 @@ import searchBar from '@/components/searchBar.vue';
 export default {
   mounted() {
     this.fetchUsers();
+    this.fetchInterval = setInterval(() => {
+      this.fetchUsers();
+    }, 500);
+  },
+  beforeUnmount() {
+    clearInterval(this.fetchInterval);
   },
   data() {
     return {
