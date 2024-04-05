@@ -100,6 +100,10 @@ export default {
                     newTitle: ''
                 };
                 let fileInput = document.querySelector('input[type="file"]');
+                if (content === '' || title === '') {
+                    alert('Please fill in the title and content fields!');
+                    return;
+                }
                 let data = new FormData();
                 data.append('Content',content);
                 data.append('Title',title);
