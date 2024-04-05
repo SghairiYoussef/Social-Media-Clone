@@ -17,7 +17,7 @@
                     </div>
                     <button @click="deletePost(post)" class="btn btn-outline-danger" style="align-self: flex-end;" v-if="isLoggedIn(post.user.id)===true">Delete Post</button>
                 </div>
-                <img v-if="post.img !== ''" :src="require(`../../back/uploads/${post.img}`)" :alt="post.alt">
+                <img v-if="post.img !== ''" :src="post.img" :alt="post.alt">
                 <p>{{post.content}}</p>
                 <div class="post-footer">
                     <button type="button" class="btn btn-outline-primary" @click="react(post)">

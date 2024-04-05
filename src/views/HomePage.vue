@@ -87,7 +87,7 @@
                         },
                         title: post.title,
                         content: post.Caption,
-                        img: post.Media,
+                        img: post.Media ?require('../back/uploads/' + post.Media) : "",
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
@@ -99,7 +99,7 @@
 
             axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllPosts`)
             .then(response => {
-                
+
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
                 console.log(result);
