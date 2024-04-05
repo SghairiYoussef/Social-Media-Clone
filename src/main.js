@@ -15,17 +15,27 @@ import './assets/css/EditProfile.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/onlineChat.css';
 
-
+import axios from 'axios';
 
 
 const app = createApp(App);
 
-// Listen for the beforeunload event to clear sessionStorage
-/*window.addEventListener('beforeunload', function() {
-    // Clear sessionStorage when the browser is closed
-    sessionStorage.clear();
+let data = new FormData();
+const sessionId = sessionStorage.getItem('sessionId');
+data.append('sessionId', sessionId);
+
+window.addEventListener('beforeunload', async function() {
+    await axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=setOffline`, data)
+        .then(response => {
+            if(response.data.success){
+                console.log('User is offline');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 });
-*/
+
 app.use(router);
 app.use(store);
 app.mount('#app');

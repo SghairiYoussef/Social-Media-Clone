@@ -20,6 +20,8 @@ include "Authentication/isLoggedIn.php";
 include "Authentication/setRememberMe.php";
 include "Authentication/logout.php";
 include "Authentication/getUserData.php";
+include "Authentication/setStatus.php";
+include "Messenger/getUsername.php";
 
 $action = '';
 if (isset($_GET['action'])) {
@@ -81,6 +83,7 @@ if ($action == 'signup') {
         // Call logIn function
         $result = logIn('UserData', $username, $password);
         if ($result) {
+            $result = setStatus($username, 'Online');
             $id=generateToken();
             session_id($id);
             session_start();
@@ -185,7 +188,8 @@ if($action=='logout') {
         session_id($sessionID);
         session_start();
     }
-    $result = logout();
+    $username = getUsername();
+    $result = logout($username);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'User logged out']);
     } else {
@@ -208,4 +212,20 @@ if($action=='verifyAdmin') {
     } else {
         echo json_encode(['success' => false, 'message' => 'User is not an admin']);
     }
+}
+
+if($action == 'setOffline'){
+    if (isset($_POST['sessionId'])){
+        $sessionID = $_POST['sessionId'];
+        session_id($sessionID);
+        session_start();
+    }
+    $username = getUsername();
+    $result = setStatus($username, 'Offline');
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'User status set to offline']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to set user status to offline']);
+    }
+    
 }
