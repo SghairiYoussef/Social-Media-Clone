@@ -4,7 +4,7 @@
     function getPostsForFeed(){
           
           $connexion = ConnexionBD::getInstance();
-        $query="select U.userID, U.userName, U.image, P.* from post P
+        $query="select U.userID, U.userName, U.img, P.* from post P
         inner join userdata U on U.userID = P.User_ID
         order by P.Date_published desc";
         $result = $connexion->query($query);

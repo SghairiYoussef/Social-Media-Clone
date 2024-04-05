@@ -5,7 +5,7 @@
           
         $connexion = ConnexionBD::getInstance();
         $user_id = $connexion->quote($user_id);
-        $query="select U.userID, U.userName, U.image, P.* from post P
+        $query="select U.userID, U.userName, U.img, P.* from post P
         inner join userdata U on U.userID = P.User_ID
         where P.User_ID = $user_id
         order by P.Date_published desc";
