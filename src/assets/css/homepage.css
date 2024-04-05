@@ -233,7 +233,6 @@ body {
   
   .post img {
     max-width: 100%;
-    border-radius: 5px;
   }
   
   .post p {
@@ -242,16 +241,15 @@ body {
 
   .comments {
     margin-top: 20px;
-    background-color: #E2E2E2;
+    background-color: #ffffff;
     border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
   }
 
   .comment {
-    background-color: #fff;
+    background-color: #fbfbfc;
     border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(40, 65, 255, 0.1);
     margin-bottom: 10px;
     padding: 20px;
   }
@@ -533,11 +531,11 @@ body {
   align-items: center;
   width: 100%;
   border: 3px solid #28536B;
-  border-radius: 19px;
+  border-radius: 10px;
   padding: 5px;
   background: #FFFFFF;
   color: #000000;
-  box-shadow: 3px 3px 2px 0px #E2E2E2;
+  box-shadow: 3px 3px 2px 0px #0f1117;
   transition: .3s ease;
 }
 

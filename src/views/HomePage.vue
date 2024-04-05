@@ -103,7 +103,7 @@
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
                 this.Posts = result;
-                
+
             })
             .catch(error => {
                 console.error('Error fetching posts:', error);
@@ -123,11 +123,11 @@
       handlePostDeleted(){
             this.fetchPosts();
         }
-      
+
     },
     created() {
           this.fetchPosts();
         },
   }
-  
+
 </script>
