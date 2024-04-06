@@ -69,6 +69,7 @@ export default {
 <style scoped>
 .search-bar {
   position: relative;
+  width: 100%;
 }
 
 .form-control {

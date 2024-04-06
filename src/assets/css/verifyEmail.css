@@ -13,8 +13,7 @@
     height: 400px;
     display: flex;
     flex-direction: column;
-    background: #eaeaea;
-    border-radius: 10px; 
+    background: #ffffff; 
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
   }
   
@@ -32,23 +31,26 @@
   .verifySubmit-btn {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    text-align: center;
   }
   
   .verifySubmit-btn button {
-    margin: 0 40px;
     padding: 10px 20px;
-    background-color: #7EA8BE;
+    background: var(--secondary-gradient);
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 50px;
+    outline: none;
+    transition: background-color 0.3s ease;
   }
   
   .verifySubmit-btn button:hover {
-    background-color: #28536B;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    linear-gradient(180deg, #5271ff -54.32%, #f02aa6 100%);
   }
   
   .verifySubmit-btn button.disabled {
