@@ -18,8 +18,7 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    background: #eaeaea;
-    border-radius: 10px;
+    background: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
   .login-content {
