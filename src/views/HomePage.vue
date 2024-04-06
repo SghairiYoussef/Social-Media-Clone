@@ -113,6 +113,7 @@
 .Fixed-navbar{
   position: fixed;
   width: 100%;
+  z-index: 1000;
 }
 .fixed-column {
   position: fixed;
@@ -122,6 +123,7 @@
 }
 .fixed-column.left {
   left: 0;
+  width: 20%;
 }
 .fixed-column.left::-webkit-scrollbar {
   display: none;
@@ -129,6 +131,7 @@
 
 .fixed-column.right {
   right: 0;
+  width: 20%;
 }
 .scrollable-column {
   flex-grow: 1;
