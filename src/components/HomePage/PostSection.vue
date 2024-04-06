@@ -2,40 +2,53 @@
   <div class="container" v-cloak>
     <div class="user_post" v-if="routePath ==='/Home' || routePath==='/myAccount'">
       <img class="user_img" :src="avatar" alt="User Image">
-      <input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!"  style="margin-left: 10px;">
-      <input class="post_input" v-model="newPost.newContent" type="text" placeholder="What's on your mind?" style="margin-left: 10px;">
-      <input class="post_input" type="file" name="file" accept="image/*"  style="margin-left: 10px;">
-      <button type="button" class="btn btn-outline-info" @click="addPost(newPost.newContent, newPost.newTitle)" style="margin-left: 10px;">
-        <i class="fas fa-paper-plane"></i> <!-- Replace with appropriate icon class -->
+      <div class="post_content_wrapper">
+        <textarea class="post_input" v-model="newPost.newContent" placeholder="What's on your mind?" rows="3"></textarea>
+        <!--<input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!"  style="margin-left: 10px;">-->
+        <label for="file" class="upload-icon">
+          <input id="file" class="file_input" type="file" name="file" accept="image/*" style="display: none;">
+          <i class="fas fa-image"></i> <!-- Icon appears inline with the input field -->
+        </label>
+      </div>
+      <button type="button" class="btn btn-outline-info post_button" @click="addPost(newPost.newContent)">
+        <i class="fas fa-paper-plane"></i> Post
       </button>
     </div>
+
 
     <div v-if="Posts.length > 0">
       <div class="post" v-for="post in this.Posts" :key="post.title" >
         <div class="post_header" >
-          <div @click="selectUser(post.user.id)">
-            <img class = user_img :src="post.user.img" :alt="post.user.alt">
-            <p><strong>{{post.user.name}}:</strong> {{post.title}}</p>
-            <p>{{post.date}}</p>
+          <div class="post_info">
+            <img class="user_img" :src="post.user.img" :alt="post.user.alt">
+            <div class="user_details">
+              <p @click="selectUser(post.user.id)"><strong>{{post.user.name}}</strong></p>
+              <p>{{formatMessageTime(post.date)}}</p>
+            </div>
           </div>
-          <button @click="deletePost(post)" class="btn btn-outline-danger" style="margin-left: 10px;" v-if="isLoggedIn(post.user.id)===true">
-            <i class="far fa-trash-alt"></i> <!-- Replace with appropriate icon class -->
+          <button @click="deletePost(post)" class="btn btn-outline-danger delete_button" v-if="isLoggedIn(post.user.id)">
+            <i class="far fa-trash-alt"></i> Delete
           </button>
         </div>
-        <img v-if="post.img !== ''" :src="post.img" :alt="post.alt">
-        <p>{{ post.content }}</p>
-        <div class="post-footer">
-          <button type="button" class="btn btn-outline-primary" @click="react(post)" style="margin-right: 10px;">
-            <i class="far fa-thumbs-up"></i> <!-- Replace with appropriate icon class -->
+        <div class="post_content">
+          <p class="post_text">{{ post.content }}</p>
+          <img v-if="post.img !== ''" class="post_image" :src="post.img" :alt="post.alt">
+        </div>
+
+        <div class="post-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-outline-primary mr-1" @click="react(post)" :style="{ 'background-color': post.isLiked ? '#007bff' : 'white' }">
+            <i class="far fa-thumbs-up mr-1" :style="{ 'color': post.isLiked ? 'white' : '#007bff' }"></i>
             <span class="badge badge-light">{{ post.React_Count }}</span>
           </button>
-          <button type="button" class="btn btn-outline-secondary" @click="comment(post)" style="margin-right: 10px;">
-            <i class="far fa-comment"></i> <!-- Replace with appropriate icon class -->
+          <button type="button" class="btn btn-outline-secondary mx-1" @click="comment(post)">
+            <i class="far fa-comment"></i>
           </button>
-          <button type="button" class="btn btn-outline-warning" @click="share(post)" style="margin-right: 10px;">
-            <i class="fas fa-share"></i> <!-- Replace with appropriate icon class -->
+          <button type="button" class="btn btn-outline-warning ml-1" @click="share(post)">
+            <i class="fas fa-share"></i>
           </button>
         </div>
+
+
 
         <comments v-bind:post="post" v-bind:comments="comments" v-if="post.commentsShown"
                   @commentAdded="handleCommentAdded(post)"/>
@@ -87,8 +100,9 @@ export default {
       });
     },
     comment(post) {
+      const state = post.commentsShown;
       this.closeComments();
-      post.commentsShown = !post.commentsShown;
+      post.commentsShown = !state;
       this.fetchComments(post);
 
 
@@ -115,7 +129,7 @@ export default {
         newTitle: ''
       };
       let fileInput = document.querySelector('input[type="file"]');
-      if (content === '' || title === '') {
+      if (content === '') {
         alert('Please fill in the title and content fields!');
         return;
       }
@@ -165,6 +179,8 @@ export default {
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=reactToPost`, data)
           .then(response => {
             this.$emit('postAdded', response);
+            console.log('isLiked');
+            console.log(post.isLiked);
           })
           .catch(error => {
             console.error('Error Deleting Post:', error);
@@ -198,6 +214,34 @@ export default {
           .catch(error => {
             console.error('Error fetching profile details:', error);
           });
+    },
+    formatMessageTime(time) {
+      const messageTime = new Date(time);
+      const today = new Date();
+      if (
+          messageTime.getDate() === today.getDate() &&
+          messageTime.getMonth() === today.getMonth() &&
+          messageTime.getFullYear() === today.getFullYear()
+      ) {
+        let hours = messageTime.getHours();
+        let suffix = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const minutes = messageTime.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes} ${suffix}`;
+      } else {
+        const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+        const year = (messageTime.getFullYear() !== today.getFullYear()) ? `, ${messageTime.getFullYear()}` : '';
+        const month = months[messageTime.getMonth()];
+        const day = messageTime.getDate();
+        let hours = messageTime.getHours();
+        let suffix = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const minutes = messageTime.getMinutes().toString().padStart(2, '0');
+        const time = `${year}, ${month}, ${day} at ${hours}:${minutes} ${suffix}`;
+        return time.substring(1);
+      }
     }
 
   },
@@ -209,3 +253,117 @@ export default {
   }
 };
 </script>
+
+<style>
+.post_info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.user_img {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  border-radius: 50%; /* Make the image round */
+  margin-right: 10px; /* Add space between image and text */
+}
+
+.user_details {
+  flex-grow: 1; /* Take up remaining space */
+}
+
+.user_details p {
+  margin: 0; /* Remove default margins */
+}
+
+
+.post_text {
+  margin-bottom: 10px; /* Add space below text content */
+}
+
+.post_image {
+  width: 100%; /* Ensure image doesn't exceed container width */
+  height: 700px; /* Maintain aspect ratio */
+  border-radius: 5px; /* Add rounded corners to the image */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+  margin-top: 10px; /* Add space above the image */
+  margin-bottom: 10px; /* Add space below the image */
+}
+.post_header {
+  display: flex;
+  justify-content: space-between; /* Align items with space between them */
+  align-items: center; /* Vertically center items */
+}
+
+.delete_button {
+  padding: 5px 10px; /* Adjust padding */
+  border-radius: 5px; /* Add rounded corners */
+  background-color: #dc3545; /* Red background color */
+  color: #fff; /* White text color */
+  border: none; /* Remove border */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+  margin-bottom: 10px; /* Add space above the button */
+}
+
+.delete_button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+.post-footer {
+  display: flex;
+  justify-content: space-between; /* Distribute items equally */
+  align-items: center; /* Center-align items vertically */
+  margin-top: 10px; /* Add some top margin */
+}
+
+.post-footer .btn {
+  flex-grow: 1; /* Make buttons occupy equal space */
+  max-width: 25%; /* Limit maximum width for equal spacing */
+}
+.user_post {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+
+.post_content_wrapper {
+  flex-grow: 1; /* Take up remaining space */
+  display: flex;
+}
+
+.post_input {
+  flex-grow: 1; /* Take up remaining space */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  resize: vertical; /* Allow vertical resizing */
+}
+
+.upload-icon {
+  margin-right: 10px;
+}
+
+.upload-icon input[type="file"] {
+  display: none;
+}
+
+.post_button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #007bff; /* Adjust color as needed */
+  color: #fff; /* Text color */
+  border: none;
+  cursor: pointer;
+}
+.fa-image {
+  font-size: 20px;
+  margin-top: 100px;
+  margin-right: 5px;
+  color: #8ae54c;
+}
+
+
+
+</style>

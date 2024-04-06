@@ -91,14 +91,21 @@
                         alt: 'Post Image',
                         commentsShown: false,
                         newCommentContent: '',
-                        isLiked: false,
+                        isLiked:post.isLiked,
                         Post_ID : post.Post_ID,
                         React_Count : post.React_Count,
                         date: post.Date_published
+                        
                     };
                 }
+              
 
-            axios.get(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllPosts`)
+            const sessionId = sessionStorage.getItem('sessionId');
+            let data =new FormData();
+            if (sessionId !== null) {
+                data.append('sessionId', sessionId);
+            }
+            axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=getAllPosts`,data)
             .then(response => {
                 let result = response.data;
                 result = result.map(post=>transformPost(post));
