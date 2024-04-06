@@ -2,10 +2,7 @@
     <navBar/>
     <header>
         <h1>Messages</h1>
-        <h2>{{ selectedUser?.username }}</h2>
-        <div :class="{ 'text-success': selectedUser?.userStatus === 'Online', 'text-danger': selectedUser?.userStatus === 'Offline' }">
-          {{ selectedUser?.userStatus }}
-        </div>    
+        <h2>{{ selectedUser?.username }}</h2>   
     </header>
     <div class="row">
         <div class="col-sm-4">
