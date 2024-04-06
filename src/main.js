@@ -36,7 +36,7 @@ async function sendDataOnTabClose() {
 }
 
 
-window.addEventListener('unload', sendDataOnTabClose);
+window.addEventListener('beforeunload', sendDataOnTabClose);
 
 app.use(router);
 app.use(store);

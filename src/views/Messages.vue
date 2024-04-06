@@ -3,7 +3,9 @@
     <header>
         <h1>Messages</h1>
         <h2>{{ selectedUser?.username }}</h2>
-        <p>{{ selectedUser?.userStatus }}</p> <!-- Display user status (online wala le) here  -->
+        <div :class="{ 'text-success': selectedUser?.userStatus === 'Online', 'text-danger': selectedUser?.userStatus === 'Offline' }">
+          {{ selectedUser?.userStatus }}
+        </div>    
     </header>
     <div class="row">
         <div class="col-sm-4">

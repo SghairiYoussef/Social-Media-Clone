@@ -121,14 +121,13 @@ router.beforeEach((to, from, next) => {
             next('/WelcomePage');
           } else {
             // If the user is logged in, continue with the navigation
+            setUserOnline();
             sessionStorage.setItem('sessionId', response.data.sessionID);
             sessionStorage.setItem('userId', response.data.userId);
             console.log(to.meta.isAdmin);
             if(to.meta.isAdmin && !response.data.isAdmin){
                 next('/Home');
             }
-            // set user online
-            setUserOnline();
             next();
           }
         })

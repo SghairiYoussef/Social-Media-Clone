@@ -83,7 +83,6 @@ if ($action == 'signup') {
         // Call logIn function
         $result = logIn('UserData', $username, $password);
         if ($result) {
-            $result = setStatus($username, 'Online');
             $id=generateToken();
             session_id($id);
             session_start();
@@ -226,8 +225,7 @@ if($action == 'setOffline'){
         echo json_encode(['success' => true, 'message' => 'User status set to offline']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to set user status to offline']);
-    }
-    
+    }  
 }
 if($action == 'setOnline'){
     if (isset($_POST['sessionId'])){
