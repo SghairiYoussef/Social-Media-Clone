@@ -1,6 +1,8 @@
 <template>
   <div>
-    <navBar/>
+    <div class="Fixed-navbar">
+      <navBar/>
+    </div>
     <div class="row">
       <div class="fixed-column left">
         <ProfileCard :showUploadButton="false"/>
@@ -106,6 +108,11 @@
 .row {
   display: flex;
   flex-wrap: wrap;
+  padding-top: 60px;
+}
+.Fixed-navbar{
+  position: fixed;
+  width: 100%;
 }
 .fixed-column {
   position: fixed;

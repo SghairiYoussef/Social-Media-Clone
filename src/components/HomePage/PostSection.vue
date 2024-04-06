@@ -38,7 +38,7 @@
         <div class="post-footer d-flex justify-content-center">
           <button type="button" class="btn btn-outline-primary mr-1" @click="react(post)" :style="{ 'background-color': post.isLiked ? '#007bff' : 'white' }">
             <i class="far fa-thumbs-up mr-1" :style="{ 'color': post.isLiked ? 'white' : '#007bff' }"></i>
-            <span class="badge badge-light">{{ post.React_Count }}</span>
+            <div class="badge badge-light">{{ post.React_Count }}</div>
           </button>
           <button type="button" class="btn btn-outline-secondary mx-1" @click="comment(post)">
             <i class="far fa-comment"></i>
