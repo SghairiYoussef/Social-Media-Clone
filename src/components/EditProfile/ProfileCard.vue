@@ -9,7 +9,7 @@
             <input v-if="showUploadButton" type="file" id="avatarUpload" name="file" accept="image/*" @change="handleAvatarChange" style="display: none;">
           </div>
           <h5 class="username">{{ username }}</h5>
-          <h6 class="user-email"><a :href="'mailto:' + email">{{ email }}</a></h6>
+          <h6 v-if="showUploadButton" class="user-email"><a :href="'mailto:' + email">{{ email }}</a></h6>
         </div>
         <div class="about">
           <h5>About</h5>

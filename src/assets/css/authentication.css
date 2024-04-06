@@ -18,7 +18,7 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background: #ffffff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
   .login-content {
@@ -76,35 +76,46 @@
 
 
   .login-popup {
-    padding: 10px;
-    height: 700px;
+    padding: 6px;
+    height: 735px;
     overflow: auto;
   }
 
   .toggle-buttons {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
-
+  
   .toggle-buttons button {
+    line-height: 25px;
     padding: 10px 20px;
     border: none;
-    background: transparent;
-    color: #28536b;
-    font-size: 23px;
+    background: var(--primary-gradient);
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    margin: 10px 1rem;
     cursor: pointer;
     outline: none;
-    border-radius: 5px;
+    border-radius: 50px;
     transition: background-color 0.3s ease;
   }
-
   .toggle-buttons button.active {
-    color: #c2948a;
+    background: var(--secondary-gradient);
+    color: #ffffff;
   }
 
   .toggle-buttons button:hover {
-    background-color: #dcdcdc;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+    ),
+    linear-gradient(180deg, #5271ff -54.32%, #f02aa6 100%);
+    cursor: pointer;
   }
 
   .login-content {
@@ -192,65 +203,32 @@
   .return-button {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    background-color: transparent;
+    justify-content: center;
+    background: var(--secondary-gradient); 
+    color: white; 
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
     border: none;
+    border-radius: 50%; 
     cursor: pointer;
-    font-size: 24px;
-    color: #666;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
     outline: none;
+    transition: background-color 0.3s ease;
   }
   
   .return-button i {
     margin-right: 1px;
-    outline: none;
   }
+  
   .return-button:hover {
-    outline: none;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    linear-gradient(180deg, #5271ff -54.32%, #f02aa6 100%);
   }
 
-  @media (max-width: 767px) {
-    .login-page {
-      width: 100%;
-      border-radius: 0;
-    }
-  }
-
-  @media (max-width: 575px) {
-    .login-popup {
-      padding: 20px;
-    }
-
-    .toggle-buttons {
-      flex-direction: column;
-    }
-
-    .toggle-buttons button {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    .login-content {
-      padding: 10px;
-    }
-
-    .footer-section {
-      padding: 10px;
-    }
-
-    .remember-me-section {
-      flex-direction: column;
-      align-items: flex-start;
-      font-size: 30px;
-    }
-  .container {
-      flex-direction: column;
-      align-items: center;
-    }
-
-  }
 
 
 /* CustomForm */
@@ -262,20 +240,28 @@
   }
 
   .submit-btn {
-    text-align: center;
+    display: flex;
+    justify-content: center;
   }
-
+  
   .submit-btn button {
     padding: 10px 20px;
-    background-color: #7EA8BE;
+    background: var(--secondary-gradient);
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 50px;
+    outline: none;
+    transition: background-color 0.3s ease;
   }
-
+  
   .submit-btn button:hover {
-    background-color: #28536B;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    linear-gradient(180deg, #5271ff -54.32%, #f02aa6 100%);
   }
 
   .formTitle {

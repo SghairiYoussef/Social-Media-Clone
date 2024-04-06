@@ -29,7 +29,7 @@
             INSAT: Social Club is a Social Media platform that allows you to connect with your friends and family, share your thoughts, ideas, and memories with others.
             You can also chat with your friends in real-time and stay connected with them no matter where you are.
           </p>
-          <a href = "#" @click = 'SignUp' class="intro-btn">Sign Up</a>
+          <a href="#" @click = 'SignUp' class="intro-btn">Sign Up</a>
         </div>
         <div class="intro-image"></div>
       </section>
