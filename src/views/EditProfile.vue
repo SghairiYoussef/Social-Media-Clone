@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row gutters">
           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-            <ProfileCard/>
+            <ProfileCard :show-upload-button="true"/>
           </div>
           <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
             <EditForm/>

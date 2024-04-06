@@ -5,8 +5,8 @@
         <div class="user-profile">
           <div class="user-avatar">
             <img :src="avatarUrl" alt="ProfileImage" class="ProfileImage img-fluid rounded-circle">
-            <label for="avatarUpload" class="btn btn-outline-danger mt-2">Upload Image</label>
-            <input type="file" id="avatarUpload" name="file" accept="image/*" @change="handleAvatarChange" style="display: none;">
+            <label v-if="showUploadButton" for="avatarUpload" class="btn btn-outline-danger mt-2">Upload Image</label>
+            <input v-if="showUploadButton" type="file" id="avatarUpload" name="file" accept="image/*" @change="handleAvatarChange" style="display: none;">
           </div>
           <h5 class="username">{{ username }}</h5>
           <h6 class="user-email"><a :href="'mailto:' + email">{{ email }}</a></h6>
@@ -25,6 +25,12 @@ import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 
 export default {
+  props: {
+    showUploadButton: {
+      type: Boolean,
+      required: true
+    }
+  },
   data() {
     return {
       username: '',

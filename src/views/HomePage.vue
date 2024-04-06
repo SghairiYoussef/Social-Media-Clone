@@ -1,14 +1,17 @@
 <template>
   <navBar/>
   <div class="row">
-    <div class = "col-sm-10">
+    <div class = "col-sm-3">
+      <ProfileCard :showUploadButton="false"/>
+    </div>
+    <div class = "col-sm-6">
       <PostSection :Posts="visiblePosts()" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()"/>
       <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
       <div v-else>
           <p class="Note">No more posts to load</p>
       </div>
     </div>
-    <div class = "col-sm-2">
+    <div class = "col-sm-3">
       <Inbox/>
     </div>
   </div>
@@ -23,13 +26,13 @@
 }
 
 /* Styling for the left column */
-.col-sm-10 {
+.col-sm-6 {
   flex: 0 0 83.333333%;
   max-width: 83.333333%;
 }
 
 /* Styling for the right column */
-.col-sm-2 {
+.col-sm-3 {
   flex: 0 0 16.666667%;
   max-width: 16.666667%;
 }
@@ -63,12 +66,14 @@
   import PostSection from '@/components/HomePage/PostSection.vue';
   import navBar from '@/components/navbar.vue';
   import Inbox from '@/components/MessageBox/Inbox.vue';
+  import ProfileCard from '@/components/EditProfile/ProfileCard.vue';
   import axios from 'axios';
   export default {
     components: {
       PostSection,
       navBar,
-      Inbox
+      Inbox,
+      ProfileCard
     },
     data(){
       return {

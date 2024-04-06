@@ -283,7 +283,7 @@ export default {
 
 .post_image {
   width: 100%; /* Ensure image doesn't exceed container width */
-  height: 700px; /* Maintain aspect ratio */
+  height: 400px; /* Maintain aspect ratio */
   border-radius: 5px; /* Add rounded corners to the image */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
   margin-top: 10px; /* Add space above the image */
