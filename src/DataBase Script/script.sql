@@ -9,7 +9,7 @@ CREATE OR REPLACE TABLE userdata (
     email VARCHAR(64),
     password VARCHAR(64),
     birthDay DATE,
-    userStatus VARCHAR(64) DEFAULT 'offline',
+    userStatus VARCHAR(64) DEFAULT 'Offline',
     bio VARCHAR(256),
     img VARCHAR(512),
     resetPasswordToken VARCHAR(64),
