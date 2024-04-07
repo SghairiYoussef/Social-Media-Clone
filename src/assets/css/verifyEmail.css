@@ -35,8 +35,7 @@
   
   .verifySubmit-btn button {
     padding: 10px 20px;
-    background: var(--secondary-gradient);
-    color: white;
+    background: #008CBA;    color: white;
     border: none;
     cursor: pointer;
     border-radius: 50px;

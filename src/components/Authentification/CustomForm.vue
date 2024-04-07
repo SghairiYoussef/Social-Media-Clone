@@ -120,7 +120,12 @@ export default {
 
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=${action}`, Signup)
           .then(response => {
+            if (response.data.message === 'Failed to log in user' && action === 'login') {
+                this.errorMessage = response.data.message;
+                this.error = true;
+              }
             if (action === 'login' && response.data.success) {
+              
               sessionStorage.setItem('sessionId', response.data.sessionID);
               sessionStorage.setItem('userId', response.data.userId);
               if(response.data.isAdmin){

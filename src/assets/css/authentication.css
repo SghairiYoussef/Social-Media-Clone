@@ -91,7 +91,7 @@
     line-height: 25px;
     padding: 10px 20px;
     border: none;
-    background: var(--primary-gradient);
+    background: #008CBA;
     color: white;
     font-size: 20px;
     font-weight: 500;
@@ -104,7 +104,12 @@
     transition: background-color 0.3s ease;
   }
   .toggle-buttons button.active {
-    background: var(--secondary-gradient);
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+    ),
+    linear-gradient(180deg, #5271ff -54.32%, #f02aa6 100%);
     color: #ffffff;
   }
 
@@ -204,7 +209,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--secondary-gradient); 
+    background: #008CBA;
     color: white; 
     font-size: 20px;
     width: 40px;
@@ -246,7 +251,7 @@
   
   .submit-btn button {
     padding: 10px 20px;
-    background: var(--secondary-gradient);
+    background: #008CBA;
     color: white;
     border: none;
     cursor: pointer;
