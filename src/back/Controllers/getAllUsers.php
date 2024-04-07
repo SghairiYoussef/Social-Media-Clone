@@ -3,7 +3,7 @@
     function getAllUsers(){
           
           $connexion = ConnexionBD::getInstance();
-        $query="select * from userdata";
+        $query="select * from userdata where email != 'insatsocialclubadm1n@gmail.com' ";
         $result = $connexion->query($query);
         $users = array();
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
