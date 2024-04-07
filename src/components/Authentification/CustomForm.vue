@@ -138,6 +138,10 @@ export default {
             if (this.isSignup && response.data.success) {
               this.$router.push('/login/verifyEmail');
             }
+            else if (this.isSignup && !response.data.success) {
+              this.errorMessage = response.data.message;
+              this.error = true;
+            }
 
           })
 
