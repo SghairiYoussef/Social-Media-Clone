@@ -55,6 +55,7 @@ export default {
           if (response.data.message === 'Email does not exist'){
             this.errorMessage = 'Email does not exist';
             this.error = true;
+            this.isSubmitting = false;
           }
           else {
             this.isSent = true;
