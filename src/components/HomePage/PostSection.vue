@@ -1,18 +1,21 @@
 <template>
   <div class="container" v-cloak>
     <div class="user_post" v-if="routePath ==='/Home' || routePath==='/myAccount'">
-      <img class="user_img" :src="avatar" alt="User Image">
       <div class="post_content_wrapper">
-        <textarea class="post_input" v-model="newPost.newContent" placeholder="What's on your mind?" rows="3"></textarea>
-        <!--<input class="post_input" v-model="newPost.newTitle" type="text" placeholder="Your Post Title here!"  style="margin-left: 10px;">-->
-        <label for="file" class="upload-icon">
-          <input id="file" class="file_input" type="file" name="file" accept="image/*" style="display: none;">
-          <i class="fas fa-image"></i> <!-- Icon appears inline with the input field -->
-        </label>
+        <img class="user_img" :src="avatar" alt="User Image">
+        <div class="post-text-wrapper">
+          <textarea class="form-control rounded post_input" v-model="newPost.newContent" placeholder="Write something here..." rows="3"></textarea>
+          <div class="button-wrapper">
+            <label for="file" class="btn btn-success media_button">
+              <input id="file" class="file_input" type="file" name="file" accept="image/*" style="display: none;">
+              <i class="fas fa-image"></i> Image
+            </label>
+            <button type="button" class="btn btn-info" @click="addPost(newPost.newContent)">
+              <i class="fas fa-paper-plane"></i> Post
+            </button>
+          </div>
+        </div>
       </div>
-      <button type="button" class="btn btn-outline-info post_button" @click="addPost(newPost.newContent)">
-        <i class="fas fa-paper-plane"></i> Post
-      </button>
     </div>
 
 
@@ -276,9 +279,15 @@ export default {
   margin: 0; /* Remove default margins */
 }
 
+.post_content_wrapper {
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px; 
+}
 
-.post_text {
-  margin-bottom: 10px; /* Add space below text content */
+.post-text-wrapper {
+  width: 100%;
+  flex-grow: 1;
 }
 
 .post_image {
@@ -324,46 +333,33 @@ export default {
   align-items: center;
   margin-bottom: 20px;
 }
-
-
-
-.post_content_wrapper {
-  flex-grow: 1; /* Take up remaining space */
-  display: flex;
+.post_text {
+  flex-grow: 1;
 }
 
+
 .post_input {
-  flex-grow: 1; /* Take up remaining space */
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px;
-  resize: vertical; /* Allow vertical resizing */
+  resize: vertical;
 }
 
-.upload-icon {
-  margin-right: 10px;
+.button-wrapper {
+  display: flex;
+  align-items: center;
 }
 
-.upload-icon input[type="file"] {
-  display: none;
+.media_button {
+  margin-top: 26.5px;
+  margin-right: 40px;
+  margin-left: calc(45% - 100px);
 }
 
-.post_button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #007bff; /* Adjust color as needed */
-  color: #fff; /* Text color */
-  border: none;
-  cursor: pointer;
-}
 .fa-image {
   font-size: 20px;
-  margin-top: 100px;
-  margin-right: 5px;
-  color: #8ae54c;
+  margin-right: 10px;
+  color: #ffffff;
 }
-
-
-
 </style>
