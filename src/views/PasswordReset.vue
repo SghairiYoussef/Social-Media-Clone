@@ -73,7 +73,12 @@ export default {
       axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPassword', data)
 
           .then(response => {
-            // Handle successful login response
+            if (!response.data.success) {
+              this.errorMessage = 'Invalid token';
+              this.error = true;
+              return;
+            }
+            // Handle successful password reset
             if (response.data.message === 'Password reset successfully') {
               this.isReset = true;
               this.inputs.forEach(input => input.value = '');
@@ -85,10 +90,6 @@ export default {
                   this.$router.push('/login');
                 }
               }, 1000);
-            }
-            else {
-              this.errorMessage = response.data.message;
-              this.error = true;
             }
           })
           .catch(error => {
