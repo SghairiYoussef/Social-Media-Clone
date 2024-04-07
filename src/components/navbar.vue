@@ -93,12 +93,11 @@ import searchBar from '@/components/searchBar.vue';
             function transformUserData(user) {
                     return {
                     
-                        id: user.userID,
+                        userID: user.userID,
                         name : user.fullName,
                         username: user.userName,
                         email: user.email,
                         avatar: user.img? require(`../back/avatars/${user.img}`) : require(`../../public/img/noProfileImage.jpg`),
-                        background: user.background? user.background : 'https://wweb.dev/resources/navigation-generator/logo-placeholder-background.png',
                         bio: user.bio,
                     
                     };

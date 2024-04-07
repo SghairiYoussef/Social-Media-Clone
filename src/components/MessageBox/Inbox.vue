@@ -8,7 +8,7 @@
     </li>
     <li v-for="(user, index) in users" :key="index" @click="selectUser(user)" @dblclick="redirectToProfile(user)">
       <div class="userBox">
-        <img :src="user.img ? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`)" alt="User Image" class="rounded-pill" style="width: 40px;">
+        <img :src="user.avatar" alt="User Image" class="rounded-pill" style="width: 40px;">
         {{ user.username }}
         <div class="userStatus" :class="{ 'text-success': user.userStatus === 'Online', 'text-danger': user.userStatus === 'Offline' }">
           {{ user.userStatus }}
@@ -49,12 +49,24 @@ export default {
       this.$router.push(`/profile?User_ID=${user.userID}`);
     },
     fetchUsers() {
+      function transformUserData(user) {
+                    return {
+                    
+                        userID: user.userID,
+                        username: user.username,
+                        avatar: user.img? require(`../../back/avatars/${user.img}`) : require(`../../../public/img/noProfileImage.jpg`),
+                        userStatus: user.userStatus
+                    
+                    };
+                }
       const sessionId = sessionStorage.getItem('sessionId');
       let data = new FormData();
       data.append('sessionId', sessionId);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getUsers', data)
           .then(response => {
-            this.users = response.data;
+            let result = response.data;
+            result = result.map(user=>transformUserData(user));
+            this.users = result;
             this.$emit('users-fetched', response.data);
           })
           .catch(error => {

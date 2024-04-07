@@ -4,7 +4,7 @@
     <button class="clear-button" @click="clearInput" v-if="input">Clear</button>
     <div v-if="input" class="search-results">
       <div class="item fruit" v-for="user in filteredList" :key="user.id">
-        <div class="user-item" @click="selectUser(user.id)">
+        <div class="user-item" @click="selectUser(user.userID)">
           <img :src="user.avatar" alt="profilePic" class="user-searchbar-avatar" />
           <p>{{ user.username }}</p>
         </div>
@@ -116,6 +116,7 @@ export default {
   align-items: center;
   padding: 10px;
   cursor: pointer;
+  color: white;
 }
 
 .user-item p {
