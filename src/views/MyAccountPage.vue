@@ -74,7 +74,8 @@ export default {
                         newCommentContent: '',
                         isLiked:post.isLiked,
                         Post_ID : post.Post_ID,
-                        React_Count : post.React_Count
+                        React_Count : post.React_Count,
+                      date: post.Date_published
                     };
                 }
             const sessionId = sessionStorage.getItem('sessionId');

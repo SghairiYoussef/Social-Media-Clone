@@ -1,56 +1,72 @@
+/* Styling for the user profile */
 .account-settings .user-profile {
-    margin: 0 0 1rem 0;
+    margin: 0;
     padding-bottom: 1rem;
     text-align: center;
 }
+
+/* Styling for the user avatar */
 .account-settings .user-profile .user-avatar {
-    margin: 0 0 1rem 0;
+    margin-bottom: 1rem;
 }
+
 .account-settings .user-profile .user-avatar img {
     width: 180px;
     height: 180px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    border-radius: 100px;
+    border-radius: 50%; /* Circular avatar */
+    border: 5px solid #fff; /* White border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
-.account-settings .user-profile h5.user-name {
+
+/* Styling for the username */
+.account-settings .user-profile h5.username {
     margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #333; /* Dark text color */
 }
+
+/* Styling for the user email */
 .account-settings .user-profile h6.user-email {
     margin: 0;
     font-size: 0.8rem;
-    font-weight: 400;
-    color: #9fa8b9;
+    color: #666; /* Light text color */
 }
+
+/* Styling for the about section */
 .account-settings .about {
     margin: 2rem 0 0 0;
     text-align: center;
 }
+
 .account-settings .about h5 {
     margin: 0 0 15px 0;
-    color: #007ae1;
-}
-.account-settings .about p {
-    font-size: 0.825rem;
-}
-.form-control {
-    border: 1px solid #cfd1d8;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    font-size: .825rem;
-    background: #ffffff;
-    color: #2e323c;
+    color: #007ae1; /* Blue color */
 }
 
-.card {
-    background: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    border: 0;
-    margin-bottom: 1rem;
+.account-settings .about p {
+    font-size: 1rem;
+    color: #555; /* Text color */
 }
-.btn-secondary {
-    margin-right: 10px;
-  }
+
+/* Styling for the upload button */
+.btn-outline-danger {
+    margin-top: 1rem; /* Spacing from the avatar */
+}
+
+/* Styling for the file input */
+input[type="file"] {
+    display: none; /* Hide the file input */
+}
+
+/* Styling for the card */
+.card {
+    background: #f9f9f9; /* Light background */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 20px;
+    transition: box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.card:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
