@@ -1,5 +1,5 @@
 <template>
-    <navBar/>
+    <navBar class="Fixed-navbar" />
     <header class="main-header">
         <img :src="user.background" alt="User Background" class="background">
         <div class="header-content">
@@ -163,5 +163,14 @@ export default {
         border: none; 
         border-radius: 5px;
         cursor: pointer;
+    }
+    .Fixed-navbar{
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    }
+    .header-content{
+        margin-top: 30px;
     }
 </style>

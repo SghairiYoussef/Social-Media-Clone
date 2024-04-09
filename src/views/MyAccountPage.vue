@@ -1,5 +1,5 @@
 <template>
-    <navBar/>
+    <navBar class="Fixed-navbar"/>
     <header class="main-header">
         <img :src="user.background" alt="User Background" class="background">
         <div class="header-content">
