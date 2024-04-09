@@ -19,7 +19,7 @@
   <div class="main-wrapper">
     <header class="header">
       <img class="logo" src="./assets/logo-dark.gif" alt="logo" />
-      <a href ='#' @click = 'RedirectContactUs' class="header-button">Contact Us ✉️ </a>
+      <a @click = 'RedirectContactUs' class="header-button">Contact Us ✉️ </a>
     </header>
     <main>
       <section class="intro">
@@ -29,7 +29,7 @@
             INSAT: Social Club is a Social Media platform that allows you to connect with your friends and family, share your thoughts, ideas, and memories with others.
             You can also chat with your friends in real-time and stay connected with them no matter where you are.
           </p>
-          <a href="#" @click = 'SignUp' class="intro-btn">Sign Up</a>
+          <a @click = 'SignUp' class="intro-btn">Sign Up</a>
         </div>
         <div class="intro-image"></div>
       </section>
@@ -201,7 +201,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--blue);
+  color: white;
   margin: 1rem;
 }
 
@@ -227,7 +227,9 @@ body {
   background-color: var(--blue-hover);
   cursor: pointer;
 }
-
+.intro{
+  color:white;
+}
 .intro-heading {
   color: var(--blue);
   font-size: 40px;
