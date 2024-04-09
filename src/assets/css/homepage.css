@@ -529,3 +529,14 @@ body {
   margin: 0;
   font-size: large;
 }
+.post-text-wrapper textarea{
+  border: none;
+  box-shadow: none;
+  background-color: rgba(128, 128, 128, 0.071);
+}
+.comment__user{
+  display: flex;
+}
+.comment-section__form textarea{
+  height: 10px;
+}

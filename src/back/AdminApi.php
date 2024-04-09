@@ -26,6 +26,7 @@ include "Controllers/deleteUser.php";
 include "Controllers/getPosts.php";
 include "Controllers/getReports.php";
 include "Controllers/deleteReport.php";
+include "Controllers/getPostsForAdmin.php";
 $action='';
 if (isset($_GET['action'])) {
 
@@ -50,7 +51,7 @@ if($action == 'deleteUser'){
 
 }
 if($action == 'getAllPosts'){
-    $result = getPostsForFeed();
+    $result = getPostsForAdmin();
     if ($result) {
         echo $result;
     } else {

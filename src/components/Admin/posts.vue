@@ -148,6 +148,7 @@ import axios from 'axios';
         name: 'postSection',
         mounted(){
             this.fetchPosts();
+            console.log(this.Posts);
         }
     }
 </script>

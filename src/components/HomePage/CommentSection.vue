@@ -110,14 +110,17 @@ export default {
 
 .comment-section__form {
   margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .comment-section__form__input {
   justify-content: center;
-  width: 50%;
-  height: 100px;
+  width: 75%;
+  height: 50px;
   resize: vertical;
   margin-bottom: 10px;
+  padding-left: 10px;
 }
 
 .comment-section__form__button {
@@ -126,8 +129,9 @@ export default {
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 15px 15px;
   cursor: pointer;
+  height: 40px;
+  width: 70px;
 }
 
 .comment-section__form__button:hover {

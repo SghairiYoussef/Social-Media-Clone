@@ -19,7 +19,7 @@
     </div>
 
 
-    <div v-if="Posts.length > 0">
+    <div v-if="Posts.length > 0" class="post-container">
       <div class="post" v-for="post in this.Posts" :key="post.title" >
         <div class="post_header" >
           <div class="post_info">
@@ -35,7 +35,9 @@
         </div>
         <div class="post_content">
           <p class="post_text">{{ post.content }}</p>
-          <img v-if="post.img !== ''" class="post_image" :src="post.img" :alt="post.alt">
+          <div class="image-container">
+            <img v-if="post.img !== ''" class="post_image" :src="post.img" :alt="post.alt">
+          </div>
         </div>
 
         <div class="post-footer d-flex justify-content-center">
