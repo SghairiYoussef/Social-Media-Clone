@@ -64,7 +64,7 @@ export default {
       data.append('message', this.message);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/contactUsApi.php?action=contactUs', data)
           .then(response => {
-            console.log(response.data);
+            console.log(response.data.message);
             if (response.data.success) {
               this.successMessage = "Report sent successfully";
               this.name = '';

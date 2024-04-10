@@ -115,7 +115,7 @@ router.beforeEach((to, from, next) => {
     axios.defaults.withCredentials = true;
     axios.post(`http://localhost/php/Social-Media-Clone/src/back/api.php?action=isLoggedIn`,data)
         .then(response => {
-          console.log(response.data);
+          console.log(response.data.message);
           if (!response.data.success) {
             // If the user is not logged in, redirect to the login page
             next('/WelcomePage');
@@ -124,7 +124,6 @@ router.beforeEach((to, from, next) => {
             setUserOnline();
             sessionStorage.setItem('sessionId', response.data.sessionID);
             sessionStorage.setItem('userId', response.data.userId);
-            console.log(to.meta.isAdmin);
             if(to.meta.isAdmin && !response.data.isAdmin){
                 next('/Home');
             }

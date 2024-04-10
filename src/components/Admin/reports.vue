@@ -41,9 +41,10 @@ import axios from 'axios';
                 data.append('Report_ID',report.id);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=deleteReport`, data)
                     .then(response => {
-                        console.log("Report Deleted");
-                        console.log(response);
-                        this.fetchReports();
+                        console.log(response.data.message);
+                        if(response.data.success) {
+                          this.fetchReports();
+                        }
                     })
                     .catch(error => {
                         console.error('Error Deleting Report:', error);

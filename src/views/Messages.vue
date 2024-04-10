@@ -38,7 +38,6 @@ export default {
     methods: {
         setUsers(users) {
             this.users = users;
-            console.log(this.users);
         },
         selectUser(user) {
             this.selectedUser = user;

@@ -66,7 +66,6 @@ export default {
                             img: post.img ? require('../back/avatars/' + post.img) : require('../../public/img/noProfileImage.jpg'),
                             alt: 'User Image'
                         },
-                        title: post.title,
                         content: post.Caption,
                         img: post.Media ?require('../back/uploads/' + post.Media) : "",
                         alt: 'Post Image',
@@ -87,10 +86,8 @@ export default {
             .then(response => {
                 
                 let result = response.data;
-                console.log(result);
                 result = result.map(post=>transformPost(post));
                 this.Posts = result;
-                console.log(this.Posts);
             })
             .catch(error => {
                 console.error('Error fetching posts:', error);
@@ -119,10 +116,8 @@ export default {
                 .then(response => {
                     
                     let result = response.data;
-                    console.log(result);
                     result = transformUserData(result);
                     this.user = result;
-                    console.log(this.user);
                 })
                 .catch(error => {
                     console.error('Error fetching User info:', error);
@@ -142,7 +137,6 @@ export default {
         // Fetch initial set of posts when the component is created
         this.fetchPosts();
         this.fetchUserInfo();
-        console.log("mounted")
     },
 };
 </script>

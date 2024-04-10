@@ -80,7 +80,6 @@ if($action == 'addPost'){
     session_start();
     $user_id = $_SESSION['userId'];
     $Caption = $_POST['Content'];
-    $Title = $_POST['Title'];
     $file = $_FILES['Media'];
     $fileName = $_FILES['Media']['name'];
     $fileTmpName = $_FILES['Media']['tmp_name'];
@@ -106,7 +105,7 @@ if($action == 'addPost'){
                 move_uploaded_file($fileTmpName,$fileDestination);
                 $fileDestination='../../src/back/'.$fileDestination;
                 //change the user id
-                $result = addPost($user_id, $Caption, $Title,$fileNameNew);
+                $result = addPost($user_id, $Caption,$fileNameNew);
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
                 } else {
@@ -121,7 +120,7 @@ if($action == 'addPost'){
             echo 'There was an error uploading your file!';
         }
     }else{
-        $result = addPost($user_id, $Caption, $Title,"");
+        $result = addPost($user_id, $Caption, "");
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'Post added successfully']);
                 } else {
@@ -178,7 +177,7 @@ if($action == 'deletePost'){
     $user_id = $_SESSION['userId'];
     $Post_ID = $_POST['Post_ID'];
     $post = getPost($Post_ID);
-    $result = addPost($user_id, $post['Caption'], $post['title'],$post['Media']);
+    $result = addPost($user_id, $post['Caption'],$post['Media']);
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Post shared successfully']);
     } else {

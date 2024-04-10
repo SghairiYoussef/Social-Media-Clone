@@ -52,7 +52,8 @@ export default {
       axios.post('http://localhost/php/Social-Media-Clone/src/back/api.php?action=resetPasswordRequest', data)
         .then(response => {
           // Handle successful login response
-          if (response.data.message === 'Email does not exist'){
+          console.log(response.data.message)
+          if (!response.data.success){
             this.errorMessage = 'Email does not exist';
             this.error = true;
             this.isSubmitting = false;

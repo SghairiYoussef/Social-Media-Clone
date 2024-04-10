@@ -15,25 +15,6 @@ function displayMessages() {
         $stmt = $conn->query($q);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
-        // Loop through the results and display messages
-        /*
-        while ($row = mysqli_fetch_array($res)) {
-            if ($row['from_name'] == $uname && $row['to_name'] == $rname) {
-                // Message sent by the current user
-                ?>
-                <div class="sent">
-                    <?php echo $row['message']; ?>
-                </div>
-                <?php
-            } elseif ($row['from_name'] == $rname && $row['to_name'] == $uname) {
-                // Message received by the current user
-                ?>
-                <div class="received">
-                    <?php echo $row['message']; ?>
-                </div>
-                <?php
-            }
-        }*/
     } else {
         // No recipient selected
         return false;

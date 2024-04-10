@@ -72,6 +72,6 @@ if($action == 'deleteReport'){
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Report deleted']);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to delete Repoert']);
+        echo json_encode(['success' => false, 'message' => 'Failed to delete Report']);
     }
 }

@@ -159,5 +159,5 @@ import searchBar from '@/components/searchBar.vue';
     }
     .btn {
         margin-right: 20px;
-    } 
+    }
 </style>

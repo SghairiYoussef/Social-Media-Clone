@@ -59,7 +59,6 @@ export default {
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=addComment`, data)
           .then(response => {
             console.log("Comment Added");
-            console.log(response);
             this.$emit('commentAdded', response);
 
           })

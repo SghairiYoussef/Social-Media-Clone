@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS post (
     Media VARCHAR(500),
     React_Count INT DEFAULT 0,
     User_ID INT,
-    title VARCHAR(64),
     FOREIGN KEY (User_ID) REFERENCES userdata(userID) ON DELETE CASCADE
 );
 

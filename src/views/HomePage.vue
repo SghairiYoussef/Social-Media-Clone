@@ -49,7 +49,6 @@
                             img: post.img ? require('../back/avatars/' + post.img) : require('../../public/img/noProfileImage.jpg'),
                             alt: 'User Image'
                         },
-                        title: post.title,
                         content: post.Caption,
                         img: post.Media ?require('../back/uploads/' + post.Media) : "",
                         alt: 'Post Image',

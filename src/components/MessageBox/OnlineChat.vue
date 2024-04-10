@@ -50,7 +50,6 @@ export default {
       data.append('userName', this.selectedUser.username);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=displayMessages', data)
           .then(response => {
-            console.log(response.data);
             if(response.data.success){
               this.messages = response.data.messages;
               if (this.isScrolledDown){
@@ -76,7 +75,6 @@ export default {
       data.append('message', this.newMessage);
       axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=sendMessage', data)
           .then(response => {
-            console.log(response.data);
             if (response.data.success) {
               this.isScrolledDown = true;
               this.fetchMessages();
@@ -142,7 +140,6 @@ export default {
     data.append('sessionId', sessionId);
     axios.post('http://localhost/php/Social-Media-Clone/src/back/messengerApi.php?action=getCurrentUserName', data)
     .then(response => {
-      console.log(response.data);
       if (response.data.success) {
         this.currentUser = response.data.username;
         

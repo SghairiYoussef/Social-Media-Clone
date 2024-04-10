@@ -13,12 +13,12 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import navBar from '@/components/navbar.vue';
   import ProfileCard from '@/components/EditProfile/ProfileCard.vue';
   import EditForm from '@/components/EditProfile/EditForm.vue';
-  
+
   export default {
     components: {
       navBar,
@@ -27,7 +27,7 @@
     }
   }
   </script>
-  
+
 <style scoped>
 .row {
   height: 840px;

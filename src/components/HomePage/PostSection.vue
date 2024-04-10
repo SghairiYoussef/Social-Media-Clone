@@ -20,7 +20,7 @@
 
 
     <div v-if="Posts.length > 0" class="post-container">
-      <div class="post" v-for="post in this.Posts" :key="post.title" >
+      <div class="post" v-for="(post,index) in this.Posts" :key="index" >
         <div class="post_header" >
           <div class="post_info">
             <img class="user_img" :src="post.user.img" :alt="post.user.alt">
@@ -75,7 +75,6 @@ export default {
     return {
       newPost: {
         newContent: '',
-        newTitle: ''
       },
       comments: [],
       routePath: '',
@@ -128,19 +127,17 @@ export default {
             console.error('Error fetching comments:', error);
           });
     },
-    addPost(content, title) {
+    addPost(content) {
       this.newPost = {
         newContent: '',
-        newTitle: ''
       };
       let fileInput = document.querySelector('input[type="file"]');
       if (content === '') {
-        alert('Please fill in the title and content fields!');
+        alert('Please fill in the content field!');
         return;
       }
       let data = new FormData();
       data.append('Content', content);
-      data.append('Title', title);
       data.append('Media', fileInput.files[0]);
       console.log('posting data');
       const sessionId = sessionStorage.getItem('sessionId');
@@ -180,12 +177,10 @@ export default {
       const currentUserID = sessionStorage.getItem('userId');
       data.append('Post_ID', post.Post_ID);
       data.append('User_ID', currentUserID);
-      console.log(post.Post_ID);
       axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=reactToPost`, data)
           .then(response => {
             this.$emit('postAdded', response);
             console.log('isLiked');
-            console.log(post.isLiked);
           })
           .catch(error => {
             console.error('Error Deleting Post:', error);

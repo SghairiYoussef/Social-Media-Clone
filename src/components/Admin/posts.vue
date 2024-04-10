@@ -85,9 +85,10 @@ import axios from 'axios';
                 data.append('Post_ID',Post_ID);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/HomeApi.php?action=deletePost`, data)
                     .then(response => {
-                        console.log("Post Deleted");
-                        console.log(response);
-                        this.fetchPosts();
+                        console.log(response.data.message);
+                        if(response.data.success) {
+                          this.fetchPosts();
+                        }
                     })
                     .catch(error => {
                         console.error('Error Deleting Post:', error);
@@ -134,8 +135,6 @@ import axios from 'axios';
             .then(response => {
                 
                 let result = response.data;
-                console.log("admin posts");
-                console.log(result);
                 result = result.map(post=>transformPost(post));
                 this.Posts = result;
                 
@@ -148,7 +147,6 @@ import axios from 'axios';
         name: 'postSection',
         mounted(){
             this.fetchPosts();
-            console.log(this.Posts);
         }
     }
 </script>

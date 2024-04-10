@@ -44,8 +44,11 @@
                 data.append('User_ID',User_ID);
                 axios.post(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=deleteUser`,data)
             .then(response => {
-                console.log(response,"user deleted");
+              console.log(response.data.message);
+              if(response.data.success) {
                 this.fetchUsers();
+              }
+
             })
             .catch(error => {
                 console.error('Error deleting user:', error);
@@ -70,12 +73,16 @@
                 }
             axios.get(`http://localhost/php/Social-Media-Clone/src/back/AdminApi.php?action=getAllUsers`)
             .then(response => {
-                
+
                 let result = response.data;
                 result = result.map(user=>transformData(user));
-                console.log("users");
-                console.log(result);
-                this.users = result;
+                if(result.length > 0) {
+                  console.log("Data fetched successfully");
+                  this.users = result;
+                }
+                else {
+                  console.log("No data found");
+                }
                 
             })
             .catch(error => {
