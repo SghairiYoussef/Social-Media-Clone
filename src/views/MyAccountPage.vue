@@ -13,13 +13,9 @@
             </div>
         </div>
     </header>
-    <div v-if="Posts.length > 0">
-        <PostSection  :Posts="visiblePosts" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()" /> <!-- Fixed The Visible Posts problem -->
-        <button class="btn btn-info"  @click="loadMorePosts()">Load More</button>
-    </div>
-    <div v-else>
-        <p class="Note">No more posts to load</p>
-    </div>
+    <PostSection  :Posts="visiblePosts" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()" /> <!-- Fixed The Visible Posts problem -->
+    <p v-if="visiblePostCount - Posts.length > 0" class="Note">No more posts to load</p>
+    <button v-if="Posts.length > 8" class="btn btn-info"  @click="loadMorePosts()">Load More</button>
     <button class="btn btn-info" @click="editProfile()" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
         Edit Profile
     </button>

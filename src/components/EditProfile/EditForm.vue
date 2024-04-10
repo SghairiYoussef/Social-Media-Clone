@@ -57,13 +57,13 @@
       </div>
       <div class="row gutters">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" :style="{ height: errorMessage ? '50px' : 'auto' }">
+          <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+          <div v-if="notifMessage" class="alert alert-warning" role="alert">{{ notifMessage }}</div>
+          <div v-if="successMessage" class="alert alert-success" role="alert">{{ successMessage }}</div>
           <div class="text-right">
             <button type="button" class="btn btn-secondary" @click="myAccountRedirect">Cancel</button>
             <button type="button" class="btn btn-primary" @click="updateProfile">Update</button>
           </div>
-          <div v-if="errorMessage" class="mt-3 alert alert-danger" role="alert">{{ errorMessage }}</div>
-          <div v-if="notifMessage" class="mt-3 alert alert-warning" role="alert">{{ notifMessage }}</div>
-          <div v-if="successMessage" class="mt-3 alert alert-success" role="alert">{{ successMessage }}</div>
         </div>
       </div>
     </div>
