@@ -10,26 +10,40 @@ This is a repository for INSAT Social Club which is a Social Media platform that
 
 
 ### Project Setup:
+#### Prerequisites:
+* XAMPP: Ensure you have XAMPP installed on your machine. Download and install it from the official website if you don't have it already: https://www.apachefriends.org/download.html
+* Apache & MySQL Services: Make sure both Apache and MySQL services are running within XAMPP.
+* Composer: Composer is required for dependency management. If not installed, follow the installation guide here: https://getcomposer.org/download/
+
+#### Steps:
+
+* 1) Clone the Project: Clone the project repository using Git (assuming you have Git installed).
+
+* 2) Project Location: Move the cloned project directory to the following location within your XAMPP installation:
+```
+C:\xampp\htdocs\php
+```
+* 3) Install Dependencies: Open a terminal or command prompt and navigate to the project directory (C:\xampp\htdocs\php\Social-Media-Clone. Then, execute the following commands in sequence:
+
 ```
 npm install
 
 composer install
 ```
 
-### Compiles and hot-reloads for development:
+* 4) Database Setup:
+
+The project includes a **[Database Script](src/DataBaseScript/script.sql)**.
+You can import this script into your MySQL database using a tool like phpMyAdmin within XAMPP.
+
+
+
+### To run the project:
+Execute the following command
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production:
-```
-npm run build
-```
-
-### Lints and fixes files:
-```
-npm run lint
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
