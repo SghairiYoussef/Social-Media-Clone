@@ -9,10 +9,8 @@
       </div>
       <div class="scrollable-column" ref="scrollableColumn">
           <PostSection :Posts="visiblePosts()" @postAdded="handlePostAdded()" @postDeleted="handlePostDeleted()"/>
-          <button class="btn btn-info" v-if="hasMorePosts()" @click="loadMorePosts()">Load More</button>
-          <div v-else>
-            <p class="Note">No more posts to load</p>
-          </div>
+          <p v-if="visiblePostCount - Posts.length > 0" class="Note">No more posts to load</p>
+    <button v-if="Posts.length > 8" class="btn btn-info"  @click="loadMorePosts()">Load More</button>
       </div>
       <div class="fixed-column right">
         <Inbox/>
@@ -36,7 +34,8 @@
     },
     data(){
       return {
-        Posts : []
+        Posts : [],
+        visiblePostCount: 8
       }
     },
     methods:{

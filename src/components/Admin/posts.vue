@@ -29,7 +29,7 @@
                         <button @click="deletePost(post.Post_ID)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
-                <tr v-if="$options.showMoreButton">
+                <tr v-if="showMoreButton">
                     <td colspan="5">
                         <button @click="loadMorePosts()" class="btn btn-primary">Show More</button>
                     </td>
@@ -56,7 +56,7 @@
         <img :src="mediaShown" alt="Media Image" style="max-width: 100%; height: auto;">
     </div>
     <div class="image-container" v-else>
-        <p>No Media to show</p>
+        <p v-if="viewMedia">No Media to show</p>
     </div>
 </template>
 
@@ -66,9 +66,10 @@ import axios from 'axios';
         data() {
             return {
                 Posts: [],
-                displayedPostsCount: 5,
+                displayedPostsCount: 8,
                 mediaShown: "",
-                commentsShown: NaN
+                commentsShown: NaN,
+                viewMedia: false
             }
         },
         computed: {
@@ -98,6 +99,7 @@ import axios from 'axios';
                 alert(this.Posts[index].Content);
             },
             showMedia(media) {
+                this.viewMedia = true;
                 if (media){
                     this.mediaShown = require(`../../back/uploads/${media}`);
                 }
